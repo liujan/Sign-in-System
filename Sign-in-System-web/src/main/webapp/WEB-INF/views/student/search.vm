@@ -32,7 +32,7 @@
                 #if($flag == 1)
                     <div class="col-md-3">
                         <div class="thumbnail">
-                            <img src="../image/yes.jpg" alt="已签">
+                            <img src="/resources/image/yes.jpg" alt="已签">
                             <div class="caption">
                                 <h3>第 ${ele}周</h3>
                             </div>
@@ -42,7 +42,7 @@
                 #else
                     <div class="col-md-3">
                         <div class="thumbnail">
-                            <img src="../image/no.jpg" alt="没签">
+                            <img src="/resources/image/no.jpg" alt="没签">
                             <div class="caption">
                                 <h3>第 $!{ele}周</h3>
                             </div>
