@@ -18,7 +18,7 @@
         // Register as an anonymous AMD module:
         define([
             'jquery',
-            'jquery.ui.widget'
+            'jquery.ui.widget.js'
         ], factory);
     } else if (typeof exports === 'object') {
         // Node/CommonJS:

@@ -1,45 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-	 <header>
-		<a href="/SignInSystem/teacher/home.html" class="home"><h2>首页</h2></a>
-    </header>
-	<ul id="accordion" class="accordion">
-		<li>
-			<div class="link"><i class="fa fa-code"></i>学生<i class="fa fa-chevron-down"></i></div>
-			<ul class="submenu">
-				<li><a href="/SignInSystem/teacher/student/student_list.html">学生列表</a></li>
-				<li><a href="/SignInSystem/teacher/student/change_phone_page.html">更换号码</a></li>
-			</ul>
-		</li>
-		<li>
-			<div class="link"><i class="fa fa-mobile"></i>签到<i class="fa fa-chevron-down"></i></div>
-			<ul class="submenu">
-				<li><a href="/SignInSystem/teacher/sigin/photo_sigin.html">拍照签到</a></li>
-				<li><a href="/SignInSystem/teacher/sigin/sigined_list.html">本周已签</a></li>
-				<li><a href="/SignInSystem/teacher/sigin/search_all.html">签到查询</a></li>
-			</ul>
-		</li>
-		<li>
-			<div class="link"><i class="fa fa-mobile"></i>课程<i class="fa fa-chevron-down"></i></div>
-			<ul class="submenu">
-				<li><a href="/SignInSystem/teacher/course/courseList.html">课程管理</a></li>
-				<li><a href="/SignInSystem/teacher/course/add_course.html">添加课程</a></li>
-			</ul>
-		</li>
-		<li>
-			<div class="link"><i class="fa fa-mobile"></i>账户<i class="fa fa-chevron-down"></i></div>
-			<ul class="submenu">
-				<li><a href="/SignInSystem/teacher/info/my_info.html">个人信息</a></li>
-			</ul>
-		</li>
-	</ul>
-	<header>
-      <a  class="logout" href="/SignInSystem/teacher/logout.html"><h3>注销<h3></a>
-    </header>
+<header>
+    <a href="/SignInSystem/teacher/home.html" class="home"><h2>首页</h2></a>
+</header>
+<ul id="accordion" class="accordion">
+    <li>
+        <div class="link"><i class="fa fa-code"></i>学生<i class="fa fa-chevron-down"></i></div>
+        <ul class="submenu">
+            <li><a href="/SignInSystem/teacher/student/student_list.html">学生列表</a></li>
+            <li><a href="/SignInSystem/teacher/student/change_phone_page.html">更换号码</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="link"><i class="fa fa-mobile"></i>签到<i class="fa fa-chevron-down"></i></div>
+        <ul class="submenu">
+            <li><a href="/SignInSystem/teacher/sigin/photo_sigin.html">拍照签到</a></li>
+            <li><a href="/SignInSystem/teacher/sigin/sigined_list.html">本周已签</a></li>
+            <li><a href="/SignInSystem/teacher/sigin/search_all.html">签到查询</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="link"><i class="fa fa-mobile"></i>课程<i class="fa fa-chevron-down"></i></div>
+        <ul class="submenu">
+            <li><a href="/SignInSystem/teacher/course/courseList.html">课程管理</a></li>
+            <li><a href="/SignInSystem/teacher/course/add_course.html">添加课程</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="link"><i class="fa fa-mobile"></i>账户<i class="fa fa-chevron-down"></i></div>
+        <ul class="submenu">
+            <li><a href="/SignInSystem/teacher/info/my_info.html">个人信息</a></li>
+        </ul>
+    </li>
+</ul>
+<header>
+    <a class="logout" href="/SignInSystem/teacher/logout.html">
+        <h3>注销<h3>
+    </a>
+</header>
 </body>
 </html>

@@ -1,57 +1,67 @@
 <!DOCTYPE html>
-<html >
-<head >
-	<title>学生签到系统</title>
-	<meta charset="UTF-8"/>
-	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css"/>
-	<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-	<link rel="stylesheet" type="text/css" href="../../css/validform_style.css"/>
-	
-	<script type="text/javascript" src="../../js/jquery.min.js"></script>
-	<script type="text/javascript" src="../../js/bootstrap-dropdown.js"></script>
-	<script type="text/javascript" src="../../js/Validform_v5.3.2.js"></script>
-	<script type="text/javascript" src="../../js/update_student.js"></script>
-</head>
-<body >
-	#parse("student/toolbar.vm")
-	<div class="add1">
-		<form class="form-horizontal" method="post" id="student_info" action="update_save.html">
-		   	<div class="form-group">
+<html>
+<head>
+    <title>学生签到系统</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/validform_style.css"/>
 
-		      	<label for="stuId" class="col-sm-2 control-label"> <span class="need">*</span>学号：</label>
-		      	<div class="col-sm-3">
-		         	<input type="text" class="form-control" name="stuId"  value="$!{student.stuId}" id="stuId" readonly>
-		      	</div>
-		      	<div><div class="Validform_checktip"></div></div>
-		   	</div>
-		   	<div class="form-group">
-		      	<label for="name" class="col-sm-2 control-label"><span class="need">*</span>姓名：</label>
-		      	<div class="col-sm-3">
-		         	<input type="text" class="form-control" name="name"  value="$!{student.name}" id="name">
-		      	</div>
-		      	<div><div class="Validform_checktip"></div></div>
-		   	</div>
-		   	<div class="form-group">
-		      	<label for="email" class="col-sm-2 control-label"><span class="need">*</span>邮箱：</label>
-		      	<div class="col-sm-3">
-		         	<input type="text" class="form-control" name="email"  value="$!{student.email}" id="email">
-		      	</div>
-		      	<div><div class="Validform_checktip"></div></div>
-		    </div>
-			<div class="form-group">
-		      	<label for="userPwd" class="col-sm-2 control-label"><span class="need">*</span>密码：</label>
-		      	<div class="col-sm-3">
-		         	<input type="text" class="form-control" name="userPwd"  value="$!{student.userPwd}" id="userPwd">
-		      	</div>
-		      	<div><div class="Validform_checktip"></div></div>
-		    </div>
-		    <div class="form-group">
-		      	<div class="col-sm-offset-2 col-sm-10">
-		         	<button type="submit" class="btn btn-info">确定</button>
-		         	 <a href="my_info.html"<button  class="btn btn-default">返回</button> </a>
-		     	</div>     	
-		   	</div>
-		</form> 
-	</div>
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/resources/js/bootstrap-dropdown.js"></script>
+    <script type="text/javascript" src="/resources/js/Validform_v5.3.2.js"></script>
+    <script type="text/javascript" src="/resources/js/update_student.js"></script>
+</head>
+<body>
+    #parse("student/toolbar.vm")
+<div class="add1">
+    <form class="form-horizontal" method="post" id="student_info" action="update_save.html">
+        <div class="form-group">
+
+            <label for="stuId" class="col-sm-2 control-label"> <span class="need">*</span>学号：</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="stuId" value="$!{student.stuId}" id="stuId" readonly>
+            </div>
+            <div>
+                <div class="Validform_checktip"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="name" class="col-sm-2 control-label"><span class="need">*</span>姓名：</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="name" value="$!{student.name}" id="name">
+            </div>
+            <div>
+                <div class="Validform_checktip"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="email" class="col-sm-2 control-label"><span class="need">*</span>邮箱：</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="email" value="$!{student.email}" id="email">
+            </div>
+            <div>
+                <div class="Validform_checktip"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="userPwd" class="col-sm-2 control-label"><span class="need">*</span>密码：</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="userPwd" value="$!{student.userPwd}" id="userPwd">
+            </div>
+            <div>
+                <div class="Validform_checktip"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-info">确定</button>
+                <a href="my_info.html"
+                <button class="btn btn-default">返回</button>
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
 </body>
 </html>

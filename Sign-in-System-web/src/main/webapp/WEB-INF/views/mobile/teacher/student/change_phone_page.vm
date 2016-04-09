@@ -2,75 +2,74 @@
 <html>
 <head>
     <title>学生签到系统</title>
-    <link rel="stylesheet" href="../../css/mobile/student/home/style.css">
-    <link rel="stylesheet" href="../../css/mobile/student/home/style1.css">
-    <link rel="stylesheet" href="../../css/mobile/student/home/home.css">
-    <link rel="stylesheet" type="text/css" href="../../css/validform_style.css"/>
-	
+    <link rel="stylesheet" href="/resources/css/mobile/student/home/style.css">
+    <link rel="stylesheet" href="/resources/css/mobile/student/home/style1.css">
+    <link rel="stylesheet" href="/resources/css/mobile/student/home/home.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/validform_style.css"/>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css"/>
-	<link rel="stylesheet" type="text/css" href="../../css/mobile/mobile.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/mobile/mobile.css"/>
 </head>
 <body>
-	<a href="#cd-nav" class="cd-nav-trigger">
+<a href="#cd-nav" class="cd-nav-trigger">
     <span></span>
-  </a>
-  <!-- .cd-nav-trigger -->
-  <main>
+</a>
+<!-- .cd-nav-trigger -->
+<main>
     <section class="cd-section index cd-selected">
-		<div class="cd-content">
-			<form action="change_phone.html" method = "get" id="student" class="form-horizontal" role="form">
-    		   	<div class="form-group">
-    		      	<label for="stuId" class="col-sm-2 control-label"><span class="need">*</span>学号：</label>
-    		      	<div class="col-sm-3">
-    		         	<input type="text" class="form-control" name="stuId" id="stuId" / >
-    		      	</div>
-    		   	</div>
-    			<div class="form-group">
-    			      	<div class="col-sm-offset-2 col-sm-10 btn-center">
-    			         	<button type="submit" class="btn btn-info">提交</button>
-    			     	</div>
-    			</div>
-    		</form>
-		</div>
-	</section>
+        <div class="cd-content">
+            <form action="change_phone.html" method="get" id="student" class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label for="stuId" class="col-sm-2 control-label"><span class="need">*</span>学号：</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="stuId" id="stuId" / >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10 btn-center">
+                        <button type="submit" class="btn btn-info">提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
     <!-- .cd-section --> </main>
-  <nav class="cd-nav-container" id="cd-nav">
+<nav class="cd-nav-container" id="cd-nav">
     #parse("teacher/backbar.vm")
-  </nav>
-   <div class="cd-overlay">
-   </div>
+</nav>
+<div class="cd-overlay">
+</div>
 </body>
-<script src="../../js/mobile/student/home/jquery-2.1.1.js"></script>
-<script src="../../js/mobile/student/home/main.js"></script>
-<script src="../../js/mobile/student/home/index.js"></script>
-<script src="../../js/mobile/student/home/modernizr.js"></script>
-<script type="text/javascript" src="../../js/Validform_v5.3.2.js"></script>
+<script src="/resources/js/mobile/student/home/jquery-2.1.1.js"></script>
+<script src="/resources/js/mobile/student/home/main.js"></script>
+<script src="/resources/js/mobile/student/home/index.js"></script>
+<script src="/resources/js/mobile/student/home/modernizr.js"></script>
+<script type="text/javascript" src="/resources/js/Validform_v5.3.2.js"></script>
 <script type="text/javascript">
-	$(function(){
-	var info = $("#student").Validform({
-		tiptype:2,
-		label:".label",
-		showAllError:true,
-		ajaxPost:true,
-		callback:function(data) {
-			var msg = decodeURI(data.message);
-			var status = data.status;
-			alert(msg);
-			if (status == 1) {
-				document.getElementById("stuId").value = "";
-			}
-		}
-	});
-	
-	info.addRule([
-	{
-		ele:"#stuId",
-		datatype:"n8-8",
-		errormsg:"",
-		nullmsg:""
-	}
-	]);
-	});
+    $(function () {
+        var info = $("#student").Validform({
+            tiptype: 2,
+            label: ".label",
+            showAllError: true,
+            ajaxPost: true,
+            callback: function (data) {
+                var msg = decodeURI(data.message);
+                var status = data.status;
+                alert(msg);
+                if (status == 1) {
+                    document.getElementById("stuId").value = "";
+                }
+            }
+        });
+
+        info.addRule([
+            {
+                ele: "#stuId",
+                datatype: "n8-8",
+                errormsg: "",
+                nullmsg: ""
+            }
+        ]);
+    });
 </script>
 </html>

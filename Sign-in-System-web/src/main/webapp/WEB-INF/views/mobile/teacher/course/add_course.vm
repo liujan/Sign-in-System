@@ -2,123 +2,120 @@
 <html>
 <head>
     <title>学生签到系统</title>
-    <link rel="stylesheet" href="../../css/mobile/student/home/style.css">
-    <link rel="stylesheet" href="../../css/mobile/student/home/style1.css">
-    <link rel="stylesheet" href="../../css/mobile/student/home/home.css">
-    
+    <link rel="stylesheet" href="/resources/css/mobile/student/home/style.css">
+    <link rel="stylesheet" href="/resources/css/mobile/student/home/style1.css">
+    <link rel="stylesheet" href="/resources/css/mobile/student/home/home.css">
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css"/>
-	<link rel="stylesheet" type="text/css" href="../../css/DT_bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="../../css/mobile/mobile.css"/>
-	
-	<link rel="stylesheet" type="text/css" href="../../css/validform_style.css"/>
-	<link rel="stylesheet" type="text/css" href="../../css/bootstrap-clockpicker.min.css"/>
-	<link rel="stylesheet" type="text/css" href="../../css/jquery-clockpicker.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/DT_bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/mobile/mobile.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/validform_style.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-clockpicker.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/jquery-clockpicker.min.css"/>
 </head>
 <body>
-	<a href="#cd-nav" class="cd-nav-trigger">
+<a href="#cd-nav" class="cd-nav-trigger">
     <span></span>
-  </a>
-  <!-- .cd-nav-trigger -->
-  <main>
+</a>
+<!-- .cd-nav-trigger -->
+<main>
     <section class="cd-section index cd-selected">
-		<div class="cd-content">
-			<form action="add_course_save.html" method = "post" id="course_info" class="form-horizontal" role="form">
-		   	<div class="form-group">
-		      	<label for="courseName" class="col-sm-2 control-label"><span class="need">*</span>课程名:</label>
-		      	<div class="col-sm-3">
-		         	<input type="text" class="form-control" name="courseName" id="courseName" / >
-		      	</div>
-		   	</div>
-			
-			<div class="form-group">
-		      	<label for="beginTime" class="col-sm-2 control-label"><span class="need">*</span>上课时间:</label>
-		      	<div class="input-group clockpicker col-sm-3">
-                    <input type="text" class="form-control" name="beginTime" id="beginTime" value="09:50">
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-time"></span>
-                    </span>
+        <div class="cd-content">
+            <form action="add_course_save.html" method="post" id="course_info" class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label for="courseName" class="col-sm-2 control-label"><span class="need">*</span>课程名:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="courseName" id="courseName" / >
+                    </div>
                 </div>
-		   	</div>
-			
-			<div class="form-group">
-		      	<label for="endTime" class="col-sm-2 control-label"><span class="need">*</span>下课时间:</label>
-		      	<div class="input-group clockpicker col-sm-3">
-                    <input type="text" class="form-control" name="endTime" id="endTime" value="09:50">
+
+                <div class="form-group">
+                    <label for="beginTime" class="col-sm-2 control-label"><span class="need">*</span>上课时间:</label>
+                    <div class="input-group clockpicker col-sm-3">
+                        <input type="text" class="form-control" name="beginTime" id="beginTime" value="09:50">
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-time"></span>
                     </span>
-                </div>     	
-		   	</div>
-			
-			<div class="form-group">
-		      	<label class="col-sm-2 control-label"><span class="need">*</span>上课日期：</label>
-		      	<div class="col-sm-3">
-		      		<select class="form-control" name="dayInWeek" id="dayInWeek">	
-							<option value="1">星期一</option>
-							<option value="2">星期二</option>
-							<option value="3">星期三</option>
-							<option value="4">星期四</option>
-							<option value="5">星期五</option>
-							<option value="6">星期六</option>
-							<option value="7">星期日</option>
-		         	</select>
-		         </div>
-		   	</div>
-			<div class="form-group">
-			      	<div class="col-sm-offset-2 col-sm-10 btn-center">
-			         	<button type="submit" class="btn btn-primary">提交</button>
-			     	</div>
-			</div>
-		</form>
-        </div>
-	</section>
-    <!-- .cd-section --> </main>
-  <nav class="cd-nav-container" id="cd-nav">
-    #parse("teacher/backbar.vm")
-  </nav>
-   <div class="cd-overlay">
-   </div>
-</body>
-<script src="../../js/mobile/student/home/jquery-2.1.1.js"></script>
-<script src="../../js/mobile/student/home/main.js"></script>
-<script src="../../js/mobile/student/home/index.js"></script>
-<script src="../../js/mobile/student/home/modernizr.js"></script>
+                    </div>
+                </div>
 
-<script type="text/javascript" src="../../js/Validform_v5.3.2.js"></script>
-<script type="text/javascript" src="../../js/bootstrap-clockpicker.min.js"></script>
-<script type="text/javascript" src="../../js/jquery-clockpicker.min.js"></script>
+                <div class="form-group">
+                    <label for="endTime" class="col-sm-2 control-label"><span class="need">*</span>下课时间:</label>
+                    <div class="input-group clockpicker col-sm-3">
+                        <input type="text" class="form-control" name="endTime" id="endTime" value="09:50">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-time"></span>
+                    </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="need">*</span>上课日期：</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" name="dayInWeek" id="dayInWeek">
+                            <option value="1">星期一</option>
+                            <option value="2">星期二</option>
+                            <option value="3">星期三</option>
+                            <option value="4">星期四</option>
+                            <option value="5">星期五</option>
+                            <option value="6">星期六</option>
+                            <option value="7">星期日</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10 btn-center">
+                        <button type="submit" class="btn btn-primary">提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+    <!-- .cd-section --> </main>
+<nav class="cd-nav-container" id="cd-nav">
+    #parse("teacher/backbar.vm")
+</nav>
+<div class="cd-overlay">
+</div>
+</body>
+<script src="/resources/js/mobile/student/home/jquery-2.1.1.js"></script>
+<script src="/resources/js/mobile/student/home/main.js"></script>
+<script src="/resources/js/mobile/student/home/index.js"></script>
+<script src="/resources/js/mobile/student/home/modernizr.js"></script>
+<script type="text/javascript" src="/resources/js/Validform_v5.3.2.js"></script>
+<script type="text/javascript" src="/resources/js/bootstrap-clockpicker.min.js"></script>
+<script type="text/javascript" src="/resources/js/jquery-clockpicker.min.js"></script>
 <script type="text/javascript">
-	$(function(){
-	var info = $("#course_info").Validform({
-		tiptype:1,
-		label:".label",
-		showAllError:true,
-		ajaxPost:true,
-		callback:function(data) {
-			var msg = decodeURI(data.message);
-			var status = data.status;
-			alert(msg);
-			if (status == 1){
-				document.getElementById("courseName").value = "";
-				document.getElementById("beginTime").value = "09:50";
-				document.getElementById("endTime").value = "09:50";
-				document.getElementById("dayInWeek").options[0].selected = true;
-			}
-		}
-	});
-	
-	info.addRule([
-	{
-		ele:"#courseName",
-		datatype:"*",
-		errormsg:"",
-		nullmsg:"课程名不能为空"
-	}
-	]);
-	});
+    $(function () {
+        var info = $("#course_info").Validform({
+            tiptype: 1,
+            label: ".label",
+            showAllError: true,
+            ajaxPost: true,
+            callback: function (data) {
+                var msg = decodeURI(data.message);
+                var status = data.status;
+                alert(msg);
+                if (status == 1) {
+                    document.getElementById("courseName").value = "";
+                    document.getElementById("beginTime").value = "09:50";
+                    document.getElementById("endTime").value = "09:50";
+                    document.getElementById("dayInWeek").options[0].selected = true;
+                }
+            }
+        });
+
+        info.addRule([
+            {
+                ele: "#courseName",
+                datatype: "*",
+                errormsg: "",
+                nullmsg: "课程名不能为空"
+            }
+        ]);
+    });
 </script>
 <script type="text/javascript">
-	$('.clockpicker').clockpicker();
+    $('.clockpicker').clockpicker();
 </script>
 </html>

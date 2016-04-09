@@ -1,39 +1,39 @@
 <!DOCTYPE html>
-<html >
-<head >
-	<title>学生签到系统</title>
-	<meta charset="UTF-8"/>
-	<link rel="stylesheet" type="text/css" href="../css/mobile/login.css"/>
-	<link rel="stylesheet" type="text/css" href="../css/validform_style.css"/>
-	<link rel="stylesheet" type="text/css" href="../css/demo.css"/>
-	<link ref="stylesheet" type="text/css" href="../css/style.css" />
-	
-	<script type="text/javascript" src="../js/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/Validform_v5.3.2.js"> </script>
-	<script type="text/javascript" src="../js/login.js"></script>
+<html>
+<head>
+    <title>学生签到系统</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/mobile/login.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/validform_style.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/demo.css"/>
+    <link ref="stylesheet" type="text/css" href="/resources/css/style.css"/>
+
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/resources/js/Validform_v5.3.2.js"></script>
+    <script type="text/javascript" src="/resources/js/login.js"></script>
 </head>
- <body>
-    <div class="bg"></div>
-    <div class="lg-container">
-	    <div class="lg-title">
-	    	<h1>学生签到系统</h1>
-	    </div>
-        <form action="login_verify.html" id="lg-form" name="lg-form" method="post">
-            <div>
-                <label for="stuId">学号:</label>
-                <input type="text" name="stuId" id="stuId" placeholder="学号"/>
-            </div>
-            <div>
-                <label for="pwd">密码:</label>
-                <input type="password" name="pwd" id="pwd" placeholder="密码" />
-            </div>
-            <div>               
-                <button type="submit" id="login">登陆</button>
-				
-            </div>
-        </form>
-		<a href="index.html">签到 </a>
-		<a href="register.html">注册 </a>
+<body>
+<div class="bg"></div>
+<div class="lg-container">
+    <div class="lg-title">
+        <h1>学生签到系统</h1>
     </div>
+    <form action="login_verify.html" id="lg-form" name="lg-form" method="post">
+        <div>
+            <label for="stuId">学号:</label>
+            <input type="text" name="stuId" id="stuId" placeholder="学号"/>
+        </div>
+        <div>
+            <label for="pwd">密码:</label>
+            <input type="password" name="pwd" id="pwd" placeholder="密码"/>
+        </div>
+        <div>
+            <button type="submit" id="login">登陆</button>
+
+        </div>
+    </form>
+    <a href="index.html">签到 </a>
+    <a href="register.html">注册 </a>
+</div>
 </body>
 </html>

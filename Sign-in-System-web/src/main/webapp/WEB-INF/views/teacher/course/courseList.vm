@@ -1,70 +1,70 @@
 <!DOCTYPE html>
 <html>
-<head >
-	<title>学生签到系统</title>
-	<meta charset="UTF-8"/>
-	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css"/>
-	<link rel="stylesheet" type="text/css" href="../../css/bootstrap2.css"/>
-	<link rel="stylesheet" type="text/css" href="../../css/DT_bootstrap.css">
+<head>
+    <title>学生签到系统</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap2.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/DT_bootstrap.css">
 
-	<script type="text/javascript" src="../../js/jquery.min.js"></script>
-	<script type="text/javascript" src="../../js/bootstrap-dropdown.js"></script>
-	<script type="text/javascript" src="../../js/jquery.dataTables.js"></script>
-	<script type="text/javascript" src="../../js/demo1.js"></script>
-	<script type="text/javascript">
-		function deleteCourse(courseId) {
-    		if(confirm('确定要删除此课程吗？')) {
-    			jQuery.ajax({
-    				url:"deleteCourseById.html",
-    				type:"post",
-    				data:"courseId=" + courseId,
-    				success:function(data) {
-    					var json = eval("(" + data + ")");
-    					var msg = decodeURI(json.message);
-    					var status = json.status;
-    					alert(msg);
-    					if (status == 1) {
-        					var tb = document.getElementById("course");
-        					var tr = document.getElementById(courseId);
-        					tb.deleteRow(tr.rowIndex);
-    					}
-    				},
-    				error:function() {
-    					alert("发生未知错误,删除失败");
-    				}
-    			})
-			}
-		}
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/resources/js/bootstrap-dropdown.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="/resources/js/demo1.js"></script>
+    <script type="text/javascript">
+        function deleteCourse(courseId) {
+            if (confirm('确定要删除此课程吗？')) {
+                jQuery.ajax({
+                    url: "deleteCourseById.html",
+                    type: "post",
+                    data: "courseId=" + courseId,
+                    success: function (data) {
+                        var json = eval("(" + data + ")");
+                        var msg = decodeURI(json.message);
+                        var status = json.status;
+                        alert(msg);
+                        if (status == 1) {
+                            var tb = document.getElementById("course");
+                            var tr = document.getElementById(courseId);
+                            tb.deleteRow(tr.rowIndex);
+                        }
+                    },
+                    error: function () {
+                        alert("发生未知错误,删除失败");
+                    }
+                })
+            }
+        }
     </script>
 </head>
-<body >
-	#parse("teacher/toolbar.vm")
-	<div class="container">
-		<table class="bordered-table zebra-striped" id="course">
-		    <caption>学生信息</caption>
-		    <thead>
-		        <tr>
-		            <th>课程名</th>
-			        <th>上课时间</th>
-			        <th>下课时间</th>
-			        <th>上课日期</th>
-			        <th>操作</th>
-		     	</tr>
-		   </thead>
-		   <tbody>
-		      	#foreach($course in $couorseList)
-		   			<tr id="${course.courseId}">
-			        	<td>$course.courseName</td>
-			         	<td>$date.format("HH:mm:ss",$course.beginTime)</td>
-			         	<td>$date.format("HH:mm:ss",$course.endTime)</td>
-			         	<td>星期 ${course.dayInWeek}</td>
-			         	<td>
-			         		<a class="btn btn-warning btn-sm" role="button" onclick="deleteCourse(${course.courseId})">删除该课程</a>
-			         	</td>
-		      		</tr>
-		   		#end
-		   	</tbody>
-		</table>
-	</div>
+<body>
+    #parse("teacher/toolbar.vm")
+<div class="container">
+    <table class="bordered-table zebra-striped" id="course">
+        <caption>学生信息</caption>
+        <thead>
+        <tr>
+            <th>课程名</th>
+            <th>上课时间</th>
+            <th>下课时间</th>
+            <th>上课日期</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+            #foreach($course in $couorseList)
+            <tr id="${course.courseId}">
+                <td>$course.courseName</td>
+                <td>$date.format("HH:mm:ss",$course.beginTime)</td>
+                <td>$date.format("HH:mm:ss",$course.endTime)</td>
+                <td>星期 ${course.dayInWeek}</td>
+                <td>
+                    <a class="btn btn-warning btn-sm" role="button" onclick="deleteCourse(${course.courseId})">删除该课程</a>
+                </td>
+            </tr>
+            #end
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

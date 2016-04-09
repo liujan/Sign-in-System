@@ -1,38 +1,38 @@
 <!DOCTYPE html>
-<html >
-<head >
-	<title>学生签到系统</title>
-	<meta charset="UTF-8"/>
-	<link rel="stylesheet" type="text/css" href="../css/login.css"/>
-	<link rel="stylesheet" type="text/css" href="../css/validform_style.css"/>
-	<link rel="stylesheet" type="text/css" href="../css/demo.css"/>
-	<link ref="stylesheet" type="text/css" href="../css/style.css" />
-	
-	<script type="text/javascript" src="../js/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/Validform_v5.3.2.js"> </script>
-	<script type="text/javascript" src="../js/login.js"></script>
+<html>
+<head>
+    <title>学生签到系统</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/login.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/validform_style.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/demo.css"/>
+    <link ref="stylesheet" type="text/css" href="/resources/css/style.css"/>
+
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/resources/js/Validform_v5.3.2.js"></script>
+    <script type="text/javascript" src="/resources/js/login.js"></script>
 </head>
- <body>
-    <div class="bg"></div>
-    <div class="lg-container">
+<body>
+<div class="bg"></div>
+<div class="lg-container">
     <div class="lg-title">
-    	<h1>学生签到系统</h1>
+        <h1>学生签到系统</h1>
     </div>
-        <form action="login_verify.html" id="lg-form" name="lg-form" method="post">
-            <div>
-                <label for="name">用户名:</label>
-                <input type="text" name="name" id="name" placeholder="用户名"/>
-            </div>
-            <div>
-                <label for="pwd">密码:</label>
-                <input type="password" name="pwd" id="pwd" placeholder="密码" />
-            </div>
-            <div>               
-                <button type="submit" id="login">登陆</button>
-				
-            </div>
-        </form>
+    <form action="login_verify.html" id="lg-form" name="lg-form" method="post">
+        <div>
+            <label for="name">用户名:</label>
+            <input type="text" name="name" id="name" placeholder="用户名"/>
+        </div>
+        <div>
+            <label for="pwd">密码:</label>
+            <input type="password" name="pwd" id="pwd" placeholder="密码"/>
+        </div>
+        <div>
+            <button type="submit" id="login">登陆</button>
+
+        </div>
+    </form>
     <a href="register.html">注册 </a>
-    </div>
+</div>
 </body>
 </html>

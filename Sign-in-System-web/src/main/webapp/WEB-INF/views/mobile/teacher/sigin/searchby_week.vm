@@ -2,57 +2,56 @@
 <html>
 <head>
     <title>学生签到系统</title>
-    <link rel="stylesheet" href="../../css/mobile/student/home/style.css">
-    <link rel="stylesheet" href="../../css/mobile/student/home/style1.css">
-    <link rel="stylesheet" href="../../css/mobile/student/home/home.css">
-    
+    <link rel="stylesheet" href="/resources/css/mobile/student/home/style.css">
+    <link rel="stylesheet" href="/resources/css/mobile/student/home/style1.css">
+    <link rel="stylesheet" href="/resources/css/mobile/student/home/home.css">
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css"/>
-	<link rel="stylesheet" type="text/css" href="../../css/bootstrap2.css"/>
-	<link rel="stylesheet" type="text/css" href="../../css/DT_bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="../../css/mobile/mobile.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap2.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/DT_bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/mobile/mobile.css"/>
 </head>
 <body>
-	<a href="#cd-nav" class="cd-nav-trigger">
+<a href="#cd-nav" class="cd-nav-trigger">
     <span></span>
-  </a>
-  <!-- .cd-nav-trigger -->
-  <main>
+</a>
+<!-- .cd-nav-trigger -->
+<main>
     <section class="cd-section index cd-selected">
-		<div>
-			<div class="container">
-        		<table class="bordered-table zebra-striped" id="student">
-        		    <caption>学生信息</caption>
-        		    <thead>
-        		        <tr>
-        		            <th>学号</th>
-        			        <th>姓名</th>
-        			        <th>签到时间</th>
-        		     	</tr>
-        		   </thead>
-        		   <tbody>
-        		       #foreach($student in $studentList)
-        		   			<tr>
-        			        	<td>$!student.stuId</td>
-        			         	<td>$!student.name</td>
-								<td>$student.email</td>
-        		      		</tr>
-        		   		#end
-        		   	</tbody>
-        		</table>
-        	</div>
+        <div>
+            <div class="container">
+                <table class="bordered-table zebra-striped" id="student">
+                    <caption>学生信息</caption>
+                    <thead>
+                    <tr>
+                        <th>学号</th>
+                        <th>姓名</th>
+                        <th>签到时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        #foreach($student in $studentList)
+                        <tr>
+                            <td>$!student.stuId</td>
+                            <td>$!student.name</td>
+                            <td>$student.email</td>
+                        </tr>
+                        #end
+                    </tbody>
+                </table>
+            </div>
         </div>
-	</section>
+    </section>
     <!-- .cd-section --> </main>
-  <nav class="cd-nav-container" id="cd-nav">
+<nav class="cd-nav-container" id="cd-nav">
     #parse("teacher/backbar.vm")
-  </nav>
-   <div class="cd-overlay">
-   </div>
+</nav>
+<div class="cd-overlay">
+</div>
 </body>
-<script src="../../js/mobile/student/home/jquery-2.1.1.js"></script>
-<script src="../../js/mobile/student/home/main.js"></script>
-<script src="../../js/mobile/student/home/index.js"></script>
-<script src="../../js/mobile/student/home/modernizr.js"></script>
-<script type="text/javascript" src="../../js/jquery.dataTables.js"></script>
+<script src="/resources/js/mobile/student/home/jquery-2.1.1.js"></script>
+<script src="/resources/js/mobile/student/home/main.js"></script>
+<script src="/resources/js/mobile/student/home/index.js"></script>
+<script src="/resources/js/mobile/student/home/modernizr.js"></script>
+<script type="text/javascript" src="/resources/js/jquery.dataTables.js"></script>
 </html>
