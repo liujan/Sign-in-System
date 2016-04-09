@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+    <classPathEntry location="/Users/liujan/Documents/idea workspace/SignInSystem/resource/sqlite-jdbc-3.8.7.jar" />
+    <context id="spring" >
+        <jdbcConnection driverClass="org.sqlite.JDBC" connectionURL="jdbc:sqlite:/Users/liujan/Documents/workspace/SignInSystem/resource/db_si.db" userId="" password="" ></jdbcConnection>
+        <javaModelGenerator targetPackage="com.liujan.entity" targetProject="src/main/java"></javaModelGenerator>
+        <sqlMapGenerator targetPackage="com.liujan.mapper" targetProject="src/main/resources"></sqlMapGenerator>
+        <javaClientGenerator targetPackage="com.liujan.mapper" targetProject="src/main/java" type="XMLMAPPER"></javaClientGenerator>
+        <table schema="" tableName="student">
+            <columnOverride column="teacher_id"  javaType="Integer"/>
+        </table>
+        <table schema="" tableName="teacher">
+            <columnOverride column="teacher_id"  javaType="Integer"/>
+        </table>
+        <table schema="" tableName="course">
+            <columnOverride column="course_id"  javaType="Integer"/>
+            <columnOverride column="begin_time"  javaType="Date"/>
+            <columnOverride column="end_time"  javaType="Date"/>
+            <columnOverride column="day_in_week"  javaType="int"/>
+            <columnOverride column="teacher_id"  javaType="Integer"/>
+        </table>
+        <table schema="" tableName="statistic">
+            <columnOverride column="statistic_id"  javaType="Integer"/>
+            <columnOverride column="course_id"  javaType="Integer"/>
+            <columnOverride column="sigin_time"  javaType="Date"/>
+            <columnOverride column="week"  javaType="int"/>
+        </table>
+        <table schema="" tableName="info">
+            <columnOverride column="id"  javaType="Integer"/>
+            <columnOverride column="start_time"  javaType="Date"/>
+            <columnOverride column="week"  javaType="int"/>
+            <columnOverride column="current"  javaType="Date"/>
+            <columnOverride column="course_id"  javaType="Integer"/>
+            <columnOverride column="teacher_id"  javaType="Integer"/>
+        </table>
+        <table tableName="face">
+            <columnOverride column="stu_id" javaType="String"></columnOverride>
+        </table>
+    </context>
+</generatorConfiguration>

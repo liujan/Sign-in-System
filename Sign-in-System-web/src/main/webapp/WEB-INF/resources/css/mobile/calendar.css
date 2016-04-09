@@ -1,0 +1,80 @@
+body {
+	background-color: #efefef;
+}
+#CalendarMain {
+	border: 1px solid #ccc;
+	margin-top: 100px;
+	margin:80px 30px 0 30px;
+	
+}
+
+
+#context {
+	background-color: #fff;
+	width: 100%;
+}
+
+.dayItem {
+	float: left;
+	width: 300px; 
+	visibility: visible;
+}
+.lastItem {
+	color: #d1c7b7 !important;
+}
+.item {
+	color: #333;
+	float: left;
+	text-align: center;
+	cursor: pointer;
+	margin: 10px;
+	font-family: "微软雅黑";
+	font-size: 13px;
+}
+.item {
+	width: 45px; 
+	line-height: 45px;; 
+	height: 45px;
+}
+.item:hover {
+	color: #b9121b;
+}
+.item>a {
+	width:100%;
+	height:100%;
+	float:left;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+}
+.currentItem>a {
+	background-color: #b9121b;
+	color: #fff;
+}
+
+.sigined>a {
+	background-color: #15e071;
+	color: #fff;
+}
+#Container {
+	overflow: hidden;
+	float: left;
+}
+#center {
+	width: 100%;
+	overflow: hidden;
+}
+#centerMain {
+	width: 300%;
+}
+
+
+#centerCalendarMain {
+	float: left;
+}
+
+.title {
+	text-align:center;
+	padding:10px 0;
+	background-color:#8ab4ff;
+}

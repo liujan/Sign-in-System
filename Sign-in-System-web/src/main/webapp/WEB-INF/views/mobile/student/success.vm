@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html >
+<head >
+	<title>学生签到系统</title>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" href="../css/success.css">
+</head>
+<body >
+    <p>${stuId}@$!{studentName} 签到成功  ${currentTime} </p>
+	<p>${courseName} </p>
+	<a href="login.html">查看本学期签到情况</a>
+</body>
+</html>

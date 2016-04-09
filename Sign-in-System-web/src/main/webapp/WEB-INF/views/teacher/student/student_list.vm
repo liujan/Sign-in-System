@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head >
+	<title>学生签到系统</title>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap2.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/DT_bootstrap.css">
+
+	<script type="text/javascript" src="../../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../js/bootstrap-dropdown.js"></script>
+	<script type="text/javascript" src="../../js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="../../js/demo1.js"></script>
+		
+</head>
+<body >
+	#parse("teacher/toolbar.vm")
+	<div class="container">
+		<table class="bordered-table zebra-striped" id="student">
+		    <caption>学生信息</caption>
+		    <thead>
+		        <tr>
+		            <th>学号</th>
+			        <th>姓名</th>
+			        <th>邮箱</th>
+			        <th>mac地址</th>
+			        <th>操作</th>
+		     	</tr>
+		   </thead>
+		   <tbody>
+		      	#foreach($student in $studentList)
+		   			<tr id="${student.stuId}">
+			        	<td>$student.stuId</td>
+			         	<td>$!student.name</td>
+			         	<td>$!student.email</td>
+			         	<td>$!student.macAddress</td>
+			         	<td>
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="${student.email}">发送邮件</button>
+							<a class="btn btn-warning btn-sm" role="button" onclick="deleteStudentById(${student.stuId})">删除该学生</a>
+			         	</td>
+		      		</tr>
+		   		#end
+		   	</tbody>
+		</table>
+		
+	</div>
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="exampleModalLabel">新邮件@</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="recipient-name" class="control-label">收件人:</label>
+                <input type="text" class="form-control" id="recipient-name">
+              </div>
+			  <div class="form-group">
+                <label for="subject" class="control-label">主题:</label>
+                <input type="text" class="form-control" id="subject">
+              </div>
+              <div class="form-group">
+                <label for="message-text" class="control-label">内容:</label>
+                <textarea class="form-control" id="message-text"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="close">关闭</button>
+            <button type="button" class="btn btn-primary" onclick="sendmail()">发送</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+<script type="text/javascript">
+	function sendmail() {
+		var receiver = $("#recipient-name").val();
+		var subject = $("#subject").val();
+		var content = $("#message-text").val();
+		jQuery.ajax({
+			url:"sendmail.html",
+			type:"post",
+			data:"receiver="+receiver+"&subject="+subject+"&content="+content,
+			success:function(data) {
+				var json = eval("(" + data + ")");
+				var status = json.status;
+				var msg = decodeURI(json.message);		
+				if (status == 1){
+					document.getElementById("subject").value = "";
+					document.getElementById("message-text").value = "";
+					$("#close").click();
+				}
+				alert(msg);
+			},
+			error:function() {
+				alert("发送失败");
+			}
+		})
+	}
+</script>
+<script type="text/javascript">
+    $('#exampleModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var recipient = button.data('whatever') // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this)
+      modal.find('.modal-title').text('新邮件@ ' + recipient)
+      modal.find('.modal-body input[id=recipient-name]').val(recipient)
+    })
+</script>
+
+<script type="text/javascript">
+		function deleteStudentById(stuId) {
+    		if(confirm('确定要删除该学生吗？')) {
+    			jQuery.ajax({
+    				url:"deleteStudentById.html",
+    				type:"post",
+    				data:"stuId=" + stuId,
+    				success:function(data) {
+    					var json = eval("(" + data + ")");
+    					var msg = decodeURI(json.message);
+    					var status = json.status;
+    					alert(msg);
+    					if (status == 1) {
+        					var tb = document.getElementById("student");
+        					var tr = document.getElementById(stuId);
+        					tb.deleteRow(tr.rowIndex);
+    					}
+    				},
+    				error:function() {
+    					alert("发生未知错误,删除失败");
+    				}
+    			})
+			}
+		}
+</script>
+</html>

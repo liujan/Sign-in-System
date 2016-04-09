@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+    <title>中山大学学生签到系统</title>
+    <link rel="stylesheet" href="../../css/mobile/student/home/style.css">
+    <link rel="stylesheet" href="../../css/mobile/student/home/style1.css">
+    <link rel="stylesheet" href="../../css/mobile/student/home/home.css">
+	<link rel="stylesheet" type="text/css" href="../../css/validform_style.css"/>
+	<link rel="stylesheet" href="../../css/mobile/student/info/update_info.css">
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/validform_style.css"/>
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../../css/mobile/mobile.css"/>
+</head>
+<body>
+	<a href="#cd-nav" class="cd-nav-trigger">
+    <span></span>
+  </a>
+  <!-- .cd-nav-trigger -->
+  <main>
+    <section class="cd-section index cd-selected">
+		<div class="cd-content">
+			<form class="form-horizontal" method="post" id="student_info" action="update_save.html">
+    		   	<div class="form-group">
+    
+    		      	<label for="stuId" class="col-sm-2 control-label"> <span class="need">*</span>学号：</label>
+    		      	<div class="col-sm-3">
+    		         	<input type="text" class="form-control" name="stuId"  value="$!{student.stuId}" id="stuId" readonly>
+    		      	</div>
+    		   	</div>
+    		   	<div class="form-group">
+    		      	<label for="name" class="col-sm-2 control-label"><span class="need">*</span>姓名：</label>
+    		      	<div class="col-sm-3">
+    		         	<input type="text" class="form-control" name="name"  value="$!{student.name}" id="name">
+    		      	</div>
+    		   	</div>
+    		   	<div class="form-group">
+    		      	<label for="email" class="col-sm-2 control-label"><span class="need">*</span>邮箱：</label>
+    		      	<div class="col-sm-3">
+    		         	<input type="text" class="form-control" name="email"  value="$!{student.email}" id="email">
+    		      	</div>
+    		    </div>
+    			<div class="form-group">
+    		      	<label for="userPwd" class="col-sm-2 control-label"><span class="need">*</span>密码：</label>
+    		      	<div class="col-sm-3">
+    		         	<input type="text" class="form-control" name="userPwd"  value="$!{student.userPwd}" id="userPwd">
+    		      	</div>
+    		    </div>
+    		    <div class="form-group">
+    		      	<div class="col-sm-offset-2 col-sm-10">
+    		         	<button type="submit" class="btn btn-info submit">确定</button>
+    		         	 <a href="my_info.html"<button  class="btn btn-default back">返回</button> </a>
+    		     	</div>     	
+    		   	</div>
+    		</form> 
+		</div>
+	</section>
+  </main>
+  <nav class="cd-nav-container" id="cd-nav">
+    #parse("student/backbar.vm")
+  </nav>
+   <div class="cd-overlay">
+   </div>
+</body>
+<script src="../../js/mobile/student/home/jquery-2.1.1.js"></script>
+<script src="../../js/mobile/student/home/main.js"></script>
+<script src="../../js/mobile/student/home/index.js"></script>
+<script src="../../js/mobile/student/home/modernizr.js"></script>
+<script type="text/javascript" src="../../js/Validform_v5.3.2.js"></script>
+<script type="text/javascript" src="../../js/update_student.js"></script>
+</html>

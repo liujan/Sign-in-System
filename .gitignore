@@ -1,3 +1,6 @@
 .idea
 target
-Sign-in-System.imi
+Sign-in-System.iml
+.git
+*/target
+*/*.iml

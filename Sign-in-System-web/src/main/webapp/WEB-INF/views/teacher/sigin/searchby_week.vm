@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head >
+	<title>学生签到系统</title>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap2.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/DT_bootstrap.css">
+
+	<script type="text/javascript" src="../../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../js/bootstrap-dropdown.js"></script>
+	<script type="text/javascript" src="../../js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="../../js/demo1.js"></script>
+	<script type="text/javascript" src="../../js/tableExport.js"></script>
+	<script type="text/javascript" src="../../js/jquery.base64.js"></script>
+		
+</head>
+<body >
+	#parse("teacher/toolbar.vm")
+	<div class="container">
+		<table class="bordered-table zebra-striped" id="example">
+		    <caption>$!{courseName}  第$!{week}周</caption>
+		    <thead>
+		        <tr>
+		            <th>学号</th>
+			        <th>姓名</th>
+			        <th>签到时间</th>
+					<th>可信度</th>
+		     	</tr>
+		   </thead>
+		   <tbody>
+		      	#foreach($student in $studentList)
+		   			<tr>
+			        	<td>$!student.stuId</td>
+			         	<td>$!student.name</td>
+			         	<td>$!student.email</td>
+						<td>$!student.macAddress</td>
+		      		</tr>
+		   		#end
+		   	</tbody>
+		</table>
+		 <a href="search_all.html"<button  class="btn btn-default">返回</button> </a>
+		 <a ><button  class="btn btn-info" onClick ="$('#example').tableExport({type:'excel',escape:'false'});">导出为excel</button> </a>
+		 <div  style="text-align:center;">
+			共签到了<span  style="font-weight:bold;">$!{studentList.size()}</span>人
+         </div>
+	</div>
+</body>
+</html>

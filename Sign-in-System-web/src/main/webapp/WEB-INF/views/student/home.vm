@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head >
+	<title>学生签到系统</title>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap2.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/DT_bootstrap.css">
+	
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../js/bootstrap-dropdown.js"></script>
+	<script type="text/javascript" src="../js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="../js/demo1.js"></script>
+	
+</head>
+<body >
+	#parse("student/toolbar.vm")
+	<div class='container'>
+		<div class="add">
+        <form action="search.html" method="get" id="info" class="form-horizontal" role="form" >
+        		<div class="form-group">
+        		      	<label class="col-sm-2 control-label"><span class="need">*</span>教师：</label>
+        		      	<div class="col-sm-3">
+        		      		<select class="form-control" name="teacher" id="teacher" onchange="change(this.value)">
+								<option value="-1">请选择老师</option>
+        							#foreach($teacher in $teacherList)
+        								<option value="${teacher.teacherId}">${teacher.teacherName}</option>
+        							#end
+        		         	</select>
+        		         </div>
+        		         <div class="Validform_checktip"></div>
+        		</div>
+        		
+        		<div class="form-group">
+        		      	<label class="col-sm-2 control-label"><span class="need">*</span>课程：</label>
+        		      	<div class="col-sm-3">
+        		      		<select class="form-control" name="course" id="course">	
+        		         	</select>
+        		         </div>
+        		</div>
+    			
+    			<div class="form-group">
+    			      	<div class="col-sm-offset-2 col-sm-10">
+    			         	<button type="submit" class="btn btn-info" id="searchBtn" >查询</button>
+    			     	</div>
+    			</div>
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+	$("#searchBtn").click(function(){
+		var course = $("#course").val();
+		var teacher = $("#teacher").val();
+		if (teacher != null && teacher != -1 && course != null) {
+			return true;
+		}
+		else {
+			alert("请选择老师和课程");
+			return false;
+		}
+	});
+</script>
+<script type="text/javascript">
+	function change(teacherId) {
+		jQuery.ajax({
+			url:"change_course.html",
+			type:"post",
+			data:"teacherId=" + teacherId,
+			success:function(data) {
+				var json = eval("(" + data + ")");
+				var courseList = json.data;
+				var courseSelect = document.getElementById("course");
+				courseSelect.length = 0;
+			
+				for(var i = 0; i < courseList.length; i++){
+					var course = courseList[i];
+					var courseName =  decodeURI(course.courseName);
+					var courseId = course.courseId;
+					
+					var opp = new Option(courseName, courseId);
+					courseSelect.add(opp);
+				}
+				
+			}
+		})
+		
+	}
+</script>
+</html>

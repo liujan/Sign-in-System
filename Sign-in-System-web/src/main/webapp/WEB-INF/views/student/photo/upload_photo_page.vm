@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head >
+	<title>学生签到系统</title>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/validform_style.css"/>
+	<link rel="stylesheet" href="../../css/jquery.fileupload.css">
+</head>
+<body >
+	#parse("student/toolbar.vm")
+	<div class="container">
+    	 <span class="btn btn-primary fileinput-button" onclick="clearBar()">
+            <i class="glyphicon glyphicon-plus"></i>
+            <span>选择图片...</span>
+            <!-- The file input field used as target for the file upload widget -->
+            <input id="fileupload" type="file" name="files[]" multiple>
+        </span>
+        <br>
+        <br>
+        <!-- The global progress bar -->
+        <div id="progress" class="progress">
+            <div class="progress-bar progress-bar-success"></div>
+        </div>
+        <!-- The container for the uploaded files -->
+        <div id="files" class="files"></div>
+        <br>
+	</div>
+</body>
+<script src="../../js/jquery.min.js"></script>
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="../../js/jquery.ui.widget.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="../../js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="../../js/jquery.fileupload.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/fileupload.js"></script>
+<script type="text/javascript" src="../../js/bootstrap-dropdown.js"></script>
+	<script type="text/javascript" src="../../js/Validform_v5.3.2.js"></script>
+</html>

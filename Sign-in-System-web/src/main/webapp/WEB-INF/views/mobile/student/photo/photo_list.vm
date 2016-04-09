@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+    <title>中山大学学生签到系统</title>
+    <link rel="stylesheet" href="../../css/mobile/student/home/style.css">
+    <link rel="stylesheet" href="../../css/mobile/student/home/style1.css">
+    <link rel="stylesheet" href="../../css/mobile/student/home/home.css">
+	<link rel="stylesheet" href="../../css/mobile/student/photo_list/zzsc.css">
+    
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../../css/mobile/mobile.css"/>
+</head>
+<body>
+	<a href="#cd-nav" class="cd-nav-trigger">
+    <span></span>
+  </a>
+  <!-- .cd-nav-trigger -->
+  <main>
+    <section class="cd-section index cd-selected">
+		<div class="photo-wall">
+			<div id="waterfall">
+				#if($photoList.size() == 0)
+					<div>没有照片</div>
+				#end
+				 #foreach($photo in $photoList)
+					<div class="cell"><a href="#"><img src="getPhoto.html?path=${photo}" name="${photo}" alt="${photo}" /></a><p><a class="btn btn-primary btn-sm photodel"  name="${photo}" role="button" onclick="deletePhotoByName(this)">删除</a></p></div>
+				  #end
+			</div>
+		</div>
+	</section>
+  </main>
+  <nav class="cd-nav-container" id="cd-nav">
+    #parse("student/backbar.vm")
+  </nav>
+   <div class="cd-overlay">
+   </div>
+</body>
+<script >
+function deletePhotoByName(ele) {
+	var photo = ele.name;
+
+	if (confirm("确定删除该照片？")) {
+		jQuery.ajax({
+			url: "deletePhotoByName.html",
+			type: "post",
+			data: "photo=" + photo,
+			success: function(data) {
+				data = eval("(" + data + ")");
+				var status = data.status;
+				if (status == 1) {
+					$(ele).parent().parent().remove();
+				}
+				var msg = decodeURI(data.message);
+				alert(msg);
+			},
+			error: function() {
+				alert("删除失败");
+			}
+		});
+	}
+
+	
+}
+</script>
+<script src="../../js/mobile/student/home/jquery-2.1.1.js"></script>
+<script src="../../js/mobile/student/home/main.js"></script>
+<script src="../../js/mobile/student/home/index.js"></script>
+<script src="../../js/mobile/student/home/modernizr.js"></script>
+<script src="../../js/mobile/student/photo_list/index.js"></script>
+</html>

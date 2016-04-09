@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head >
+	<title>学生签到系统</title>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap2.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/DT_bootstrap.css">
+
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/bootstrap-dropdown.js"></script>
+	<script type="text/javascript" src="../js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="../js/demo1.js"></script>
+	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../js/course_select_change.js"></script>
+</head>
+<body >
+	#parse("student/toolbar.vm")
+	
+	<div class="container">
+		<div >	
+        		<div class="row" id="${course.courseId}">
+				  #foreach($ele in [1..20])
+					  #set($flag = 0)
+            		  #foreach($statistic in $statisticList)
+            			#if($statistic.courseId == ${course.courseId} && ${statistic.week} == $ele)
+						  #set($flag = 1)
+						  #set($time = $date.format('yyyy-MM-dd HH:mm:ss', ${statistic.siginTime}))
+    					#end
+					  #end
+					  #if($flag == 1)
+						 <div class="col-md-3">
+                            <div class="thumbnail">
+                              <img src="../image/yes.jpg" alt="已签">
+                              <div class="caption">
+                                <h3>第 ${ele}周</h3>    
+                              </div>
+							   <p>签到时间 : ${time}</p> 
+                            </div>
+                          </div>
+					  #else
+						 <div class="col-md-3">
+                            <div class="thumbnail">
+                              <img src="../image/no.jpg" alt="没签">
+                              <div class="caption">
+                                <h3>第 $!{ele}周</h3>                   
+                              </div>
+							  <p>签到时间</p>
+                            </div>
+                          </div>
+					  #end
+				  #end
+             </div>
+		</div>
+	</div>
+</body>
+</html>

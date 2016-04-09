@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head >
+	<title>学生签到系统</title>
+	<meta charset="UTF-8"/>
+	<style>
+		p {
+			font-size:80px;
+		}
+		a {
+			font-size:60px;git
+		}
+	</style>
+</head>
+<body >
+	<p>本页面不支持手机访问，请在电脑访问本页面</p>
+	<a href="/SignInSystem/teacher/home.html">返回首页</a>
+</body>
+</html>

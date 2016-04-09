@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="gb2312">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- CSS reset -->
+  <link rel="stylesheet" href="../css/mobile/student/home/style.css">
+  <link rel="stylesheet" href="../css/mobile/student/home/style1.css">
+	<link rel="stylesheet" href="../css/mobile/student/home/home.css">
+  <!-- Resource style -->
+  <link href="../css/bootstrap.css" rel="stylesheet">
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/mobile/student/home/modernizr.js"></script>
+  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <!-- Modernizr -->
+  <title>中山大学学生签到系统</title>
+</head>
+<body>
+  <a href="#cd-nav" class="cd-nav-trigger">
+    Menu
+    <span>
+  </a>
+  <!-- .cd-nav-trigger -->
+  <main>
+    <section class="cd-section index cd-selected">
+		<div class="cd-content">
+			<form action="search.html" method="get" id="info" class="form-horizontal" role="form" >
+        		<div class="form-group">
+        		      	<label class="col-sm-2 control-label"><span class="need">*</span>教师：</label>
+        		      	<div class="col-sm-3">
+        		      		<select class="form-control" name="teacher" id="teacher" onchange="change(this.value)">
+								<option value="-1">请选择老师</option>
+        							#foreach($teacher in $teacherList)
+        								<option value="${teacher.teacherId}">${teacher.teacherName}</option>
+        							#end
+        		         	</select>
+        		         </div>
+        		         <div class="Validform_checktip"></div>
+        		</div>
+        		
+        		<div class="form-group">
+        		      	<label class="col-sm-2 control-label"><span class="need">*</span>课程：</label>
+        		      	<div class="col-sm-3">
+        		      		<select class="form-control" name="course" id="course">	
+        		         	</select>
+        		         </div>
+        		</div>
+    			
+    			<div class="form-group">
+    			      	<div class="col-sm-offset-2 col-sm-10">
+    			         	<button type="submit" class="btn btn-info" id="searchBtn" >查询</button>
+    			     	</div>
+    			</div>
+            </form>
+		</div>
+	</section>
+    <!-- .cd-section --> </main>
+  <nav class="cd-nav-container" id="cd-nav">
+    <header>
+      <h2>首页</h2>
+    </header>
+    #parse("student/backbar.vm")
+  </nav>
+   <div class="cd-overlay">
+	
+    </div>
+  <script src="../js/mobile/student/home/jquery-2.1.1.js"></script>
+  <script src="../js/mobile/student/home/main.js"></script>
+</body>
+  <script src="../js/mobile/student/home/index.js"></script>
+</html>

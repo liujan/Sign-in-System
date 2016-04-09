@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+    <title>学生签到系统</title>
+    <link rel="stylesheet" href="../css/mobile/student/home/style.css">
+    <link rel="stylesheet" href="../css/mobile/student/home/style1.css">
+    <link rel="stylesheet" href="../css/mobile/student/home/home.css">
+    
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/mobile/mobile.css"/>
+</head>
+<body>
+	<a href="#cd-nav" class="cd-nav-trigger">
+    <span></span>
+  </a>
+  <!-- .cd-nav-trigger -->
+  <main>
+    <section class="cd-section index cd-selected">
+		<div class="cd-content">
+			<form action="search.html" method="get" id="info" class="form-horizontal" role="form" >
+        		<div class="form-group">
+        		      	<label class="col-sm-2 control-label"><span class="need">*</span>教师：</label>
+        		      	<div class="col-sm-3">
+        		      		<select class="form-control" name="teacher" id="teacher" onchange="change(this.value)">
+								<option value="-1">请选择老师</option>
+        							#foreach($teacher in $teacherList)
+        								<option value="${teacher.teacherId}">${teacher.teacherName}</option>
+        							#end
+        		         	</select>
+        		         </div>
+        		         <div class="Validform_checktip"></div>
+        		</div>
+        		
+        		<div class="form-group">
+        		      	<label class="col-sm-2 control-label"><span class="need">*</span>课程：</label>
+        		      	<div class="col-sm-3">
+        		      		<select class="form-control" name="course" id="course">	
+        		         	</select>
+        		         </div>
+        		</div>
+    			
+    			<div class="form-group">
+    			      	<div class="col-sm-offset-2 col-sm-10">
+    			         	<button type="submit" class="btn btn-info" id="searchBtn" >查询</button>
+    			     	</div>
+    			</div>
+            </form>
+		</div>
+	</section>
+    <!-- .cd-section --> </main>
+  <nav class="cd-nav-container" id="cd-nav">
+    #parse("student/backbar.vm")
+  </nav>
+   <div class="cd-overlay">
+   </div>
+</body>
+<script src="../js/mobile/student/home/jquery-2.1.1.js"></script>
+<script src="../js/mobile/student/home/main.js"></script>
+<script src="../js/mobile/student/home/index.js"></script>
+<script src="../js/mobile/student/home/modernizr.js"></script>
+<script>
+	$("#searchBtn").click(function(){
+		var course = $("#course").val();
+		var teacher = $("#teacher").val();
+		if (teacher != null && teacher != -1 && course != null) {
+			return true;
+		}
+		else {
+			alert("请选择老师和课程");
+			return false;
+		}
+	});
+</script>
+<script type="text/javascript">
+	function change(teacherId) {
+		jQuery.ajax({
+			url:"change_course.html",
+			type:"post",
+			data:"teacherId=" + teacherId,
+			success:function(data) {
+				var json = eval("(" + data + ")");
+				var courseList = json.data;
+				var courseSelect = document.getElementById("course");
+				courseSelect.length = 0;
+			
+				for(var i = 0; i < courseList.length; i++){
+					var course = courseList[i];
+					var courseName =  decodeURI(course.courseName);
+					var courseId = course.courseId;
+					
+					var opp = new Option(courseName, courseId);
+					courseSelect.add(opp);
+				}
+				
+			}
+		})
+		
+	}
+</script>
+</html>

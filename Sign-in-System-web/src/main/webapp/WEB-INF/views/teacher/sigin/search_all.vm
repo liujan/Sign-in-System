@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head >
+	<title>学生签到系统</title>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap2.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/DT_bootstrap.css">
+	
+	<script type="text/javascript" src="../../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../js/bootstrap-dropdown.js"></script>
+	<script type="text/javascript" src="../../js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="../../js/demo1.js"></script>
+	
+</head>
+<body >
+	#parse("teacher/toolbar.vm")
+	 <div class='container'>
+    	<div class='tabbable'>
+    		<ul class='nav nav-tabs'>
+            	<li class='active'><a href='#tab1' data-toggle='tab'>每周查询</a></li>
+            	<li><a href='#tab2' data-toggle='tab'>学生查询</a></li>
+				<li><a href='#tab3' data-toggle='tab'>课程查询</a></li>
+        	</ul>
+	       <div class='tab-content'>
+	            <div class='tab-pane active' id='tab1'>
+    	            <div class="add">
+                        <form action="searchby_week.html" method="get" id="info" class="form-horizontal" role="form" >
+                    		<div class="form-group">
+                    		      	<label class="col-sm-2 control-label"><span class="need">*</span>课程：</label>
+                    		      	<div class="col-sm-3">
+                    		      		<select class="form-control" name="courseId" id="courseId">	
+                							#foreach($course in $courseList)
+                								<option value="${course.courseId}">${course.courseName}</option>
+                							#end
+                    		         	</select>
+                    		         </div>
+                    		         <div class="Validform_checktip"></div>
+                    		</div>
+                        		
+                    		<div class="form-group">
+                    		      	<label class="col-sm-2 control-label"><span class="need">*</span>周：</label>
+                    		      	<div class="col-sm-3">
+                    		      		<select class="form-control" name="week" id="week">	
+                    							#foreach($ele in [1..20])
+                    								<option value="${ele}">第${ele}周</option>
+                    							#end
+                    		         	</select>
+                    		         </div>
+                    		         <div class="Validform_checktip"></div>
+                    		</div>
+                			
+                			<div class="form-group">
+                			      	<div class="col-sm-offset-2 col-sm-10">
+                			         	<button type="submit" class="btn btn-info"  >提交</button>
+                			     	</div>
+                			</div>
+                        </form>
+                    </div>
+				</div>
+
+	          	<div class='tab-pane' id='tab2'>
+    	           <div class="container" style="width:80%">
+    	            	<table class="bordered-table zebra-striped" id="example">
+                		    <caption>学生信息</caption>
+                		    <thead>
+                		        <tr>
+                		            <th>学号</th>
+                			        <th>姓名</th>
+                			        <th>操作</th>
+                		     	</tr>
+                		   </thead>
+                		   <tbody>
+                		      	#foreach($student in $studengList)
+                		   			<tr>
+                			        	<td>$student.stuId</td>
+                			         	<td>$student.name</td>
+                			         	<td>
+                			         		<a class="btn" href="searchby_stuId.html?stuId=${student.stuId}" role="button" target="_blank">查询</a>
+                			         	</td>
+                		      		</tr>
+                		   		#end
+                		   	</tbody>
+                		</table>
+    				</div>
+	           	 </div>
+	           	 <div class='tab-pane' id='tab3'>
+    	            <div class="add">
+                        <form action="searchby_course.html" method="get" id="info" class="form-horizontal" role="form" >
+                    		<div class="form-group">
+                    		      	<label class="col-sm-2 control-label"><span class="need">*</span>课程：</label>
+                    		      	<div class="col-sm-3">
+                    		      		<select class="form-control" name="courseId" id="courseId">	
+                							#foreach($course in $courseList)
+                								<option value="${course.courseId}">${course.courseName}</option>
+                							#end
+                    		         	</select>
+                    		         </div>
+                    		         <div class="Validform_checktip"></div>
+                    		</div>  			
+                			<div class="form-group">
+                			      	<div class="col-sm-offset-2 col-sm-10">
+                			         	<button type="submit" class="btn btn-info"  >提交</button>
+                			     	</div>
+                			</div>
+                        </form>
+                    </div>
+				</div>
+	        </div> 
+    	</div>
+	</div> 
+</body>
+</html>

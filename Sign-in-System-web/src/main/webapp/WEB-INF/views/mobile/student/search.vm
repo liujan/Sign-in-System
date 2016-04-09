@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+    <title>学生签到系统</title>
+    <link rel="stylesheet" href="../css/mobile/student/home/style.css">
+    <link rel="stylesheet" href="../css/mobile/student/home/style1.css">
+    <link rel="stylesheet" href="../css/mobile/student/home/home.css">
+    
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/mobile/mobile.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/mobile/calendar.css"/>
+</head>
+<body>
+	<a href="#cd-nav" class="cd-nav-trigger">
+    <span></span>
+  </a>
+  <!-- .cd-nav-trigger -->
+  <main>
+    <section class="cd-section index cd-selected">
+		<div >
+			<div id="CalendarMain">
+			  <div class="title">${course.courseName}</div>
+              <div id="context">
+                <div id="center">
+                  <div id="centerMain">
+                    <div id="selectYearDiv"></div>
+                    <div id="centerCalendarMain">
+                      <div id="Container">
+                      	<div class="dayItem">
+            				 #foreach($ele in [1..20])
+            					  #set($flag = 0)
+                        		  #foreach($statistic in $statisticList)
+                        			#if($statistic.courseId == ${course.courseId} && ${statistic.week} == $ele)
+            						  #set($flag = 1)
+            						  #set($time = $date.format('yyyy-MM-dd HH:mm:ss', ${statistic.siginTime}))
+                					#end
+            					  #end
+            					  #if($flag == 1)
+            						<div class="item sigined"><a >${ele}</a></div>
+            					  #else
+            						 <div class="item currentItem"><a >${ele}</a></div>
+            					  #end
+            				  #end
+                      		</div>
+                      </div>
+                    </div>
+                    <div id="selectMonthDiv"></div>
+                  </div>
+                </div>
+             
+              </div>
+            </div>
+    	</div>
+	</section>
+    <!-- .cd-section --> </main>
+  <nav class="cd-nav-container" id="cd-nav">
+    #parse("student/backbar.vm")
+  </nav>
+   <div class="cd-overlay">
+   </div>
+</body>
+<script src="../js/mobile/student/home/jquery-2.1.1.js"></script>
+<script src="../js/mobile/student/home/main.js"></script>
+<script src="../js/mobile/student/home/index.js"></script>
+<script src="../js/mobile/student/home/modernizr.js"></script>
+</html>

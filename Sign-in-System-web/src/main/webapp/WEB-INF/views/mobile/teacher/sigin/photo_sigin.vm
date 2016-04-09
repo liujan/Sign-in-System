@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+    <title>中山大学学生签到系统</title>
+    <link rel="stylesheet" href="../../css/mobile/student/home/style.css">
+    <link rel="stylesheet" href="../../css/mobile/student/home/style1.css">
+    <link rel="stylesheet" href="../../css/mobile/student/home/home.css">
+		<link rel="stylesheet" href="../../css/mobile/student/photo_list/photo.css">
+    
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css"/>
+	<link rel="stylesheet" href="../../css/jquery.fileupload.css">
+	<link rel="stylesheet" type="text/css" href="../../css/mobile/mobile.css"/>
+</head>
+<body>
+	<a href="#cd-nav" class="cd-nav-trigger">
+    <span></span>
+  </a>
+  <!-- .cd-nav-trigger -->
+  <main>
+    <section class="cd-section index cd-selected">
+		<div class="cd-content">
+			<div class="photo_form">
+				<span class="btn btn-primary fileinput-button" onclick="clearBar()">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>选择图片...</span>
+                    <!-- The file input field used as target for the file upload widget -->
+                    <input id="fileupload" type="file" name="files[]" multiple>
+                </span>
+                <br>
+                <br>
+                <!-- The global progress bar -->
+                <div id="progress" class="progress">
+                    <div class="progress-bar progress-bar-success"></div>
+                </div>
+                <!-- The container for the uploaded files -->
+                <div id="files" class="files"></div>
+                <br>
+            </div>	
+		</div>
+	</section>
+  </main>
+  <nav class="cd-nav-container" id="cd-nav">
+    #parse("teacher/backbar.vm")
+  </nav>
+   <div class="cd-overlay">
+   </div>
+</body>
+<script src="../../js/mobile/student/home/jquery-2.1.1.js"></script>
+<script src="../../js/mobile/student/home/main.js"></script>
+<script src="../../js/mobile/student/home/index.js"></script>
+<script src="../../js/mobile/student/home/modernizr.js"></script>
+
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="../../js/jquery.ui.widget.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="../../js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="../../js/jquery.fileupload.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/fileupload.js"></script>
+</html>
