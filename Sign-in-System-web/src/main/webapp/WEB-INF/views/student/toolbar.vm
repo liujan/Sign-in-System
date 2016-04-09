@@ -8,20 +8,20 @@
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/SignInSystem/student/home.html">中山大学上课签到系统</a>
+            <a class="navbar-brand" href="/student/home.html">中山大学上课签到系统</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left">
                 <li>
-                    <a href="/SignInSystem/student/home.html"><i class="glyphicon glyphicon-home"></i> 首页</a>
+                    <a href="/student/home.html"><i class="glyphicon glyphicon-home"></i> 首页</a>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-list"></i>
                         照片管理<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/SignInSystem/student/photo/upload_photo_page.html"><i
+                        <li><a href="/student/photo/upload_photo_page.html"><i
                                 class="glyphicon glyphicon-search"></i> 上传照片</a></li>
-                        <li><a href="/SignInSystem/student/photo/photo_list.html"><i
+                        <li><a href="/student/photo/photo_list.html"><i
                                 class="glyphicon glyphicon-search"></i> 照片管理</a></li>
                     </ul>
                 </li>
@@ -32,12 +32,12 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i
                             class="glyphicon glyphicon-user"></i> $!{stuId} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/SignInSystem/student/info/my_info.html"><i class="glyphicon glyphicon-cog"></i>
+                        <li><a href="/student/info/my_info.html"><i class="glyphicon glyphicon-cog"></i>
                             账户管理</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a class="logout" href="/SignInSystem/student/logout.html"><i class="glyphicon glyphicon-off"></i>
+                    <a class="logout" href="/student/logout.html"><i class="glyphicon glyphicon-off"></i>
                         注销</a>
                 </li>
             </ul>

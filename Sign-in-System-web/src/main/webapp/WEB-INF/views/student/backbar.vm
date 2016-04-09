@@ -6,25 +6,25 @@
 </head>
 <body>
 	<header>
-		<a href="/SignInSystem/student/home.html" class="home"><h2>首页</h2></a>
+		<a href="/student/home.html" class="home"><h2>首页</h2></a>
     </header>
 	<ul id="accordion" class="accordion">
 		<li>
 			<div class="link"><i class="fa fa-code"></i>照片<i class="fa fa-chevron-down"></i></div>
 			<ul class="submenu">
-				<li><a href="/SignInSystem/student/photo/upload_photo_page.html">上传照片</a></li>
-				<li><a href="/SignInSystem/student/photo/photo_list.html">管理照片</a></li>
+				<li><a href="/student/photo/upload_photo_page.html">上传照片</a></li>
+				<li><a href="/student/photo/photo_list.html">管理照片</a></li>
 			</ul>
 		</li>
 		<li>
 			<div class="link"><i class="fa fa-mobile"></i>账户<i class="fa fa-chevron-down"></i></div>
 			<ul class="submenu">
-				<li><a href="/SignInSystem/student/info/my_info.html">个人信息</a></li>
+				<li><a href="/student/info/my_info.html">个人信息</a></li>
 			</ul>
 		</li>
 	</ul>
 	<header>
-      <a  class="logout" href="/SignInSystem/student/logout.html"><h3>注销<h3></a>
+      <a  class="logout" href="/student/logout.html"><h3>注销<h3></a>
     </header>
 </body>
 </html>

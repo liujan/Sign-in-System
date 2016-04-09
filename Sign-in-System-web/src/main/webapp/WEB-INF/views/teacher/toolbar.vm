@@ -8,20 +8,20 @@
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/SignInSystem/teacher/home.html">中山大学上课签到系统</a>
+            <a class="navbar-brand" href="/teacher/home.html">中山大学上课签到系统</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left">
                 <li>
-                    <a href="/SignInSystem/teacher/home.html"><i class="glyphicon glyphicon-home"></i> 首页</a>
+                    <a href="/teacher/home.html"><i class="glyphicon glyphicon-home"></i> 首页</a>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-bell"></i>
                         学生管理<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/SignInSystem/teacher/student/student_list.html"><i
+                        <li><a href="/teacher/student/student_list.html"><i
                                 class="glyphicon glyphicon-upload"></i> 学生列表</a></li>
-                        <li><a href="/SignInSystem/teacher/student/change_phone_page.html"><i
+                        <li><a href="/teacher/student/change_phone_page.html"><i
                                 class="glyphicon glyphicon-search"></i> 更换号码</a></li>
                     </ul>
                 </li>
@@ -29,11 +29,11 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-list"></i>
                         签到管理<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/SignInSystem/teacher/sigin/photo_sigin.html"><i
+                        <li><a href="/teacher/sigin/photo_sigin.html"><i
                                 class="glyphicon glyphicon-search"></i> 拍照签到</a></li>
-                        <li><a href="/SignInSystem/teacher/sigin/sigined_list.html"><i
+                        <li><a href="/teacher/sigin/sigined_list.html"><i
                                 class="glyphicon glyphicon-search"></i> 本周已签</a></li>
-                        <li><a href="/SignInSystem/teacher/sigin/search_all.html"><i
+                        <li><a href="/teacher/sigin/search_all.html"><i
                                 class="glyphicon glyphicon-search"></i> 签到查询</a></li>
                     </ul>
                 </li>
@@ -41,9 +41,9 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-list"></i>
                         课程管理<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/SignInSystem/teacher/course/courseList.html"><i
+                        <li><a href="/teacher/course/courseList.html"><i
                                 class="glyphicon glyphicon-search"></i> 已有课程</a></li>
-                        <li><a href="/SignInSystem/teacher/course/add_course.html"><i
+                        <li><a href="/teacher/course/add_course.html"><i
                                 class="glyphicon glyphicon-search"></i> 添加课程</a></li>
                     </ul>
                 </li>
@@ -54,12 +54,12 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i
                             class="glyphicon glyphicon-user"></i> $!{userName} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/SignInSystem/teacher/info/my_info.html"><i class="glyphicon glyphicon-cog"></i>
+                        <li><a href="/teacher/info/my_info.html"><i class="glyphicon glyphicon-cog"></i>
                             账户管理</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a class="logout" href="/SignInSystem/teacher/logout.html"><i class="glyphicon glyphicon-off"></i>
+                    <a class="logout" href="/teacher/logout.html"><i class="glyphicon glyphicon-off"></i>
                         注销</a>
                 </li>
             </ul>
