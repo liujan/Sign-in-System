@@ -40,8 +40,11 @@ public class FaceJob implements Job{
 				String faceId = face.getFaceId();
 				List<String> photoList = null;
 				
-				if (!FileUtil.fileExists(Constant.IMAGE_PATH + stuId + "/" + photo)) {
+				if (!FileUtil.fileExists(Constant.IMAGE_PATH + stuId + "/" + photo)
+						|| !FileUtil.fileExists(Constant.COMPRESS_IMAGE_PATH + stuId + "/" + photo)) {
 					faceService.deletePhoto(stuId, photo);
+					FileUtil.deleteDir(new File(Constant.IMAGE_PATH + stuId + "/" + photo));
+					FileUtil.deleteDir(new File(Constant.COMPRESS_IMAGE_PATH + stuId + "/" + photo));
 					continue;
 				}
 				if (faceId != null && !faceId.equals("")) {

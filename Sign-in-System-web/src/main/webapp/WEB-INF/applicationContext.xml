@@ -11,6 +11,10 @@
     </context:component-scan>
     <import resource="classpath:datasource.xml" />
     <import resource="classpath:util.xml" />
+    <!-- 文件上传功能 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+    <bean id="faceScheduler" class="com.liujan.quartz.FaceScheduler" init-method="addPhotoToGroup"></bean>
+
     <!--<mvc:annotation-driven>-->
         <!--<mvc:argument-resolvers>-->
             <!--<bean class="org.springframework.mobile.device.DeviceWebArgumentResolver" />-->
