@@ -47,8 +47,8 @@ public class TeacherController {
 	private StudentService studentSerivce;
 	@Autowired
 	private StatisticService statisticService;
-//	@Autowired
-//	private MailSender mailSender;
+	@Autowired
+	private MailSender mailSender;
 
 	@RequestMapping("home.html")
 	public ModelAndView home(ModelAndView modelAndView, HttpServletRequest request) {
@@ -247,7 +247,7 @@ public class TeacherController {
 		try {
 			JsonData jsonData = new JsonData();
 			if (!receiver.isEmpty()) {
-				//mailSender.send(receiver, subject, content);
+				mailSender.send(receiver, subject, content);
 				jsonData.setStatus(1);
 				jsonData.setMessage(new String(java.net.URLEncoder.encode("发送成功", "UTF-8")));
 			} else {

@@ -13,38 +13,38 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left">
                 <li>
-                    <a href="/teacher/home.html"><i class="glyphicon glyphicon-home"></i> 首页</a>
+                    <a href="/teacher/home.html"><i ></i> 首页</a>
                 </li>
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-bell"></i>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i ></i>
                         学生管理<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="/teacher/student/student_list.html"><i
-                                class="glyphicon glyphicon-upload"></i> 学生列表</a></li>
+                                ></i> 学生列表</a></li>
                         <li><a href="/teacher/student/change_phone_page.html"><i
-                                class="glyphicon glyphicon-search"></i> 更换号码</a></li>
+                                ></i> 更换号码</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-list"></i>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i ></i>
                         签到管理<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="/teacher/sigin/photo_sigin.html"><i
-                                class="glyphicon glyphicon-search"></i> 拍照签到</a></li>
+                                ></i> 拍照签到</a></li>
                         <li><a href="/teacher/sigin/sigined_list.html"><i
-                                class="glyphicon glyphicon-search"></i> 本周已签</a></li>
+                               ></i> 本周已签</a></li>
                         <li><a href="/teacher/sigin/search_all.html"><i
-                                class="glyphicon glyphicon-search"></i> 签到查询</a></li>
+                                ></i> 签到查询</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-list"></i>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i ></i>
                         课程管理<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="/teacher/course/courseList.html"><i
-                                class="glyphicon glyphicon-search"></i> 已有课程</a></li>
+                               ></i> 已有课程</a></li>
                         <li><a href="/teacher/course/add_course.html"><i
-                                class="glyphicon glyphicon-search"></i> 添加课程</a></li>
+                               ></i> 添加课程</a></li>
                     </ul>
                 </li>
             </ul>
@@ -52,14 +52,14 @@
                 <li class="dropdown">
                     #set($userName=$request.getSession().getAttribute("userName"))
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i
-                            class="glyphicon glyphicon-user"></i> $!{userName} <b class="caret"></b></a>
+                            ></i> $!{userName} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/teacher/info/my_info.html"><i class="glyphicon glyphicon-cog"></i>
+                        <li><a href="/teacher/info/my_info.html"><i ></i>
                             账户管理</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a class="logout" href="/teacher/logout.html"><i class="glyphicon glyphicon-off"></i>
+                    <a class="logout" href="/teacher/logout.html"><i ></i>
                         注销</a>
                 </li>
             </ul>

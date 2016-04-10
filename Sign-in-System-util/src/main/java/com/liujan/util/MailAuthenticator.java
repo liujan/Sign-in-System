@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 
-@Component("authenticator")
 public class MailAuthenticator extends Authenticator {
 	private String userName;
 	private String password;

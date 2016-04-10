@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 设置邮件发件人用户信息 -->
+    <bean id="mailAuthenticator" class="com.liujan.util.MailAuthenticator">
+        <constructor-arg name="userName" type="java.lang.String" value="liujan511536@sina.com"></constructor-arg>
+        <constructor-arg name="password" type="java.lang.String" value="liu511536"></constructor-arg>
+        <constructor-arg name="hostName" type="java.lang.String" value="smtp.sina.com"></constructor-arg>
+    </bean><bean id="mailSender" class="com.liujan.util.MailSender"></bean>
+</beans>

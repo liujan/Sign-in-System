@@ -10,7 +10,7 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
     <import resource="classpath:datasource.xml" />
-
+    <import resource="classpath:util.xml" />
     <!--<mvc:annotation-driven>-->
         <!--<mvc:argument-resolvers>-->
             <!--<bean class="org.springframework.mobile.device.DeviceWebArgumentResolver" />-->
