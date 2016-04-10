@@ -33,8 +33,7 @@
                                             #foreach($statistic in $statisticList)
                                                 #if($statistic.courseId == ${course.courseId} && ${statistic.week} == $ele)
                                                     #set($flag = 1)
-                                                    #set($time = $date.format(
-                                                        'yyyy-MM-dd HH:mm:ss', ${statistic.siginTime}))
+                                                    #set($time = $date.format('yyyy-MM-dd HH:mm:ss', ${statistic.siginTime}))
                                                 #end
                                             #end
                                             #if($flag == 1)
