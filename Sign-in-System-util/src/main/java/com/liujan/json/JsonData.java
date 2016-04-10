@@ -1,8 +1,9 @@
 package com.liujan.json;
 
 /**
- * Created by liujan on 4/9/16.
+ * Created by liujan on 4/10/16.
  */
+
 public class JsonData {
     private int status;
     private String message;
@@ -29,3 +30,4 @@ public class JsonData {
 
 
 }
+
