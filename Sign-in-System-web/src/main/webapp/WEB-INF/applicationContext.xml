@@ -15,20 +15,6 @@
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
     <bean id="faceScheduler" class="com.liujan.quartz.FaceScheduler" init-method="addPhotoToGroup"></bean>
 
-    <!--<mvc:annotation-driven>-->
-        <!--<mvc:argument-resolvers>-->
-            <!--<bean class="org.springframework.mobile.device.DeviceWebArgumentResolver" />-->
-            <!--<bean class="org.springframework.mobile.device.site.SitePreferenceWebArgumentResolver" />-->
-        <!--</mvc:argument-resolvers>-->
-    <!--</mvc:annotation-driven>-->
-    <!--<mvc:interceptors>-->
-        <!--&lt;!&ndash; On pre-handle, resolve the device that originated the web request &ndash;&gt;-->
-        <!--<bean class="org.springframework.mobile.device.DeviceResolverHandlerInterceptor" />-->
-        <!--&lt;!&ndash; On pre-handle, manage the user's site preference (declare after DeviceResolverHandlerInterceptor) &ndash;&gt;-->
-        <!--<bean class="org.springframework.mobile.device.site.SitePreferenceHandlerInterceptor" />-->
-    <!--</mvc:interceptors>-->
-    <!--<mvc:resources location="/WEB-INF/resources/js/" mapping="/js/**"/>-->
-    <!--<mvc:resources location="/WEB-INF/resources/css/" mapping="/css/**"></mvc:resources>-->
-    <!--<mvc:resources location="/WEB-INF/resources/font/" mapping="/fonts/**"></mvc:resources>-->
-    <!--<mvc:resources location="/WEB-INF/resources/image/" mapping="/image/**"></mvc:resources>-->
+
+
 </beans>
