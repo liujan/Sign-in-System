@@ -175,3 +175,8 @@
 div.caption {
 	text-align:center;
 }
+
+.hide
+{
+    visibility: hidden;
+}

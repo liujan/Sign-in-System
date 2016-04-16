@@ -34,8 +34,8 @@
                         #foreach($course in $couorseList)
                         <tr id="${course.courseId}">
                             <td>$course.courseName</td>
-                            <td>$date.format("HH:mm:ss",$course.beginTime)</td>
-                            <td>$date.format("HH:mm:ss",$course.endTime)</td>
+                            <td>$date.format("HH:mm",$course.beginTime)</td>
+                            <td>$date.format("HH:mm",$course.endTime)</td>
                             <td>${course.dayInWeek}</td>
                         </tr>
                         #end

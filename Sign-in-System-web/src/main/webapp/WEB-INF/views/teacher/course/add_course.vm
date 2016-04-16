@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/validform_style.css"/>
     <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-clockpicker.min.css"/>
     <link rel="stylesheet" type="text/css" href="/resources/css/jquery-clockpicker.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/jquery.fileupload.css">
 
     <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
     <script type="text/javascript" src="/resources/js/bootstrap-dropdown.js"></script>
@@ -65,42 +66,70 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-info">提交</button>
+            <label for="courseName" class="col-sm-2 control-label"><span class="need">*</span>导入学生:</label>
+            <div class="col-sm-3">
+                <span class="btn btn-info fileinput-button"/>
+                <i class="glyphicon glyphicon-plus"></i>
+                <span>选择文件...</span>
+                <!-- The file input field used as target for the file upload widget -->
+                <input type="file" id="file" name="file" onchange="showFileName(this)"/>
+                </span>
+
+                <label id="filename"></label>
+                <div><span id="tip">支持.csv, .xlsx</span></div>
             </div>
         </div>
     </form>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-info" id="button">提交</button>
+        </div>
+    </div>
 </div>
 </body>
 
-<script type="text/javascript">
-    $(function () {
-        var info = $("#course_info").Validform({
-            tiptype: 1,
-            label: ".label",
-            showAllError: true,
-            ajaxPost: true,
-            callback: function (data) {
-                var msg = decodeURI(data.message);
-                var status = data.status;
+<script>
+    function showFileName(e) {
+        var path = $(e).val();
+        var name = path.substring(path.lastIndexOf('\\') + 1);
+        $("#filename").text(name);
+    }
+</script>
+<script>
+    $("#button").click(function () {
+
+        var formData = new FormData();
+        formData.append("courseName", $("#courseName").val());
+        formData.append("beginTime", $("#beginTime").val());
+        formData.append("endTime", $("#endTime").val());
+        formData.append("dayInWeek", $("#dayInWeek").val());
+        formData.append("file", $("#file")[0].files[0]);
+
+        var url = "add_course_save.html";
+        jQuery.ajax({
+            url: url,
+            type: "post",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                var json = eval("(" + data + ")");
+                var msg = decodeURI(json.message);
+                var status = json.status;
                 alert(msg);
                 if (status == 1) {
                     document.getElementById("courseName").value = "";
                     document.getElementById("beginTime").value = "09:50";
                     document.getElementById("endTime").value = "09:50";
                     document.getElementById("dayInWeek").options[0].selected = true;
+                    document.getElementById("file").value = "";
+                    $("#filename").text("");
                 }
+            },
+            error: function (data) {
+                alert("请选择学生文件");
             }
         });
-
-        info.addRule([
-            {
-                ele: "#courseName",
-                datatype: "*",
-                errormsg: "",
-                nullmsg: "课程名不能为空"
-            }
-        ]);
     });
 </script>
 <script type="text/javascript">

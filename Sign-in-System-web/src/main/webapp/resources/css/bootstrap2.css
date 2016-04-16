@@ -13,7 +13,6 @@ table {
 table th, table td {
   padding: 10px 10px 9px;
   line-height: 18px;
-  text-align: left;
 }
 table th {
   padding-top: 9px;
@@ -416,4 +415,13 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
 }
 .pagination .next a {
   border: 0;
+}
+
+td div
+{
+  text-align: center;
+}
+td, th
+{
+  text-align: center;
 }

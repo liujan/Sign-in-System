@@ -24,7 +24,6 @@ public class MailSender {
 		properties.put("mail.smtp.host", authenticator.getHostName());
 		session = Session.getInstance(properties, authenticator);
 
-
 		final MimeMessage message = new MimeMessage(session);
 		try {
 			message.setFrom(new InternetAddress(authenticator.getUserName()));

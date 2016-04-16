@@ -18,7 +18,7 @@
     #parse("teacher/toolbar.vm")
 <div class="container">
     <table class="bordered-table zebra-striped" id="example">
-        <caption>学生信息($!{courseName} 第$!{week}周)</caption>
+        <caption>签到信息($!{courseName} 第$!{week}周)</caption>
         <thead>
         <tr>
             <th>学号</th>

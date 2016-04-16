@@ -237,7 +237,6 @@ public class StudentController {
             teacherIdList.add(id);
         }
         List<Course> courseList = courseService.getAllCourseList(teacherIdList);
-        logger.error("hello");
         modelAndView.addObject("teacherList", teacherList);
         modelAndView.addObject("courseList", courseList);
         return modelAndView;

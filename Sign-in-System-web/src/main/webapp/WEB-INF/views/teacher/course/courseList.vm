@@ -6,11 +6,18 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap2.css"/>
     <link rel="stylesheet" type="text/css" href="/resources/css/DT_bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/jquery.fileupload.css">
 
     <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/resources/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/resources/js/bootstrap-dropdown.js"></script>
     <script type="text/javascript" src="/resources/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="/resources/js/demo1.js"></script>
+    <script src="/resources/js/jquery.ui.widget.js"></script>
+    <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+    <script src="/resources/js/jquery.iframe-transport.js"></script>
+    <!-- The basic File Upload plugin -->
+    <script src="/resources/js/jquery.fileupload.js"></script>
     <script type="text/javascript">
         function deleteCourse(courseId) {
             if (confirm('确定要删除此课程吗？')) {
@@ -36,12 +43,18 @@
             }
         }
     </script>
+    <style>
+        form
+        {
+            display: inline;
+        }
+    </style>
 </head>
 <body>
     #parse("teacher/toolbar.vm")
 <div class="container">
     <table class="bordered-table zebra-striped" id="course">
-        <caption>学生信息</caption>
+        <caption>课程信息</caption>
         <thead>
         <tr>
             <th>课程名</th>
@@ -55,16 +68,200 @@
             #foreach($course in $couorseList)
             <tr id="${course.courseId}">
                 <td>$course.courseName</td>
-                <td>$date.format("HH:mm:ss",$course.beginTime)</td>
-                <td>$date.format("HH:mm:ss",$course.endTime)</td>
+                <td>$date.format("HH:mm",$course.beginTime)</td>
+                <td>$date.format("HH:mm",$course.endTime)</td>
                 <td>星期 ${course.dayInWeek}</td>
                 <td>
-                    <a class="btn btn-warning btn-sm" role="button" onclick="deleteCourse(${course.courseId})">删除该课程</a>
+                    <div>
+                        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#studentmodal"
+                                data-whatever="${course.courseId}">查看学生
+                        </button>
+                        <a class="btn btn-danger btn-sm" role="button"
+                           onclick="deleteCourse(${course.courseId})">删除该课程</a>
+                        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addstudent"
+                                data-whatever="${course.courseId}">导入学生
+                        </button>
+                    </div>
+
                 </td>
             </tr>
             #end
         </tbody>
     </table>
-</div>
+    <div class="modal fade" id="studentmodal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        学生列表
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <table class="bordered-table zebra-striped" id="student">
+                        <thead>
+                        <tr>
+                            <th>学号</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="studentbody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
+    <div class="modal fade" id="addstudent" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        学生列表
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <span class="btn btn-info fileinput-button"/>
+                        <i class="glyphicon glyphicon-plus"></i>
+                        <span>选择文件...</span>
+                        <!-- The file input field used as target for the file upload widget -->
+                        <input type="file" id="file" name="file" onchange="showFileName(this)"/>
+                        </span>
+                        <label id="filename"></label>
+                        <input type="hidden" id="courseId_add" />
+                    </form>
+                    <div><button class="btn btn-info" id="add_student_btn">提交</button></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
 </body>
+<script type="text/javascript">
+    $('#studentmodal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var courseId = button.data('whatever') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        jQuery.ajax({
+            url: "getstudentbycourseid.html",
+            data: "courseId=" + courseId,
+            type: "post",
+            success: function (data) {
+                var json = eval("(" + data + ")");
+                var data = json.data;
+
+                $("#studentbody").empty();
+                for (var i in data) {
+                    var tr = $("<tr></tr>");
+                    tr.attr("id", data[i]);
+                    var stuIdTd = $("<td></td>").text(data[i]);
+                    var operateTd = $("<td></td>");
+                    var deleteBtn = $('<a class="btn btn-danger btn-sm" role="button" onclick="deleteCourseStudent(' + data[i] + ',' + courseId + ')">删除</a>');
+                    operateTd.append(deleteBtn);
+
+                    tr.append(stuIdTd);
+                    tr.append(operateTd);
+                    $("#studentbody").append(tr);
+                }
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+//        alert(courseId)
+//        modal.find('.modal-title').text('新邮件@ ' + recipient)
+//        modal.find('.modal-body input[id=recipient-name]').val(recipient)
+    })
+</script>
+<script type="text/javascript">
+    $('#addstudent').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var courseId = button.data('whatever') // Extract info from data-* attributes
+        var modal = $(this)
+        modal.find('.modal-body input[id=courseId_add]').val(courseId)
+    })
+</script>
+<script>
+    function deleteCourseStudent(stuId, courseId) {
+        if (confirm("确定要删除吗?")) {
+            jQuery.ajax({
+                url: "deletecoursestudent.html",
+                data: "stuId=" + stuId + "&courseId=" + courseId,
+                type: "post",
+                success: function (data) {
+                    var json = eval('(' + data + ')');
+                    var status = json.status;
+                    var msg = decodeURI(json.message);
+                    if (status != 1) {
+                        alert(msg);
+                    }
+                    else {
+                        var tb = document.getElementById("student");
+                        var tr = document.getElementById(stuId);
+                        tb.deleteRow(tr.rowIndex);
+                    }
+                }
+            });
+        }
+    }
+</script>
+<script>
+    function clearFile() {
+        document.getElementById("fileupload").value = "";
+    }
+</script>
+
+<script>
+    jQuery("#add_student_btn").click(function() {
+        var courseId = $("#courseId_add").val();
+        var formData = new FormData();
+        formData.append("file", $("#file")[0].files[0]);
+        formData.append("courseId", courseId);
+        jQuery.ajax({
+            url:"addstudenttocourse.html",
+            type:"post",
+            data:formData,
+            processData: false,
+            contentType: false,
+            success:function(data) {
+                var json = eval('(' + data + ')');
+                var status = json.status;
+                var msg = decodeURI(json.message);
+                alert(msg);
+                if (status) {
+                    document.getElementById("file").value = "";
+                    $("#filename").text("");
+                }
+            },
+            error:function() {
+                alert("导入失败");
+            }
+        });
+    });
+
+    function showFileName(e) {
+        var path = $(e).val();
+        var name = path.substring(path.lastIndexOf('\\') + 1);
+        $("#filename").text(name);
+    }
+</script>
 </html>

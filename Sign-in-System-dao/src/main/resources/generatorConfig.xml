@@ -3,7 +3,7 @@
 <generatorConfiguration >
     <classPathEntry location="/Users/liujan/Documents/idea workspace/SignInSystem/resource/sqlite-jdbc-3.8.7.jar" />
     <context id="spring" >
-        <jdbcConnection driverClass="org.sqlite.JDBC" connectionURL="jdbc:sqlite:/Users/liujan/Documents/workspace/SignInSystem/resource/db_si.db" userId="" password="" ></jdbcConnection>
+        <jdbcConnection driverClass="org.sqlite.JDBC" connectionURL="jdbc:sqlite:/Users/liujan/Documents/idea workspace/Sign-in-System/resources/db_si.db" userId="" password="" ></jdbcConnection>
         <javaModelGenerator targetPackage="com.liujan.entity" targetProject="src/main/java"></javaModelGenerator>
         <sqlMapGenerator targetPackage="com.liujan.mapper" targetProject="src/main/resources"></sqlMapGenerator>
         <javaClientGenerator targetPackage="com.liujan.mapper" targetProject="src/main/java" type="XMLMAPPER"></javaClientGenerator>

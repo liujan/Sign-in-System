@@ -34,7 +34,6 @@
 </div>
 </body>
 
-<script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/jquery.ui.widget.js"></script>
 <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
 <script src="/resources/js/jquery.iframe-transport.js"></script>

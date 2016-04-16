@@ -134,7 +134,7 @@
                 <artifactId>faceppsdk</artifactId>
                 <version>1.0</version>
             </dependency>
-
+            <!-- multifile -->
             <dependency>
                 <groupId>commons-fileupload</groupId>
                 <artifactId>commons-fileupload</artifactId>
@@ -145,6 +145,7 @@
                 <artifactId>commons-lang3</artifactId>
                 <version>3.3.2</version>
             </dependency>
+            <!-- multifile end -->
             <dependency>
                 <groupId>org.quartz-scheduler</groupId>
                 <artifactId>quartz</artifactId>

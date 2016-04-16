@@ -8,7 +8,7 @@ public class Constant {
 	public static final String API_SECRET = "EmQV-rSbT3TsvxFAHeGPCcZNaxDrWeqx";
 	public static final String GROUP_NAME = "pml_class";
 	public static final double CONFIDENCE_THRESHOLD = 30.0;
-	public static final String PERSON_FACEID_SEPERATOR = ":";
-	public static final String PERSON_SEPERATOR = ";";
 	public static final int PHOTO_NUM = 6;
+	public static final int IMPORT_MAX_SIZE = 500;
+	public static final String courseStuIdSeperator = ",";
 }

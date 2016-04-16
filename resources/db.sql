@@ -18,7 +18,7 @@ create table student
 	mac_address varchar(50) not null,
 	user_pwd varchar(50) not null,
 	email varchar(50),
-	teacher_id int,
+	course_list VARCHAR(200) ,
 	foreign key(teacher_id) references teacher(teacher_id)
 )engine=InnoDB default charset=utf8;
 
