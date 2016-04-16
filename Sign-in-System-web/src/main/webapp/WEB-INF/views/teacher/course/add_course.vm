@@ -99,7 +99,7 @@
     $("#button").click(function () {
         if ($("#courseName").val().trim().length == 0) {
             alert("请输入课程名");
-            return;
+            return; 
         }
         var formData = new FormData();
         formData.append("courseName", $("#courseName").val().trim());
