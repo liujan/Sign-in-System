@@ -97,9 +97,12 @@
 </script>
 <script>
     $("#button").click(function () {
-
+        if ($("#courseName").val().trim().length == 0) {
+            alert("请输入课程名");
+            return;
+        }
         var formData = new FormData();
-        formData.append("courseName", $("#courseName").val());
+        formData.append("courseName", $("#courseName").val().trim());
         formData.append("beginTime", $("#beginTime").val());
         formData.append("endTime", $("#endTime").val());
         formData.append("dayInWeek", $("#dayInWeek").val());
