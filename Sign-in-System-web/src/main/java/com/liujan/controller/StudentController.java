@@ -105,10 +105,10 @@ public class StudentController {
     String registerSave(ModelAndView modelAndView, HttpServletRequest request) {
         String osVersion = request.getHeader("User-Agent");
         int flag = 1;
-//        if (osVersion.contains("Macintosh") || osVersion.contains("macintosh") || ((osVersion.contains("Windows")
-//                || osVersion.contains("windows")) && (osVersion.contains("NT") || osVersion.contains("nt") || osVersion.contains("Nt")))) {
-//            flag = -1;
-//        }
+        if (osVersion.contains("Macintosh") || osVersion.contains("macintosh") || ((osVersion.contains("Windows")
+                || osVersion.contains("windows")) && (osVersion.contains("NT") || osVersion.contains("nt") || osVersion.contains("Nt")))) {
+            flag = -1;
+        }
         int result = 0;
         try {
             if (flag == 1) {
@@ -154,10 +154,10 @@ public class StudentController {
         String stuId = request.getParameter("stuId").trim();
         String osVersion = request.getHeader("User-Agent");
         int result = 0;
-//        if (osVersion.contains("Macintosh") || osVersion.contains("macintosh") || ((osVersion.contains("Windows")
-//                || osVersion.contains("windows")) && (osVersion.contains("NT") || osVersion.contains("nt") || osVersion.contains("Nt")))) {
-//            result = -2;
-//        }
+        if (osVersion.contains("Macintosh") || osVersion.contains("macintosh") || ((osVersion.contains("Windows")
+                || osVersion.contains("windows")) && (osVersion.contains("NT") || osVersion.contains("nt") || osVersion.contains("Nt")))) {
+            result = -2;
+        }
 
         String ip = request.getRemoteAddr();
         String macAddr = NetUtil.getMacAddress(ip);
