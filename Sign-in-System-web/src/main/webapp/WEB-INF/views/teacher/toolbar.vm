@@ -33,6 +33,8 @@
                                 ></i> 拍照签到</a></li>
                         <li><a href="/teacher/sigin/sigined_list.html"><i
                                ></i> 本周已签</a></li>
+                        <li><a href="/teacher/sigin/unsigin_list.html"><i
+                        ></i> 本周未签</a></li>
                         <li><a href="/teacher/sigin/search_all.html"><i
                                 ></i> 签到查询</a></li>
                     </ul>

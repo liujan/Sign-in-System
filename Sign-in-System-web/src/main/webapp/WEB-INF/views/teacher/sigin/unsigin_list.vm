@@ -18,7 +18,7 @@
     #parse("teacher/toolbar.vm")
 <div class="container">
     课程:
-    <select class="form-control2" name="courseId" id="courseId" onchange="changeCourse(this)">
+    <select class="form-control2" name="courseId" id="courseId" onchange="changeCourse(this)" >
         #foreach($course in $courseList)
             <option value="${course.courseId}">${course.courseName}</option>
         #end
@@ -29,69 +29,24 @@
         <thead>
         <tr>
             <th>学号</th>
-            <th>姓名</th>
-            <th>签到时间</th>
-            <th>可信度</th>
         </tr>
         </thead>
         <tbody id="statisticBody">
-            #foreach($statistic in $statisticList)
+            #foreach($stuId in $stuIdList)
             <tr>
-                <td>$statistic.stuId</td>
-                <td>$statistic.stuName</td>
-                <td>$date.format("yyyy-MM-dd HH:mm:ss", $statistic.siginTime)</td>
-                <td>$statistic.confidence</td>
+                <td>$stuId</td>
             </tr>
             #end
         </tbody>
     </table>
     <div style="text-align:center;">
-        共签到了 <span style="font-weight:bold;" id="num_sigin">$!{statisticList.size()}</span> 人
+        共有 <span style="font-weight:bold;" id="num_unsigin">$!{stuIdList.size()}</span> 人未签到
     </div>
     <div class="hide" id="weekSet">$weekSet</div>
     <div class="hide" id="importStudent">${importStudent}</div>
+
 </div>
 </body>
-<script>
-    function changeCourse(e) {
-        var courseId = $(e).val();
-        var week = ${week};
-        jQuery.ajax({
-            url: "getStatisicByCourse.html",
-            type: "post",
-            data: "courseId=" + courseId + "&week=" + week,
-            success: function (data) {
-                var json = eval('(' + data + ')');
-                data = json.data;
-                var status = json.status;
-                if (status != 1) {
-                    var msg = decodeURI(json.message);
-                    alert(msg);
-                }
-                $("#statisticBody").empty();
-                for (var i in data) {
-                    var tr = $("<tr></tr>");
-                    tr.attr("id", data[i]);
-                    var stuId = data[i].stuId;
-                    var stuIdTd = $("<td></td>").text(stuId.split("_")[0]);
-                    var nameTd = $("<td></td>").text(decodeURI(data[i].stuName));
-                    var siginTimeTd = $("<td></td>").text(stuId.split("_")[1]);
-                    var confidenceTd = $("<td></td>").text(data[i].confidence);
-
-                    tr.append(stuIdTd);
-                    tr.append(nameTd);
-                    tr.append(siginTimeTd);
-                    tr.append(confidenceTd);
-                    $("#statisticBody").append(tr);
-                }
-                $("#num_sigin").text(data.length);
-            },
-            error: function () {
-                alert("error");
-            }
-        });
-    }
-</script>
 <script>
     jQuery(function () {
         var weekSet = $("#weekSet").text();
@@ -104,5 +59,39 @@
         }
 
     });
+</script>
+<script>
+    function changeCourse(e) {
+        var courseId = $(e).val();
+        var week = ${week};
+
+        jQuery.ajax({
+            url: "getUnSiginStatisicByCourse.html",
+            type: "post",
+            data: "courseId=" + courseId + "&week=" + week,
+            success: function (data) {
+                var json = eval('(' + data + ')');
+                var status = json.status;
+                if (status == -2) {
+                    var msg = decodeURI(json.message);
+                    alert(msg);
+                }
+                data = json.data;
+                $("#statisticBody").empty();
+                for (var i in data) {
+                    var tr = $("<tr></tr>");
+                    tr.attr("id", data[i]);
+                    var stuIdTd = $("<td></td>").text(data[i]);
+
+                    tr.append(stuIdTd);
+                    $("#statisticBody").append(tr);
+                }
+                $("#num_unsigin").text(data.length);
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+    }
 </script>
 </html>

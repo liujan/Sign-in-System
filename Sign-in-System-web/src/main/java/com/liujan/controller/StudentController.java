@@ -105,10 +105,10 @@ public class StudentController {
     String registerSave(ModelAndView modelAndView, HttpServletRequest request) {
         String osVersion = request.getHeader("User-Agent");
         int flag = 1;
-        if (osVersion.contains("Macintosh") || osVersion.contains("macintosh") || ((osVersion.contains("Windows")
-                || osVersion.contains("windows")) && (osVersion.contains("NT") || osVersion.contains("nt") || osVersion.contains("Nt")))) {
-            flag = -1;
-        }
+//        if (osVersion.contains("Macintosh") || osVersion.contains("macintosh") || ((osVersion.contains("Windows")
+//                || osVersion.contains("windows")) && (osVersion.contains("NT") || osVersion.contains("nt") || osVersion.contains("Nt")))) {
+//            flag = -1;
+//        }
         int result = 0;
         try {
             if (flag == 1) {
@@ -154,29 +154,30 @@ public class StudentController {
         String stuId = request.getParameter("stuId").trim();
         String osVersion = request.getHeader("User-Agent");
         int result = 0;
-        if (osVersion.contains("Macintosh") || osVersion.contains("macintosh") || ((osVersion.contains("Windows")
-                || osVersion.contains("windows")) && (osVersion.contains("NT") || osVersion.contains("nt") || osVersion.contains("Nt")))) {
-            result = -2;
-        }
+//        if (osVersion.contains("Macintosh") || osVersion.contains("macintosh") || ((osVersion.contains("Windows")
+//                || osVersion.contains("windows")) && (osVersion.contains("NT") || osVersion.contains("nt") || osVersion.contains("Nt")))) {
+//            result = -2;
+//        }
 
         String ip = request.getRemoteAddr();
         String macAddr = NetUtil.getMacAddress(ip);
         int courseId = infoService.getCourseId();
         int week = infoService.getWeek();
+        String name = studentService.getStudentById(stuId).getName();
 
         if (courseId == -1 || week == -1) {
             result = -5;
         } else if (macAddr == null || macAddr.isEmpty() || result != 0)
             result = -2;
         else {
-            result = studentService.SiginIn(stuId, pwd, macAddr, courseId, week);
+            result = studentService.SiginIn(stuId, name, pwd, macAddr, courseId, week);
         }
 
         try {
             String message = "";
             JsonData jsonData = new JsonData();
             if (result == 1) {
-                String name = studentService.getStudentById(stuId).getName();
+
                 name = new String(java.net.URLEncoder.encode(name, "UTF-8"));
                 message = new String(java.net.URLEncoder.encode("签到成功", "UTF-8"));
                 request.getSession().setAttribute("stuId", stuId);

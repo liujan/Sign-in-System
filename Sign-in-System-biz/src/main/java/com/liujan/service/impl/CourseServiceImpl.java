@@ -149,7 +149,7 @@ public class CourseServiceImpl implements CourseService {
         if (course.getStudentList() != null) {
             String[] stuIds = course.getStudentList().split(Constant.courseStuIdSeperator);
             for (String stuId : stuIds) {
-                if (!stuIdList.contains(stuId)) {
+                if (!stuIdList.contains(stuId) && stuId.trim().length() > 0) {
                     stuIdList.add(stuId);
                 }
             }

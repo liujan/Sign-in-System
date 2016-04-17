@@ -6,7 +6,7 @@ import com.liujan.entity.Student;
 import java.util.List;
 
 public interface StudentService {
-	public int SiginIn(String stuId, String name, String macAddress, int courseId, int week);
+	public int SiginIn(String stuId, String name, String pwd, String macAddress, int courseId, int week);
 	public int Register(String stuId, String name, String macAddr, String pwd, String email);
 	public int login(String stuId, String pwd);
 	public Student getStudentById(String stuId);

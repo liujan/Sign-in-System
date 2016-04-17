@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -310,23 +311,127 @@ public class TeacherController {
         }
     }
 
-    @RequestMapping("sigin/sigined_list.html") // 列出本周已登陆学生
+    @RequestMapping("sigin/sigined_list.html") // 列出本周已签到的学生
     public ModelAndView siginedList(ModelAndView modelAndView, HttpServletRequest request) {
 
-        if (request.getSession().getAttribute("courseId") != null) {
-            int courseId = (Integer) request.getSession().getAttribute("courseId");
-            int week = (Integer) request.getSession().getAttribute("week");
-            List<Statistic> list = statisticService.getSiginList(courseId, week);
-            List<Student> students = studentSerivce.listSiginedStudent(list);
-            String courseName = courseService.getCourseById(courseId).getCourseName();
-            modelAndView.addObject("courseName", courseName);
-            modelAndView.addObject("week", week);
-            modelAndView.addObject("studentList", students);
+        int teacherId = (Integer) request.getSession().getAttribute("teacherId");
+        if (request.getSession().getAttribute("week") == null) {
+            modelAndView.addObject("weekSet", -2);
         }
+        int week = (Integer) request.getSession().getAttribute("week");
+        List<Course> courseList = courseService.getCourseList(teacherId);
+        if (courseList == null || courseList.isEmpty() || request.getSession().getAttribute("week") == null) {
+            return modelAndView;
+        }
+        int courseId = courseList.get(0).getCourseId();
+        if (courseList.get(0).getStudentList() == null ||
+                courseList.get(0).getStudentList().trim().length() == 0) {
+            modelAndView.addObject("importStudent", -2);
+            modelAndView.addObject("week", week);
+            modelAndView.addObject("courseList", courseList);
+            return modelAndView;
+        }
+        List<Statistic> statisticList = statisticService.getSiginList(courseId, week);
+
+        String courseName = courseService.getCourseById(courseId).getCourseName();
+        modelAndView.addObject("courseName", courseName);
+        modelAndView.addObject("week", week);
+        modelAndView.addObject("courseList", courseList);
+        modelAndView.addObject("courseId", courseId);
+        modelAndView.addObject("statisticList", statisticList);
 
         return modelAndView;
     }
 
+    @RequestMapping(value = "sigin/getStatisicByCourse.html", method = RequestMethod.POST)
+    @ResponseBody
+    public String getStatisicByCourse(HttpServletRequest request,
+                                      @RequestParam("courseId") int courseId,
+                                      @RequestParam("week") int week) {
+        Course course = courseService.getCourseById(courseId);
+        JsonData jsonData = new JsonData();
+        if (course.getStudentList() == null ||
+                course.getStudentList().trim().length() == 0) {
+            jsonData.setStatus(-2);
+            try {
+                jsonData.setMessage(new String(java.net.URLEncoder.encode("本课程未导入学生", "UTF-8")));
+            } catch (UnsupportedEncodingException e) {
+                logger.error(e.getMessage());
+            }
+            jsonData.setData(new ArrayList<String>());
+            return JSONObject.fromObject(jsonData).toString();
+        }
+        List<Statistic> statisticList = statisticService.getSiginList(courseId, week);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        for (int i = 0; i < statisticList.size(); i++) {
+            Date d = statisticList.get(i).getSiginTime();
+            String newD = simpleDateFormat.format(d);
+            String stuId = statisticList.get(i).getStuId();
+            statisticList.get(i).setStuId(stuId + "_" + newD);
+
+            try {
+                String stuName = new String(java.net.URLEncoder.encode(statisticList.get(i).getStuName(), "UTF-8"));
+                statisticList.get(i).setStuName(stuName);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+        }
+        jsonData.setStatus(1);
+        jsonData.setData(statisticList);
+        return JSONObject.fromObject(jsonData).toString();
+    }
+
+    @RequestMapping(value = "sigin/unsigin_list.html")
+    public ModelAndView unSiginList(HttpServletRequest request, ModelAndView modelAndView) {
+        int teacherId = (Integer) request.getSession().getAttribute("teacherId");
+        if ( request.getSession().getAttribute("week") == null) {
+            modelAndView.addObject("weekSet", -2);
+            return modelAndView;
+        }
+        int week = (Integer) request.getSession().getAttribute("week");
+        List<Course> courseList = courseService.getCourseList(teacherId);
+        if (courseList == null || courseList.isEmpty() || request.getSession().getAttribute("week") == null
+                || courseList.get(0).getStudentList() == null
+                || courseList.get(0).getStudentList().trim().length() == 0) {
+            modelAndView.addObject("importStudent", -2);
+            modelAndView.addObject("courseList", courseList);
+            modelAndView.addObject("week", week);
+            return modelAndView;
+        }
+        int courseId = courseList.get(0).getCourseId();
+
+        List<String> stuIdList = Arrays.asList(courseList.get(0).getStudentList().split(Constant.courseStuIdSeperator));
+        List<String> unSiginStuIdList = statisticService.getUnSiginStuIdList(courseId, week, stuIdList);
+        modelAndView.addObject("stuIdList", unSiginStuIdList);
+        modelAndView.addObject("courseList", courseList);
+        modelAndView.addObject("week", week);
+        modelAndView.addObject("weekSet", 1);
+        return modelAndView;
+    }
+    @RequestMapping(value = "sigin/getUnSiginStatisicByCourse.html", method = RequestMethod.POST)
+    @ResponseBody
+    public String getUnSiginStatisicByCourse(HttpServletRequest request,
+                                             @RequestParam("courseId") int courseId,
+                                             @RequestParam("week") int week) {
+        Course course = courseService.getCourseById(courseId);
+        JsonData jsonData = new JsonData();
+        if (course.getStudentList() == null || course.getStudentList().trim().length() == 0) {
+            jsonData.setStatus(-2); //未导入学生
+            try {
+                jsonData.setMessage(new String(java.net.URLEncoder.encode("本课程未导入学生", "UTF-8")));
+                jsonData.setData(new ArrayList<String>());
+            } catch (UnsupportedEncodingException e) {
+               logger.error(e.getMessage());
+            }
+            return JSONObject.fromObject(jsonData).toString();
+        }
+        List<String> stuIdList = Arrays.asList(course.getStudentList().split(Constant.courseStuIdSeperator));
+        List<String> unSiginStuList = statisticService.getUnSiginStuIdList(courseId, week, stuIdList);
+        jsonData.setStatus(1);
+        jsonData.setData(unSiginStuList);
+        return JSONObject.fromObject(jsonData).toString();
+    }
     @RequestMapping("sigin/search_all.html")
     public ModelAndView searchAllPage(ModelAndView modelAndView, HttpServletRequest request) {
         int teacherId = (Integer) request.getSession().getAttribute("teacherId");

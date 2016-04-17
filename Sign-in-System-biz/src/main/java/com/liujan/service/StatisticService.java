@@ -10,5 +10,6 @@ public interface StatisticService {
 	public List<Statistic> getSiginListByStuId(String stuId);
 	public int photoSigin(int courseId, int week, Map<String, Double> studentMap);
 	public Map<String, List<Integer>> getSiginListByCourse(int courseId);
+	public List<String> getUnSiginStuIdList(int courseId, int week, List<String> stuIdList);
 	
 }
