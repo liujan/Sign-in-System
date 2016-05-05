@@ -6,6 +6,7 @@ import com.liujan.entity.Statistic;
 import com.liujan.entity.StatisticExample;
 import com.liujan.mapper.CourseMapper;
 import com.liujan.mapper.StatisticMapper;
+import com.liujan.mapper.StudentMapper;
 import com.liujan.service.StatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class StatisticServiceImpl implements StatisticService {
 	private StatisticMapper statisticMapper;
     @Autowired
     private CourseMapper courseMapper;
+    @Autowired
+    private StudentMapper studentMapper;
 
 	@Override
 	public List<Statistic> getSiginList(int courseId, int week) {
@@ -43,11 +46,12 @@ public class StatisticServiceImpl implements StatisticService {
 			statisticExample.clear();
 			String stuId = student.getKey();
 			double con = student.getValue();
+            String stuName = studentMapper.selectByPrimaryKey(stuId).getName();
 			statisticExample.or().andStuIdEqualTo(stuId).andCourseIdEqualTo(courseId).andWeekEqualTo(week);
 			List<Statistic> statisticList = statisticMapper.selectByExample(statisticExample);
 			if (statisticList != null && statisticList.size() != 0) {
 				Statistic record = statisticList.get(0);
-				if (record.getConfidence() < con) {
+				if ((record.getConfidence() - con) > 0.0001) {
 					record.setConfidence(con);
 				}
 				result += statisticMapper.updateByPrimaryKey(record);
@@ -55,6 +59,7 @@ public class StatisticServiceImpl implements StatisticService {
 			else {
 				Statistic record = new Statistic();
 				record.setStuId(stuId);
+                record.setStuName(stuName);
 				record.setSiginTime(new Date());
 				record.setCourseId(courseId);
 				record.setConfidence(con);
