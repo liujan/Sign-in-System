@@ -30,13 +30,13 @@
         		     	</tr>
         		   </thead>
         		   <tbody>
-        		       #foreach($student in $studentList)
-        		   			<tr>
-        			        	<td>$!student.stuId</td>
-        			         	<td>$!student.name</td>
-								<td>$student.email</td>
-        		      		</tr>
-        		   		#end
+					   #foreach($statistic in $statisticList)
+						   <tr>
+							   <td>$statistic.stuId</td>
+							   <td>$statistic.siginTime</td>
+							   <td>$statistic.confidence</td>
+						   </tr>
+					   #end
         		   	</tbody>
         		</table>
         	</div>

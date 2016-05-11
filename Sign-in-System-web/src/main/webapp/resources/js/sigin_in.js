@@ -6,11 +6,11 @@ $(function(){
 		showAllError:true,
 		ajaxPost:true,
 		callback:function(data) {
-			var msg = decodeURI(data.message);
+			var msg = data.msg;
 			var status = data.status;
 			alert(msg);
 			
-			if (status == 1)
+			if (status == 200)
 				window.location.href="success.html";
 		}
 	});

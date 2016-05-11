@@ -1,7 +1,9 @@
 package com.liujan.service;
 
+import com.liujan.domain.Result;
+
 public interface InfoService {
 	public int getCourseId();
 	public int getWeek();
-	public int setCourseId(int courseId, int week, int teacherId);
+	public Result<Void> setCourseId(int courseId, int week, int teacherId);
 }

@@ -7,36 +7,69 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/resources/css/validform_style.css"/>
     <link rel="stylesheet" type="text/css" href="/resources/css/jquery.fileupload.css">
+
+    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/resources/js/bootstrap-dropdown.js"></script>
+    <script type="text/javascript" src="/resources/js/Validform_v5.3.2.js"></script>
+
 </head>
 <body>
     #parse("student/toolbar.vm")
 <div class="container">
-    	 <span class="btn btn-primary fileinput-button" onclick="clearBar()">
+    <form method="POST" enctype="multipart/form-data">
+         <span class="btn btn-primary fileinput-button">
             <i class="glyphicon glyphicon-plus"></i>
             <span>选择图片...</span>
              <!-- The file input field used as target for the file upload widget -->
-            <input id="fileupload" type="file" name="files[]" multiple>
+            <input id="file" type="file" name="file" onchange="showFileName(this)">
+
         </span>
+        <label id="filename"></label>
+    </form>
+    <br>
+    <button id="button" class="btn btn-info">upload</button>
     <br>
     <br>
     <!-- The global progress bar -->
-    <div id="progress" class="progress">
-        <div class="progress-bar progress-bar-success"></div>
-    </div>
     <!-- The container for the uploaded files -->
     <div id="files" class="files"></div>
-    <br>
 </div>
 </body>
-<script type="text/javascript" src="/resources/js/jquery.min.js"></script>
-<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-<script type="text/javascript" src="/resources/js/jquery.ui.widget.js"></script>
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script type="text/javascript" src="/resources/js/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script type="text/javascript" src="/resources/js/jquery.fileupload.js"></script>
-<script type="text/javascript" src="/resources/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/resources/js/fileupload.js"></script>
-<script type="text/javascript" src="/resources/js/bootstrap-dropdown.js"></script>
-<script type="text/javascript" src="/resources/js/Validform_v5.3.2.js"></script>
+<script>
+    function showFileName(e) {
+        var path = $(e).val();
+        var name = path.substring(path.lastIndexOf('\\') + 1);
+        $("#filename").text(name);
+    }
+</script>
+<script>
+    $("#button").click(function () {
+        var formData = new FormData();
+        formData.append("file", $("#file")[0].files[0]);
+        var url = "upload_photo.html";
+        jQuery.ajax({
+            url: url,
+            type: "post",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                data = eval("(" + data + ")");
+                var status = data.status;
+                var fileName = data.data;
+                if (status == 200) {
+                    $("#files").after(fileName + "上传成功<br>");
+                }
+                else {
+                    $("#files").after(fileName + "上传失败<br>");
+                }
+            },
+            error: function (data) {
+                alert("error");
+            }
+        });
+    });
+
+</script>
+
 </html>

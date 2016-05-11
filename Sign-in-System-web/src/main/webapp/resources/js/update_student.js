@@ -6,12 +6,13 @@ $(function(){
 		showAllError:true,
 		ajaxPost:true,
 		callback:function(data) {
-			var msg = decodeURI(data.message);
 			var status = data.status;
-			alert(msg);
-			if (status == 1) {
+			if (status == 200) {
+				alert("修改成功");
 				window.location.href="my_info.html";
 			}
+			else
+				alert("修改失败");
 		}
 	});
 	

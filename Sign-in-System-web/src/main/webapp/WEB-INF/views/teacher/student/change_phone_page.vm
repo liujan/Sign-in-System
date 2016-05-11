@@ -41,12 +41,13 @@
             showAllError: true,
             ajaxPost: true,
             callback: function (data) {
-                var msg = decodeURI(data.message);
                 var status = data.status;
-                alert(msg);
-                if (status == 1) {
+                if (status == 200) {
                     document.getElementById("stuId").value = "";
+                    alert("修改成功");
                 }
+                else
+                    alert("修改失败");
             }
         });
 

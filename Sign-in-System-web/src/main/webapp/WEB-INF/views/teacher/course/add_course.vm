@@ -76,7 +76,7 @@
                 </span>
 
                 <label id="filename"></label>
-                <div><span id="tip">支持.csv, .xlsx</span></div>
+                <div><span id="tip">支持.csv, .xlsx(第一列为学号)</span></div>
             </div>
         </div>
     </form>
@@ -108,7 +108,7 @@
         formData.append("dayInWeek", $("#dayInWeek").val());
         formData.append("file", $("#file")[0].files[0]);
 
-        var url = "add_course_save.html";
+        var url = "add_course.html";
         jQuery.ajax({
             url: url,
             type: "post",
@@ -117,10 +117,10 @@
             contentType: false,
             success: function (data) {
                 var json = eval("(" + data + ")");
-                var msg = decodeURI(json.message);
+                var msg = decodeURI(json.msg);
                 var status = json.status;
                 alert(msg);
-                if (status == 1) {
+                if (status == 200) {
                     document.getElementById("courseName").value = "";
                     document.getElementById("beginTime").value = "09:50";
                     document.getElementById("endTime").value = "09:50";
@@ -130,7 +130,7 @@
                 }
             },
             error: function (data) {
-                alert("请选择学生文件");
+                alert("error");
             }
         });
     });

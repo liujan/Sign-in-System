@@ -1,32 +1,34 @@
 package com.liujan.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.liujan.constant.Constant;
+import com.liujan.domain.Result;
 import com.liujan.entity.Course;
 import com.liujan.entity.Statistic;
 import com.liujan.entity.Student;
 import com.liujan.entity.Teacher;
-import com.liujan.json.JsonData;
 import com.liujan.service.*;
-import com.liujan.util.*;
-import net.sf.json.JSONObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -47,44 +49,30 @@ public class StudentController {
     @Autowired
     private FaceService faceService;
 
-    @RequestMapping("index.html")//签到页面
-    public ModelAndView index(ModelAndView modelAndView, HttpServletRequest request) {
+    @RequestMapping(value = {"index.html", "signin.html"}, method = RequestMethod.GET)//签到页面
+    public ModelAndView index(ModelAndView modelAndView) {
         return modelAndView;
     }
 
-    @RequestMapping("login.html") //显示登陆界面
-    public ModelAndView showLoginPage(ModelAndView modelAndView, HttpServletRequest request) {
+    @RequestMapping(value = {"login.html"}, method = RequestMethod.GET) //显示登陆界面
+    public ModelAndView login(ModelAndView modelAndView) {
         return modelAndView;
     }
 
-    @RequestMapping("login_verify.html")
-    public
+    @RequestMapping(value = {"login.html"}, method = RequestMethod.POST)
     @ResponseBody
-    String login(ModelAndView modelAndView, HttpServletRequest request) {
-        String stuId = request.getParameter("stuId");
-        String pwd = request.getParameter("pwd");
-        int result = studentService.login(stuId, pwd);
-        JsonData jsonData = new JsonData();
-        jsonData.setStatus(result);
-        if (result != 1) {
-            String message;
-            try {
-                message = new String(java.net.URLEncoder.encode("学号或密码错误", "UTF-8"));
-                jsonData.setMessage(message);
-            } catch (UnsupportedEncodingException e) {
-                // TODO Auto-generated catch block
-                logger.error(e.getMessage());
-            }
-
-        } else {
-            String name = studentService.getStudentById(stuId).getName();
+    public String login(@RequestParam("stuId") String stuId,
+                        @RequestParam("pwd") String pwd,
+                        HttpServletRequest request) {
+        Result<Void> result = studentService.login(stuId, pwd);
+        int status = result.getStatus();
+        if (status == Result.Status.SUCCESS.getStatus()) {
             request.getSession().setAttribute("stuId", stuId);
-            request.getSession().setAttribute("name", name);
         }
-        return JSONObject.fromObject(jsonData).toString();
+        return JSON.toJSONString(result);
     }
 
-    @RequestMapping("logout.html")
+    @RequestMapping(value = {"logout.html"}, method = RequestMethod.GET)
     public ModelAndView logout(ModelAndView modelAndView, HttpServletRequest request) {
         request.getSession().removeAttribute("stuId");
         request.getSession().removeAttribute("name");
@@ -94,130 +82,38 @@ public class StudentController {
 
 
     //注册页面
-    @RequestMapping("register.html")
-    public ModelAndView register(ModelAndView modelAndView, HttpServletRequest request) {
+    @RequestMapping(value = {"register.html"}, method = RequestMethod.GET)
+    public ModelAndView register(ModelAndView modelAndView) {
         return modelAndView;
     }
 
-    @RequestMapping("register_save.html")
-    public
+    @RequestMapping(value = {"register.html"}, method = RequestMethod.POST)
     @ResponseBody
-    String registerSave(ModelAndView modelAndView, HttpServletRequest request) {
-        String osVersion = request.getHeader("User-Agent");
-        int flag = 1;
-        if (osVersion.contains("Macintosh") || osVersion.contains("macintosh") || ((osVersion.contains("Windows")
-                || osVersion.contains("windows")) && (osVersion.contains("NT") || osVersion.contains("nt") || osVersion.contains("Nt")))) {
-            flag = -1;
-        }
-        int result = 0;
-        try {
-            if (flag == 1) {
-                request.setCharacterEncoding("UTF-8");
-                String name = request.getParameter("name").trim();
-                String stuId = request.getParameter("stuId").trim();
-                String pwd = request.getParameter("pwd").trim();
-                String email = request.getParameter("email");
-                String macAddr = NetUtil.getMacAddress(request.getRemoteAddr());
-                result = studentService.Register(stuId, name, macAddr, pwd, email);
-            } else
-                result = -2;
-
-            String message = "";
-            JsonData jsonData = new JsonData();
-            if (result == 1 && flag == 1) {
-                jsonData.setStatus(1);
-                message = new String(java.net.URLEncoder.encode("注册成功", "UTF-8"));
-            } else {
-                jsonData.setStatus(-1);
-                if (result == -1)
-                    message = new String(java.net.URLEncoder.encode("该学号已被注册", "UTF-8"));
-                else if (result == -2)
-                    message = new String(java.net.URLEncoder.encode("请用手机端进行注册", "UTF-8"));
-                else
-                    message = new String(java.net.URLEncoder.encode("发生未知错误", "UTF-8"));
-            }
-            jsonData.setMessage(message);
-            return JSONObject.fromObject(jsonData).toString();
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
-            return null;
-        }
-
+    public String register(Student student, HttpServletRequest request) {
+        Result<Void> result = studentService.register(student, request);
+        return JSON.toJSONString(result);
     }
 
-    @RequestMapping("/siginin.html")
-    public
+    @RequestMapping(value = {"siginin.html"}, method = RequestMethod.POST)
     @ResponseBody
-    String SiginIn(ModelAndView modelAndView, HttpServletRequest request) {
-
-        String pwd = request.getParameter("pwd").trim();
-        String stuId = request.getParameter("stuId").trim();
-        String osVersion = request.getHeader("User-Agent");
-        int result = 0;
-        if (osVersion.contains("Macintosh") || osVersion.contains("macintosh") || ((osVersion.contains("Windows")
-                || osVersion.contains("windows")) && (osVersion.contains("NT") || osVersion.contains("nt") || osVersion.contains("Nt")))) {
-            result = -2;
-        }
-
-        String ip = request.getRemoteAddr();
-        String macAddr = NetUtil.getMacAddress(ip);
-        int courseId = infoService.getCourseId();
-        int week = infoService.getWeek();
-        String name = studentService.getStudentById(stuId).getName();
-
-        if (courseId == -1 || week == -1) {
-            result = -5;
-        } else if (macAddr == null || macAddr.isEmpty() || result != 0)
-            result = -2;
-        else {
-            result = studentService.SiginIn(stuId, name, pwd, macAddr, courseId, week);
-        }
-
-        try {
-            String message = "";
-            JsonData jsonData = new JsonData();
-            if (result == 1) {
-
-                name = new String(java.net.URLEncoder.encode(name, "UTF-8"));
-                message = new String(java.net.URLEncoder.encode("签到成功", "UTF-8"));
-                request.getSession().setAttribute("stuId", stuId);
-                request.getSession().setAttribute("courseId", courseId);
-                request.getSession().setAttribute("name", name);
-                request.getSession().setAttribute("week", week);
-            } else {
-                if (result == 0)
-                    message = new String(java.net.URLEncoder.encode("发生未知错误", "UTF-8"));
-                else if (result == -1)
-                    message = new String(java.net.URLEncoder.encode("该学号为注册，请先注册", "UTF-8"));
-                else if (result == -2)
-                    message = new String(java.net.URLEncoder.encode("请用本人的手机签到", "UTF-8"));
-                else if (result == -3)
-                    message = new String(java.net.URLEncoder.encode("密码不对", "UTF-8"));
-                else
-                    message = new String(java.net.URLEncoder.encode("老师还没登陆，请稍后再签到", "UTF-8"));
-            }
-
-            jsonData.setStatus(result);
-            jsonData.setMessage(message);
-            return JSONObject.fromObject(jsonData).toString();
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
-            return null;
-        }
-
+    public String siginIn(@RequestParam("stuId") String stuId,
+                          @RequestParam("pwd") String pwd,
+                          HttpServletRequest request) {
+        Result<Void> result = studentService.siginIn(stuId, pwd, request);
+        return JSON.toJSONString(result);
     }
 
     @RequestMapping("success.html")
     public ModelAndView SiginInSuccess(ModelAndView modelAndView, HttpServletRequest request) {
-        String name = (String) request.getSession().getAttribute("name");
+        String stuName = (String) request.getSession().getAttribute("name");
         try {
-            name = new String(java.net.URLDecoder.decode(name, "UTF-8"));
+            stuName = new String(java.net.URLDecoder.decode(stuName, "UTF-8"));
             String stuId = (String) request.getSession().getAttribute("stuId");
             int courseId = (Integer) request.getSession().getAttribute("courseId");
             String courseName = courseService.getCourseById(courseId).getCourseName();
             String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:EEEE").format(new Date());
 
-            modelAndView.addObject("studentName", name);
+            modelAndView.addObject("studentName", stuName);
             modelAndView.addObject("stuId", stuId);
             modelAndView.addObject("courseName", courseName);
             modelAndView.addObject("currentTime", currentTime);
@@ -243,9 +139,8 @@ public class StudentController {
         return modelAndView;
     }
 
-    @RequestMapping("search.html")
-    public ModelAndView search(ModelAndView modelAndView, HttpServletRequest request) {
-        int courseId = Integer.parseInt(request.getParameter("course"));
+    @RequestMapping(value = {"search.html"}, method = RequestMethod.GET)
+    public ModelAndView search(@RequestParam("courseId")int courseId, ModelAndView modelAndView, HttpServletRequest request) {
         Course course = courseService.getCourseById(courseId);
         String stuId = (String) request.getSession().getAttribute("stuId");
         List<Statistic> statisticList = statisticService.getSiginListByStuId(stuId);
@@ -254,28 +149,14 @@ public class StudentController {
         return modelAndView;
     }
 
-    @RequestMapping("change_course.html")
-    public
+    @RequestMapping(value = {"change_course.html"}, method = RequestMethod.POST)
     @ResponseBody
-    String changeCourse(ModelAndView modelAndView, HttpServletRequest request) {
-        int teacherId = Integer.parseInt(request.getParameter("teacherId"));
-        List<Course> courseList = courseService.getCourseList(teacherId);
-        try {
-            for (int i = 0; i < courseList.size(); i++) {
-                String courseName = new String(java.net.URLEncoder.encode(courseList.get(i).getCourseName(), "UTF-8"));
-                courseList.get(i).setCourseName(courseName);
-            }
-            JsonData jsonData = new JsonData();
-            jsonData.setData(courseList);
-            return JSONObject.fromObject(jsonData).toString();
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
-            return null;
-        }
-
+    public String changeCourse(@RequestParam("teacherId") int teacherId) {
+        Result<List<Course>> result = courseService.getCourseListByTeacherId(teacherId);
+        return JSON.toJSONString(result);
     }
 
-    @RequestMapping("info/my_info.html")
+    @RequestMapping(value = {"info/my_info.html"}, method = RequestMethod.GET)
     public ModelAndView showMyInfo(ModelAndView modelAndView, HttpServletRequest request) {
         String stuId = (String) request.getSession().getAttribute("stuId");
         Student student = studentService.getStudentById(stuId);
@@ -283,7 +164,7 @@ public class StudentController {
         return modelAndView;
     }
 
-    @RequestMapping("info/update_info.html")
+    @RequestMapping(value = {"info/update_info.html"}, method = RequestMethod.GET)
     public ModelAndView updateInfo(ModelAndView modelAndView, HttpServletRequest request) {
         String stuId = (String) request.getSession().getAttribute("stuId");
         Student student = studentService.getStudentById(stuId);
@@ -291,110 +172,24 @@ public class StudentController {
         return modelAndView;
     }
 
-    @RequestMapping("info/update_save.html")
-    public
+    @RequestMapping(value = {"info/update_info.html"}, method = RequestMethod.POST)
     @ResponseBody
-    String updateSave(ModelAndView modelAndView, HttpServletRequest request) {
-        String name = request.getParameter("name").trim();
-        String email = request.getParameter("email").trim();
-        String userPwd = request.getParameter("userPwd");
-        String stuId = (String) request.getSession().getAttribute("stuId");
-        int result = studentService.updateInfo(stuId, name, email, userPwd);
-        JsonData jsonData = new JsonData();
-
-        try {
-            if (result == 1)
-                jsonData.setMessage(new String(java.net.URLEncoder.encode("修改成功", "UTF-8")));
-            else
-                jsonData.setMessage(new String(java.net.URLEncoder.encode("修改失败", "UTF-8")));
-            jsonData.setStatus(result);
-
-            return JSONObject.fromObject(jsonData).toString();
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
-            return null;
-        }
+    public String updateInfo(Student student) {
+        Result<Void> result = studentService.updateInfo(student);
+        return JSON.toJSONString(result);
     }
 
-    @RequestMapping("photo/upload_photo_page.html")
-    public ModelAndView showUploadPhotoPage(ModelAndView modelAndView, HttpServletRequest request) {
+    @RequestMapping(value = {"photo/upload_photo_page.html"}, method = RequestMethod.GET)
+    public ModelAndView showUploadPhotoPage(ModelAndView modelAndView) {
         return modelAndView;
     }
 
-    @RequestMapping("photo/upload_photo.html")
-    public
+    @RequestMapping(value = {"photo/upload_photo.html"}, method = RequestMethod.POST)
     @ResponseBody
-    String uploadPhoto(ModelAndView modelAndView, HttpServletRequest request) {
-        String fileName = "";
-        boolean uploadResult = false;
-        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
-                request.getSession().getServletContext());
-
-        // 先判断request中是否包涵multipart类型的数据，
-        if (multipartResolver.isMultipart(request)) {
-            // 再将request中的数据转化成multipart类型的数据
-            String stuId = (String) request.getSession().getAttribute("stuId");
-            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-            Iterator<String> iter = multiRequest.getFileNames();
-            while (iter.hasNext()) {
-                MultipartFile file = multiRequest.getFile((String) iter.next());
-                if (file != null) {
-                    Date date = new Date();
-                    int r = (int) (Math.random() * 1000);
-                    String originalName = file.getOriginalFilename();
-                    String suffix = originalName.substring(originalName.lastIndexOf(".")); //文件后缀名
-                    fileName = date.getTime() + "_" + r + "_" + stuId + suffix;
-                    if (fileName == null || fileName.equals("")) {
-                        continue;
-                    }
-                    String path = Constant.IMAGE_PATH + stuId + "/" + fileName;
-                    //判断图片文件夹和压缩图片的文件夹是否存在，不存在则创建
-                    File isImageExists = new File(Constant.IMAGE_PATH + stuId + "/");
-                    if (!isImageExists.isDirectory()) {
-                        isImageExists.mkdirs();
-                    }
-                    File isCompressExists = new File(Constant.COMPRESS_IMAGE_PATH + stuId + "/");
-                    if (!isCompressExists.exists()) {
-                        isCompressExists.mkdirs();
-                    }
-                    File localFile = new File(path);
-
-                    try {
-                        // 写文件到本地
-                        boolean result = faceService.addPhotoByStuId(stuId, fileName);
-                        if (result) {
-                            file.transferTo(localFile);
-                            String compressName = Constant.COMPRESS_IMAGE_PATH + stuId + "/" + fileName;
-                            ImageUtil.compressImage(Constant.IMAGE_PATH + stuId + "/" + fileName, compressName);
-                            uploadResult = true;
-                        }
-                        fileName = file.getOriginalFilename();
-
-                    } catch (IllegalStateException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-
-        try {
-            JsonData jsonData = new JsonData();
-            if (uploadResult) {
-                jsonData.setStatus(1);
-                jsonData.setMessage(java.net.URLEncoder.encode(fileName + "上传成功", "UTF-8"));
-            } else {
-                jsonData.setStatus(0);
-                jsonData.setMessage(java.net.URLEncoder.encode(fileName + "上传失败", "UTF-8"));
-            }
-            return JSONObject.fromObject(jsonData).toString();
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
-            return null;
-        }
+    public String uploadPhoto(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+        String stuId = (String) request.getSession().getAttribute("stuId");
+        Result<String> result = faceService.addPhotoByStuId(stuId, file);
+        return JSON.toJSONString(result);
     }
 
     @RequestMapping("photo/photo_list.html")
@@ -407,8 +202,8 @@ public class StudentController {
     }
 
     @RequestMapping("photo/getPhoto.html")
-    public void getPhoto(HttpServletRequest request, HttpServletResponse response) {
-        String path = request.getParameter("path");
+    public void getPhoto(HttpServletRequest request, HttpServletResponse response,
+                         @RequestParam("path")String path) {
         if (path == null) {
             return;
         }
@@ -427,77 +222,33 @@ public class StudentController {
             }
             outputStream.close();
             inputStream.close();
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
-            logger.error(e.getMessage());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error("get photo error!", e);
         }
-
     }
 
     @RequestMapping("photo/deletePhotoByName.html")
-    public
     @ResponseBody
-    String deletePhotoByName(ModelAndView modelAndView, HttpServletRequest request) {
-        String photo = request.getParameter("photo");
-        if (photo == null || photo.trim().equals("")) {
-            return null;
-        }
+    public String deletePhotoByName(@RequestParam("photo")String photo, HttpServletRequest request) {
         String stuId = (String) request.getSession().getAttribute("stuId");
-        boolean flag = faceService.deletePhoto(stuId, photo);
-
-        try {
-            JsonData jsonData = new JsonData();
-            String message;
-            if (flag) {
-                jsonData.setStatus(1);
-                message = new String(java.net.URLEncoder.encode("删除成功", "UTF-8"));
-            } else {
-                jsonData.setStatus(0);
-                message = new String(java.net.URLEncoder.encode("删除失败", "UTF-8"));
-            }
-            jsonData.setMessage(message);
-            return JSONObject.fromObject(jsonData).toString();
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
-            return null;
-        }
+        Result<Void> result = faceService.deletePhoto(stuId, photo);
+        return JSON.toJSONString(result);
     }
 
     @RequestMapping("photo/deleteMultiPhoto.html")
-    public
     @ResponseBody
-    String deleteMultiPhoto(ModelAndView modelAndView, HttpServletRequest request) {
+    public String deleteMultiPhoto(@RequestParam("photo")String photo, HttpServletRequest request) {
         String stuId = (String) request.getSession().getAttribute("stuId");
-        String[] photos = request.getParameter("photo").split(";");
+        String[] photos = photo.split(";");
+
         List<String> photoList = new ArrayList<String>();
         for (int i = 0; i < photos.length; i++) {
             photoList.add(photos[i]);
         }
 
-        boolean flag = faceService.deleteMultiPhoto(stuId, photoList);
-
-        try {
-            JsonData jsonData = new JsonData();
-            String message;
-
-            if (flag) {
-                message = new String(java.net.URLEncoder.encode("删除成功", "UTF-8"));
-                jsonData.setStatus(1);
-            } else {
-                message = new String(java.net.URLEncoder.encode("删除失败", "UTF-8"));
-                jsonData.setStatus(0);
-            }
-            jsonData.setMessage(message);
-            return JSONObject.fromObject(jsonData).toString();
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
-            return null;
-        }
+        Result<Void> result = faceService.deleteMultiPhoto(stuId, photoList);
+        return JSON.toJSONString(result);
     }
 
 }

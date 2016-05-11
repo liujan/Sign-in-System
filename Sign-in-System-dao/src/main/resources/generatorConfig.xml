@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration >
-    <classPathEntry location="/Users/liujan/Documents/idea workspace/SignInSystem/resource/sqlite-jdbc-3.8.7.jar" />
+    <classPathEntry location="/Users/liujan/Documents/idea workspace/Sign-in-System/resources/sqlite-jdbc-3.8.7.jar" />
     <context id="spring" >
         <jdbcConnection driverClass="org.sqlite.JDBC" connectionURL="jdbc:sqlite:/Users/liujan/Documents/idea workspace/Sign-in-System/resources/db_si.db" userId="" password="" ></jdbcConnection>
         <javaModelGenerator targetPackage="com.liujan.entity" targetProject="src/main/java"></javaModelGenerator>
@@ -23,7 +23,7 @@
         <table schema="" tableName="statistic">
             <columnOverride column="statistic_id"  javaType="Integer"/>
             <columnOverride column="course_id"  javaType="Integer"/>
-            <columnOverride column="sigin_time"  javaType="Date"/>
+            <columnOverride column="sigin_time"  javaType="String"/>
             <columnOverride column="week"  javaType="int"/>
         </table>
         <table schema="" tableName="info">

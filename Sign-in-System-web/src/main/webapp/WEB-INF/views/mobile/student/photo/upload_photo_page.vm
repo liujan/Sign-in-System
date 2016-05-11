@@ -19,23 +19,23 @@
 <main>
     <section class="cd-section index cd-selected">
         <div class="cd-content">
-            <div class="photo_form">
-				<span class="btn btn-primary fileinput-button" onclick="clearBar()">
+            <form method="POST" enctype="multipart/form-data">
+                 <span class="btn btn-primary fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>
                     <span>选择图片...</span>
-                    <!-- The file input field used as target for the file upload widget -->
-                    <input id="fileupload" type="file" name="files[]" multiple>
+                     <!-- The file input field used as target for the file upload widget -->
+                    <input id="file" type="file" name="file" onchange="showFileName(this)">
+
                 </span>
-                <br>
-                <br>
-                <!-- The global progress bar -->
-                <div id="progress" class="progress">
-                    <div class="progress-bar progress-bar-success"></div>
-                </div>
-                <!-- The container for the uploaded files -->
-                <div id="files" class="files"></div>
-                <br>
-            </div>
+                <label id="filename"></label>
+            </form>
+            <br>
+            <button id="button" class="btn btn-info">upload</button>
+            <br>
+            <br>
+            <!-- The global progress bar -->
+            <!-- The container for the uploaded files -->
+            <div id="files" class="files"></div>
         </div>
     </section>
 </main>
@@ -49,13 +49,41 @@
 <script src="/resources/js/mobile/student/home/main.js"></script>
 <script src="/resources/js/mobile/student/home/index.js"></script>
 <script src="/resources/js/mobile/student/home/modernizr.js"></script>
+<script>
+    function showFileName(e) {
+        var path = $(e).val();
+        var name = path.substring(path.lastIndexOf('\\') + 1);
+        $("#filename").text(name);
+    }
+</script>
+<script>
+    $("#button").click(function () {
+        var formData = new FormData();
+        formData.append("file", $("#file")[0].files[0]);
+        var url = "upload_photo.html";
+        jQuery.ajax({
+            url: url,
+            type: "post",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                data = eval("(" + data + ")");
+                var status = data.status;
+                var fileName = data.data;
+                if (status == 200) {
+                    $("#files").after(fileName + "上传成功<br>");
+                }
+                else {
+                    $("#files").after(fileName + "上传失败<br>");
+                }
+            },
+            error: function (data) {
+                alert("error");
+            }
+        });
+    });
 
-<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-<script src="/resources/js/jquery.ui.widget.js"></script>
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="/resources/js/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="/resources/js/jquery.fileupload.js"></script>
-<script src="/resources/js/bootstrap.min.js"></script>
-<script src="/resources/js/fileupload.js"></script>
+</script>
+
 </html>

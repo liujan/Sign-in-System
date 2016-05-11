@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label"><span class="need">*</span>教师：</label>
                     <div class="col-sm-3">
-                        <select class="form-control" name="teacher" id="teacher" onchange="change(this.value)">
+                        <select class="form-control" name="teacherId" id="teacher" onchange="change(this.value)">
                             <option value="-1">请选择老师</option>
                             #foreach($teacher in $teacherList)
                                 <option value="${teacher.teacherId}">${teacher.teacherName}</option>
@@ -34,7 +34,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label"><span class="need">*</span>课程：</label>
                     <div class="col-sm-3">
-                        <select class="form-control" name="course" id="course">
+                        <select class="form-control" name="courseId" id="course">
                         </select>
                     </div>
                 </div>

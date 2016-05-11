@@ -66,14 +66,14 @@
                 data: "stuId=" + stuId,
                 success: function (data) {
                     var json = eval("(" + data + ")");
-                    var msg = decodeURI(json.message);
                     var status = json.status;
-                    alert(msg);
-                    if (status == 1) {
+                    if (status == 200) {
                         var tb = document.getElementById("student");
                         var tr = document.getElementById(stuId);
                         tb.deleteRow(tr.rowIndex);
                     }
+                    else
+                            alert("删除失败");
                 },
                 error: function () {
                     alert("发生未知错误,删除失败");

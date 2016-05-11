@@ -32,23 +32,20 @@
             <artifactId>spring-tx</artifactId>
         </dependency>
         <!-- spring end -->
-        <!-- log -->
+        <!--log-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.7</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.1.6</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>1.1.7</version>
         </dependency>
-        <!-- log end -->
+        <!--log end-->
         <!-- velocity -->
         <dependency>
             <groupId>org.apache.velocity</groupId>
@@ -62,9 +59,8 @@
         </dependency>
         <!-- velocity end -->
         <dependency>
-            <groupId>net.sf.json-lib</groupId>
-            <artifactId>json-lib</artifactId>
-            <classifier>jdk15</classifier>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
         </dependency>
 
         <dependency>

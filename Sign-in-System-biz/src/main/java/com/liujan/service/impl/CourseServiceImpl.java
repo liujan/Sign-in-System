@@ -1,13 +1,13 @@
 package com.liujan.service.impl;
 
 import com.liujan.constant.Constant;
+import com.liujan.domain.Result;
 import com.liujan.entity.*;
 import com.liujan.mapper.CourseMapper;
 import com.liujan.mapper.InfoMapper;
 import com.liujan.mapper.StatisticMapper;
 import com.liujan.mapper.StudentMapper;
 import com.liujan.service.CourseService;
-import com.sun.org.apache.regexp.internal.RE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 @Service("courseService")
 public class CourseServiceImpl implements CourseService {
@@ -50,53 +49,74 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public List<Course> getCourseList(int teacherId) {
-		courseExample.clear();
-		courseExample.or().andTeacherIdEqualTo(teacherId);
-		return courseMapper.selectByExample(courseExample);
+	public Result<List<Course>> getCourseListByTeacherId(int teacherId) {
+		Result<List<Course>> result = new Result<List<Course>>();
+		try {
+			courseExample.clear();
+			courseExample.or().andTeacherIdEqualTo(teacherId);
+			List<Course> courseList = courseMapper.selectByExample(courseExample);
+			return result.status(Result.Status.SUCCESS).data(courseList);
+		}
+		catch (Exception e) {
+			logger.error("get course list by teacherId error!", e);
+			return result.status(Result.Status.ERROR);
+		}
 	}
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
-	public int deleteCourseById(int courseId, int teacherId) {
-		statisticExample.clear();
-		statisticExample.or().andCourseIdEqualTo(courseId);
-		statisticMapper.deleteByExample(statisticExample);
-		
-		infoExample.clear();
-		infoExample.or().andCourseIdEqualTo(courseId).andTeacherIdEqualTo(teacherId);
-		List<Info> infoList = infoMapper.selectByExample(infoExample);
-		if (infoList != null && !infoList.isEmpty()) {
-			for (Info info : infoList) {
-				int infoId = info.getId();
-				infoMapper.deleteByPrimaryKey(infoId);
-			}
-		}
-		
-		return courseMapper.deleteByPrimaryKey(courseId);
+	public Result<Void> deleteCourseById(int courseId, int teacherId) {
+        Result<Void> result = new Result<Void>();
+        try {
+            statisticExample.clear();
+            statisticExample.or().andCourseIdEqualTo(courseId);
+            statisticMapper.deleteByExample(statisticExample);
+
+            infoExample.clear();
+            infoExample.or().andCourseIdEqualTo(courseId).andTeacherIdEqualTo(teacherId);
+            List<Info> infoList = infoMapper.selectByExample(infoExample);
+            if (infoList != null && !infoList.isEmpty()) {
+                for (Info info : infoList) {
+                    int infoId = info.getId();
+                    infoMapper.deleteByPrimaryKey(infoId);
+                }
+            }
+            int count = courseMapper.deleteByPrimaryKey(courseId);
+            if (count > 0)
+                return result.status(Result.Status.SUCCESS);
+            else
+                return result.status(Result.Status.ERROR);
+        }
+        catch (Exception e) {
+            logger.error("delete course by id error!", e);
+            return result.status(Result.Status.ERROR);
+        }
 	}
 
 	@Override
-	public int addCourse(String courseName, String beginTime, String endTime,
-			int dayInWeek, int teacherId, List<String> stuIdList) throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-		Course course = new Course();
-		course.setCourseName(courseName);
-		course.setBeginTime(sdf.parse(beginTime));
-		course.setEndTime(sdf.parse(endTime));
-		course.setDayInWeek(dayInWeek);
-		course.setTeacherId(teacherId);
-		StringBuilder sb = new StringBuilder();
-		if (stuIdList != null) {
-            for (String stuId : stuIdList) {
-                sb.append(stuId + Constant.courseStuIdSeperator);
+	public Result<Void> addCourse(Course course, List<String> stuIdList) {
+		Result<Void> result = new Result<Void>();
+        try {
+            StringBuilder sb = new StringBuilder();
+            if (stuIdList != null) {
+                for (String stuId : stuIdList) {
+                    sb.append(stuId + Constant.courseStuIdSeperator);
+                }
+                if (sb.toString().endsWith(Constant.courseStuIdSeperator)) {
+                    sb.deleteCharAt(sb.length()-1);
+                }
+                course.setStudentList(sb.toString());
             }
-           if (sb.toString().endsWith(Constant.courseStuIdSeperator)) {
-               sb.deleteCharAt(sb.length()-1);
-           }
-            course.setStudentList(sb.toString());
+            int count =  courseMapper.insertSelective(course);
+            if (count > 0)
+                return result.status(Result.Status.SUCCESS);
+            else
+                return result.status(Result.Status.ERROR);
         }
-		return courseMapper.insertSelective(course);
+        catch (Exception e) {
+            logger.error("add course error!", e);
+            return result.status(Result.Status.ERROR);
+        }
 	}
 
 	@Override
@@ -107,62 +127,85 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public List<String> getStudentByCourseId(int courseId) {
-		Course course = courseMapper.selectByPrimaryKey(courseId);
-		if (course == null || course.getStudentList() == null
-				|| course.getStudentList().isEmpty()) {
-			return new ArrayList<String>();
-		}
-		String[] stuIds = course.getStudentList().split(Constant.courseStuIdSeperator);
-		return  Arrays.asList(stuIds);
+	public Result<List<String>> getStudentByCourseId(int courseId) {
+        Result<List<String>> result = new Result<List<String>>();
+        try {
+            Course course = courseMapper.selectByPrimaryKey(courseId);
+            if (course == null || course.getStudentList() == null
+                    || course.getStudentList().isEmpty()) {
+                return result.status(Result.Status.SUCCESS);
+            }
+            String[] stuIds = course.getStudentList().split(Constant.courseStuIdSeperator);
+            return result.status(Result.Status.SUCCESS).data(Arrays.asList(stuIds));
+        }
+        catch (Exception e) {
+            logger.error("get student by courseId error!", e);
+            return result.status(Result.Status.ERROR);
+        }
+
 	}
 
     @Override
-    public int deleteCourseStudent(String stuId, int courseId) {
-        System.out.println(stuId);
-        Course course = courseMapper.selectByPrimaryKey(courseId);
-        if (course == null || course.getStudentList() == null) {
-            return 0;
-        }
-        String[] stuIds = course.getStudentList().split(Constant.courseStuIdSeperator);
-        StringBuilder newStuIdsb = new StringBuilder();
-        for (String id : stuIds) {
-            if (!id.equals(stuId)) {
-                newStuIdsb.append(id + Constant.courseStuIdSeperator);
+    public Result<Void> deleteCourseStudent(String stuId, int courseId) {
+        Result<Void> result = new Result<Void>();
+        try {
+            Course course = courseMapper.selectByPrimaryKey(courseId);
+            String[] stuIds = course.getStudentList().split(Constant.courseStuIdSeperator);
+            StringBuilder newStuIdsb = new StringBuilder();
+            for (String id : stuIds) {
+                if (!id.equals(stuId)) {
+                    newStuIdsb.append(id + Constant.courseStuIdSeperator);
+                }
             }
+            String newStuIds = newStuIdsb.toString();
+            if (!newStuIds.isEmpty()) {
+                newStuIds = newStuIds.substring(0, newStuIds.length()-1);
+            }
+            course.setStudentList(newStuIds);
+            int count =  courseMapper.updateByPrimaryKeySelective(course);
+            if (count > 0)
+                return result.status(Result.Status.SUCCESS);
+            else
+                return result.status(Result.Status.ERROR);
         }
-        String newStuIds = newStuIdsb.toString();
-        if (!newStuIds.isEmpty()) {
-            newStuIds = newStuIds.substring(0, newStuIds.length()-1);
+        catch (Exception e) {
+            logger.error("delete course student error!", e);
+            return result.status(Result.Status.ERROR);
         }
-        course.setStudentList(newStuIds);
-        return courseMapper.updateByPrimaryKeySelective(course);
+
     }
 
     @Override
-    public int addStudentToCourse(List<String> stuIdList, int courseId) {
-        Course course = courseMapper.selectByPrimaryKey(courseId);
-        if (course == null || stuIdList == null) {
-            return 0;
-        }
-
-        if (course.getStudentList() != null) {
-            String[] stuIds = course.getStudentList().split(Constant.courseStuIdSeperator);
-            for (String stuId : stuIds) {
-                if (!stuIdList.contains(stuId) && stuId.trim().length() > 0) {
-                    stuIdList.add(stuId);
+    public Result<Void> addStudentToCourse(List<String> stuIdList, int courseId) {
+        Result<Void> result = new Result<Void>();
+        try {
+            Course course = courseMapper.selectByPrimaryKey(courseId);
+            if (course.getStudentList() != null) {
+                String[] stuIds = course.getStudentList().split(Constant.courseStuIdSeperator);
+                for (String stuId : stuIds) {
+                    if (!stuIdList.contains(stuId) && stuId.trim().length() > 0) {
+                        stuIdList.add(stuId);
+                    }
                 }
             }
+            StringBuilder sb = new StringBuilder();
+            for (String stuId : stuIdList) {
+                sb.append(stuId + Constant.courseStuIdSeperator);
+            }
+            String newStuids = sb.toString();
+            if (!newStuids.isEmpty()) {
+                newStuids = newStuids.substring(0, newStuids.length()-1);
+            }
+            course.setStudentList(newStuids);
+            int count = courseMapper.updateByPrimaryKeySelective(course);
+            if (count > 0)
+                return result.status(Result.Status.SUCCESS);
+            else
+                return result.status(Result.Status.ERROR);
         }
-        StringBuilder sb = new StringBuilder();
-        for (String stuId : stuIdList) {
-            sb.append(stuId + Constant.courseStuIdSeperator);
+        catch (Exception e) {
+            logger.error("add student to course error!", e);
+            return result.status(Result.Status.ERROR);
         }
-        String newStuids = sb.toString();
-        if (!newStuids.isEmpty()) {
-            newStuids = newStuids.substring(0, newStuids.length()-1);
-        }
-        course.setStudentList(newStuids);
-        return courseMapper.updateByPrimaryKeySelective(course);
     }
 }

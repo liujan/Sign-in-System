@@ -15,7 +15,7 @@
 <body>
     #parse("teacher/toolbar.vm")
 <div class="add1">
-    <form class="form-horizontal" method="post" id="teacher_info" action="update_save.html">
+    <form class="form-horizontal" method="post" id="teacher_info" action="update_info.html">
         <div class="form-group">
 
             <label for="userName" class="col-sm-2 control-label"> <span class="need">*</span>用户名：</label>

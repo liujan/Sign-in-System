@@ -7,11 +7,6 @@
 	<link rel="stylesheet" type="text/css" href="/resources/css/validform_style.css"/>
 	<link rel="stylesheet" type="text/css" href="/resources/css/demo.css"/>
 	<link ref="stylesheet" type="text/css" href="/resources/css/style.css" />
-
-	<script type="text/javascript" src="/resources/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/resources/js/Validform_v5.3.2.js"> </script>
-	<script type="text/javascript" src="/resources/js/sigin_in.js"></script>
-
 </head>
  <body>
     <div class="bg"></div>
@@ -28,12 +23,37 @@
                 <label for="pwd">密码:</label>
                 <input type="password" name="pwd" id="pwd" placeholder="密码" />
             </div>
-            <div>               
-                <button type="submit" id="login">签到</button>
+            <div>
+                <button type="submit" id="login" >签到</button>
             </div>
         </form>
+
 	<a href="login.html">登陆 </a>
 	<a href="register.html">注册 </a>
     </div>
 </body>
+<script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="/resources/js/Validform_v5.3.2.js"> </script>
+<script type="text/javascript" src="/resources/js/sigin_in.js"></script>
+<script>
+    function signIn() {
+        var stuId = $("#stuId").val();
+        var pwd = $("#pwd").val();
+        jQuery.ajax({
+            url: "siginin.html",
+            type: "post",
+            data: "stuId=" + stuId + "&pwd=" + pwd,
+            success: function (data) {
+                data = eval('(' + data + ')');
+                var status = data.status;
+                var msg = data.msg;
+                alert(msg);
+            },
+            error: function (data) {
+                alert("error");
+            }
+        });
+    }
+
+</script>
 </html>

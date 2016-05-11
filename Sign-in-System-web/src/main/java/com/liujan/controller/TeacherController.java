@@ -1,15 +1,15 @@
 package com.liujan.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.liujan.constant.Constant;
+import com.liujan.domain.Result;
 import com.liujan.entity.Course;
 import com.liujan.entity.Statistic;
 import com.liujan.entity.Student;
 import com.liujan.entity.Teacher;
-import com.liujan.json.JsonData;
 import com.liujan.service.*;
-import com.liujan.util.FaceUtil;
-import com.liujan.util.MailSender;
-import net.sf.json.JSONObject;
+import com.liujan.util.*;
+import com.liujan.util.DateUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -18,20 +18,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("teacher")
@@ -50,87 +49,54 @@ public class TeacherController {
     @Autowired
     private MailSender mailSender;
 
-    @RequestMapping("home.html")
+    @RequestMapping(value = {"home.html"}, method = RequestMethod.GET)
     public ModelAndView home(ModelAndView modelAndView, HttpServletRequest request) {
         Integer teacherId = (Integer) request.getSession().getAttribute("teacherId");
         if (teacherId != null) {
-            List<Course> courseList = courseService.getCourseList(teacherId);
-            modelAndView.addObject("courseList", courseList);
+            Result<List<Course>> result = courseService.getCourseListByTeacherId(teacherId);
+            modelAndView.addObject("courseList", result.getData());
         } else {
             modelAndView.setViewName("redirect:/teacher/login.html");
         }
         return modelAndView;
     }
 
-    @RequestMapping("index.html")
+    @RequestMapping(value = {"index.html"}, method = RequestMethod.GET)
     public ModelAndView index(ModelAndView modelAndView, HttpServletRequest request) {
         modelAndView.setViewName("redirect:/teacher/login.html");
         return modelAndView;
     }
 
-    @RequestMapping("set_course.html")
-    public
+    @RequestMapping(value = {"set_course.html"}, method = RequestMethod.POST)
     @ResponseBody
-    String setCourse(ModelAndView modelAndView, HttpServletRequest request) {
-        int courseId = Integer.parseInt(request.getParameter("courseId"));
-        int week = Integer.parseInt(request.getParameter("week"));
+    public String setCourse(@RequestParam("courseId") int courseId,
+                            @RequestParam("week") int week,
+                            HttpServletRequest request) {
         int teacherId = (Integer) request.getSession().getAttribute("teacherId");
-        int result = infoService.setCourseId(courseId, week, teacherId);
-
-        try {
-            JsonData jsonData = new JsonData();
-            jsonData.setStatus(result);
-            String message = null;
-            if (result == 1) {
-                message = new String(java.net.URLEncoder.encode("设置成功", "UTF-8"));
-                request.getSession().setAttribute("courseId", courseId);
-                request.getSession().setAttribute("week", week);
-            } else
-                message = new String(java.net.URLEncoder.encode("设置失败", "UTF-8"));
-            jsonData.setMessage(message);
-            return JSONObject.fromObject(jsonData).toString();
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
-            return null;
-        }
+        Result<Void> result = infoService.setCourseId(courseId, week, teacherId);
+        request.getSession().setAttribute("courseId", courseId);
+        request.getSession().setAttribute("week", week);
+        return JSON.toJSONString(result);
     }
 
-    @RequestMapping("login.html") // 显示登陆界面
-    public ModelAndView showLoginPage(ModelAndView modelAndView, HttpServletRequest request) {
+    @RequestMapping(value = {"login.html"}, method = RequestMethod.GET) // 显示登陆界面
+    public ModelAndView showLoginPage(ModelAndView modelAndView) {
         return modelAndView;
     }
 
-    @RequestMapping("login_verify.html")
-    public
+    @RequestMapping(value = {"login.html"}, method = RequestMethod.POST)
     @ResponseBody
-    String login(ModelAndView modelAndView, HttpServletRequest request) {
-
-        String name = request.getParameter("name");
-        String pwd = request.getParameter("pwd");
-        int result = teacherService.login(name, pwd);
-
-        try {
-            JsonData jsonData = new JsonData();
-            jsonData.setStatus(result);
-            String message;
-
-            if (result != -1) {
-                message = new String(java.net.URLEncoder.encode("登陆成功", "UTF-8"));
-                request.getSession().setAttribute("teacherId", result);
-                request.getSession().setAttribute("userName", name);
-            } else
-                message = new String(java.net.URLEncoder.encode("用户名或密码错误", "UTF-8"));
-            jsonData.setMessage(message);
-
-            return JSONObject.fromObject(jsonData).toString();
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
-            return null;
+    public String login(@RequestParam("name") String name,
+                        @RequestParam("pwd") String pwd, HttpServletRequest request) {
+        Result<Integer> result = teacherService.login(name, pwd);
+        if (result.getStatus() == Result.Status.SUCCESS.getStatus()) {
+            request.getSession().setAttribute("teacherId", result.getData());
+            request.getSession().setAttribute("userName", name);
         }
-
+        return JSON.toJSONString(result);
     }
 
-    @RequestMapping("logout.html")
+    @RequestMapping(value = {"logout.html"}, method = RequestMethod.GET)
     public ModelAndView logout(ModelAndView modelAndView, HttpServletRequest request) {
         request.getSession().removeAttribute("userName");
         request.getSession().removeAttribute("teacherId");
@@ -138,188 +104,92 @@ public class TeacherController {
         return modelAndView;
     }
 
-    @RequestMapping("register.html")
-    public ModelAndView register(ModelAndView modelAndView, HttpServletRequest request) {
+    @RequestMapping(value = {"register.html"}, method = RequestMethod.GET)
+    public ModelAndView register(ModelAndView modelAndView) {
         return modelAndView;
     }
 
-    @RequestMapping("regisger_save.html")
-    public
+    @RequestMapping(value = {"regisger_save.html"}, method = RequestMethod.POST)
     @ResponseBody
-    String registerSave(ModelAndView modelAndView, HttpServletRequest request) {
-        String name = request.getParameter("name");
-        String teacherName = request.getParameter("teacher_name");
-        String email = request.getParameter("email");
-        String pwd = request.getParameter("pwd");
-
-        int result = teacherService.register(name, teacherName, email, pwd);
-
-        try {
-            JsonData jsonData = new JsonData();
-            String message;
-            if (result == -1)
-                message = new String(java.net.URLEncoder.encode("该邮箱已被注册", "UTF-8"));
-            else if (result == -2)
-                message = new String(java.net.URLEncoder.encode("该用户名已被注册", "UTF-8"));
-            else if (result == 1)
-                message = new String(java.net.URLEncoder.encode("注册成功", "UTF-8"));
-            else {
-                message = new String(java.net.URLEncoder.encode("注册失败", "UTF-8"));
-            }
-            jsonData.setStatus(result);
-            jsonData.setMessage(message);
-
-            return JSONObject.fromObject(jsonData).toString();
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
-            return null;
-        }
+    public String registerSave(Teacher teacher, HttpServletRequest request) {
+        Result<Void> result = teacherService.register(teacher);
+        return JSON.toJSONString(result);
     }
 
-    @RequestMapping("student/student_list.html")
-    public ModelAndView listStudent(ModelAndView modelAndView, HttpServletRequest request) {
-        List<Student> studentList = studentSerivce.listStudents();
-        modelAndView.addObject("studentList", studentList);
+    @RequestMapping(value = {"student/student_list.html"}, method = RequestMethod.GET)
+    public ModelAndView listStudent(ModelAndView modelAndView) {
+        Result<List<Student>> result = studentSerivce.listStudents();
+        modelAndView.addObject("studentList", result.getData());
         return modelAndView;
     }
 
-    @RequestMapping("student/deleteStudentById.html")
-    public
+    @RequestMapping(value = {"student/deleteStudentById.html"}, method = RequestMethod.POST)
     @ResponseBody
-    String deleteStudentById(ModelAndView modelAndView, HttpServletRequest request) {
-        String stuId = request.getParameter("stuId");
-        boolean result = studentSerivce.deleteStudentById(stuId);
-
-        try {
-            JsonData jsonData = new JsonData();
-
-            if (result) {
-                jsonData.setStatus(1);
-                jsonData.setMessage(new String(java.net.URLEncoder.encode("删除成功", "UTF-8")));
-            } else {
-                jsonData.setStatus(0);
-                jsonData.setMessage(new String(java.net.URLEncoder.encode("删除失败", "UTF-8")));
-            }
-
-            return JSONObject.fromObject(jsonData).toString();
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
-            return null;
-        }
+    public String deleteStudentById(@RequestParam("stuId") String stuId) {
+        Result<Void> result = studentSerivce.deleteStudentById(stuId);
+        return JSON.toJSONString(result);
     }
 
-    @RequestMapping("student/change_phone_page.html")
-    public ModelAndView changePhonePage(ModelAndView modelAndView, HttpServletRequest request) {
+    @RequestMapping(value = {"student/change_phone_page.html"}, method = RequestMethod.GET)
+    public ModelAndView changePhonePage(ModelAndView modelAndView) {
         return modelAndView;
     }
 
-    @RequestMapping("student/change_phone.html")
-    public
+    @RequestMapping(value = {"student/change_phone.html"}, method = RequestMethod.POST)
     @ResponseBody
-    String changePhone(ModelAndView modelAndView, HttpServletRequest request) {
-        String stuId = request.getParameter("stuId");
-        int result = studentSerivce.changePhone(stuId);
-
-        try {
-            JsonData jsonData = new JsonData();
-            String message = "";
-
-            if (result == 1) {
-                message = new String(java.net.URLEncoder.encode("换机成功", "UTF-8"));
-            } else if (result == -1) {
-                message = new String(java.net.URLEncoder.encode("该学生未注册，请直接注册", "UTF-8"));
-            } else {
-                message = new String(java.net.URLEncoder.encode("发生未知错误，换机失败", "UTF-8"));
-            }
-            jsonData.setMessage(message);
-            jsonData.setStatus(result);
-
-            return JSONObject.fromObject(jsonData).toString();
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
-            return null;
-        }
+    public String changePhone(@RequestParam("stuId") String stuId) {
+        Result<Void> result = studentSerivce.changePhone(stuId);
+        return JSON.toJSONString(result);
     }
 
-    @RequestMapping("student/sendmail.html")
-    public
+    @RequestMapping(value = {"student/sendmail.html"}, method = RequestMethod.POST)
     @ResponseBody
-    String sendMail(ModelAndView modelAndView, HttpServletRequest request) {
-        String receiver = request.getParameter("receiver");
-        String subject = request.getParameter("subject");
-        String content = request.getParameter("content");
-        try {
-            JsonData jsonData = new JsonData();
-            if (!receiver.isEmpty()) {
-                mailSender.send(receiver, subject, content);
-                jsonData.setStatus(1);
-                jsonData.setMessage(new String(java.net.URLEncoder.encode("发送成功", "UTF-8")));
-            } else {
-                jsonData.setStatus(-1);
-                jsonData.setMessage(new String(java.net.URLEncoder.encode("发送失败", "UTF-8")));
-            }
-            return JSONObject.fromObject(jsonData).toString();
-        } catch (UnsupportedEncodingException e3) {
-            logger.error(e3.getMessage());
-            return null;
-        }
+    public String sendMail(@RequestParam("receiver") String receiver,
+                           @RequestParam("subject") String subject,
+                           @RequestParam("content") String content) {
+        Result<Void> result = new Result<Void>();
+        if (!receiver.isEmpty()) {
+            mailSender.send(receiver, subject, content);
+            return JSON.toJSONString(result.status(Result.Status.SUCCESS));
+        } else
+            return JSON.toJSONString(result.status(Result.Status.ERROR));
     }
 
-    @RequestMapping("info/my_info.html")
+    @RequestMapping(value = {"info/my_info.html"}, method = RequestMethod.GET)
     public ModelAndView showMyInfo(ModelAndView modelAndView, HttpServletRequest request) {
         int teacherId = (Integer) request.getSession().getAttribute("teacherId");
-        Teacher teacher = teacherService.getMyInfo(teacherId);
-        teacher.setTeacherId(0);
-        modelAndView.addObject("teacher", teacher);
+        Result<Teacher> result = teacherService.getMyInfo(teacherId);
+        modelAndView.addObject("teacher", result.getData());
         return modelAndView;
     }
 
-    @RequestMapping("info/update_info.html")
+    @RequestMapping(value = {"info/update_info.html"}, method = RequestMethod.GET)
     public ModelAndView updateInfoPage(ModelAndView modelAndView, HttpServletRequest request) {
         int teacherId = (Integer) request.getSession().getAttribute("teacherId");
-        Teacher teacher = teacherService.getMyInfo(teacherId);
-        teacher.setTeacherId(0);
-        modelAndView.addObject("teacher", teacher);
+        Result<Teacher> result = teacherService.getMyInfo(teacherId);
+        modelAndView.addObject("teacher", result.getData());
         return modelAndView;
     }
 
-    @RequestMapping("info/update_save.html")
-    public
+    @RequestMapping(value = {"info/update_info.html"}, method = RequestMethod.POST)
     @ResponseBody
-    String updateSave(ModelAndView modelAndView, HttpServletRequest request) {
-        String userName = request.getParameter("userName");
-        String teacherName = request.getParameter("teacherName");
-        String email = request.getParameter("email");
-        String userPwd = request.getParameter("userPwd");
+    public String updateSave(Teacher teacher, HttpServletRequest request) {
         int teacherId = (Integer) request.getSession().getAttribute("teacherId");
-        int result = teacherService.updateInfo(teacherId, userName, teacherName, email, userPwd);
-
-        try {
-            JsonData jsonData = new JsonData();
-            jsonData.setStatus(result);
-            String message = "";
-            if (result != -1) {
-                request.getSession().setAttribute("userName", userName);
-                message = new String(java.net.URLEncoder.encode("修改成功", "UTF-8"));
-            } else
-                message = new String(java.net.URLEncoder.encode("发生未知错误，修改失败", "UTF-8"));
-            jsonData.setMessage(message);
-            return JSONObject.fromObject(jsonData).toString();
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
-            return null;
-        }
+        teacher.setTeacherId(teacherId);
+        Result<Void> result = teacherService.updateInfo(teacher);
+        return JSON.toJSONString(result);
     }
 
-    @RequestMapping("sigin/sigined_list.html") // 列出本周已签到的学生
+    @RequestMapping(value = {"sigin/sigined_list.html"}, method = RequestMethod.GET) // 列出本周已签到的学生
     public ModelAndView siginedList(ModelAndView modelAndView, HttpServletRequest request) {
-
-        int teacherId = (Integer) request.getSession().getAttribute("teacherId");
-        if (request.getSession().getAttribute("week") == null) {
+        if (request.getSession().getAttribute("teacherId") == null
+            || request.getSession().getAttribute("week") == null) {
             modelAndView.addObject("weekSet", -2);
+            return modelAndView;
         }
+        int teacherId = (Integer) request.getSession().getAttribute("teacherId");
         int week = (Integer) request.getSession().getAttribute("week");
-        List<Course> courseList = courseService.getCourseList(teacherId);
+        List<Course> courseList = courseService.getCourseListByTeacherId(teacherId).getData();
         if (courseList == null || courseList.isEmpty() || request.getSession().getAttribute("week") == null) {
             return modelAndView;
         }
@@ -331,7 +201,7 @@ public class TeacherController {
             modelAndView.addObject("courseList", courseList);
             return modelAndView;
         }
-        List<Statistic> statisticList = statisticService.getSiginList(courseId, week);
+        List<Statistic> statisticList = statisticService.getSiginList(courseId, week).getData();
 
         String courseName = courseService.getCourseById(courseId).getCourseName();
         modelAndView.addObject("courseName", courseName);
@@ -345,108 +215,63 @@ public class TeacherController {
 
     @RequestMapping(value = "sigin/getStatisicByCourse.html", method = RequestMethod.POST)
     @ResponseBody
-    public String getStatisicByCourse(HttpServletRequest request,
-                                      @RequestParam("courseId") int courseId,
+    public String getStatisicByCourse(@RequestParam("courseId") int courseId,
                                       @RequestParam("week") int week) {
-        Course course = courseService.getCourseById(courseId);
-        JsonData jsonData = new JsonData();
-        if (course.getStudentList() == null ||
-                course.getStudentList().trim().length() == 0) {
-            jsonData.setStatus(-2);
-            try {
-                jsonData.setMessage(new String(java.net.URLEncoder.encode("本课程未导入学生", "UTF-8")));
-            } catch (UnsupportedEncodingException e) {
-                logger.error(e.getMessage());
-            }
-            jsonData.setData(new ArrayList<String>());
-            return JSONObject.fromObject(jsonData).toString();
-        }
-        List<Statistic> statisticList = statisticService.getSiginList(courseId, week);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        for (int i = 0; i < statisticList.size(); i++) {
-            Date d = statisticList.get(i).getSiginTime();
-            String newD = simpleDateFormat.format(d);
-            String stuId = statisticList.get(i).getStuId();
-            statisticList.get(i).setStuId(stuId + "_" + newD);
-
-            try {
-                String stuName = new String(java.net.URLEncoder.encode(statisticList.get(i).getStuName(), "UTF-8"));
-                statisticList.get(i).setStuName(stuName);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-
-        }
-        jsonData.setStatus(1);
-        jsonData.setData(statisticList);
-        return JSONObject.fromObject(jsonData).toString();
+        Result<List<Statistic>> result = statisticService.getSiginList(courseId, week);
+        return JSON.toJSONString(result);
     }
 
-    @RequestMapping(value = "sigin/unsigin_list.html")
+    @RequestMapping(value = "sigin/unsigin_list.html", method = RequestMethod.GET)
     public ModelAndView unSiginList(HttpServletRequest request, ModelAndView modelAndView) {
         int teacherId = (Integer) request.getSession().getAttribute("teacherId");
-        if ( request.getSession().getAttribute("week") == null) {
+        if (request.getSession().getAttribute("week") == null) {
             modelAndView.addObject("weekSet", -2);
             return modelAndView;
         }
         int week = (Integer) request.getSession().getAttribute("week");
-        List<Course> courseList = courseService.getCourseList(teacherId);
-        if (courseList == null || courseList.isEmpty() || request.getSession().getAttribute("week") == null
-                || courseList.get(0).getStudentList() == null
-                || courseList.get(0).getStudentList().trim().length() == 0) {
+        Result<List<Course>> courseResult = courseService.getCourseListByTeacherId(teacherId);
+        if (courseResult.getData() == null || courseResult.getData().isEmpty() || request.getSession().getAttribute("week") == null
+                || courseResult.getData().get(0).getStudentList() == null
+                || courseResult.getData().get(0).getStudentList().trim().length() == 0) {
             modelAndView.addObject("importStudent", -2);
-            modelAndView.addObject("courseList", courseList);
+            modelAndView.addObject("courseList", courseResult.getData());
             modelAndView.addObject("week", week);
             return modelAndView;
         }
-        int courseId = courseList.get(0).getCourseId();
+        int courseId = courseResult.getData().get(0).getCourseId();
 
-        List<String> stuIdList = Arrays.asList(courseList.get(0).getStudentList().split(Constant.courseStuIdSeperator));
-        List<String> unSiginStuIdList = statisticService.getUnSiginStuIdList(courseId, week, stuIdList);
+        List<String> unSiginStuIdList = statisticService.getUnSiginStuIdList(courseId, week).getData();
         modelAndView.addObject("stuIdList", unSiginStuIdList);
-        modelAndView.addObject("courseList", courseList);
+        modelAndView.addObject("courseList", courseResult.getData());
         modelAndView.addObject("week", week);
         modelAndView.addObject("weekSet", 1);
         return modelAndView;
     }
+
     @RequestMapping(value = "sigin/getUnSiginStatisicByCourse.html", method = RequestMethod.POST)
     @ResponseBody
     public String getUnSiginStatisicByCourse(HttpServletRequest request,
                                              @RequestParam("courseId") int courseId,
                                              @RequestParam("week") int week) {
-        Course course = courseService.getCourseById(courseId);
-        JsonData jsonData = new JsonData();
-        if (course.getStudentList() == null || course.getStudentList().trim().length() == 0) {
-            jsonData.setStatus(-2); //未导入学生
-            try {
-                jsonData.setMessage(new String(java.net.URLEncoder.encode("本课程未导入学生", "UTF-8")));
-                jsonData.setData(new ArrayList<String>());
-            } catch (UnsupportedEncodingException e) {
-               logger.error(e.getMessage());
-            }
-            return JSONObject.fromObject(jsonData).toString();
-        }
-        List<String> stuIdList = Arrays.asList(course.getStudentList().split(Constant.courseStuIdSeperator));
-        List<String> unSiginStuList = statisticService.getUnSiginStuIdList(courseId, week, stuIdList);
-        jsonData.setStatus(1);
-        jsonData.setData(unSiginStuList);
-        return JSONObject.fromObject(jsonData).toString();
+        Result<List<String>> result = statisticService.getUnSiginStuIdList(courseId, week);
+        return JSON.toJSONString(result);
     }
-    @RequestMapping("sigin/search_all.html")
+
+    @RequestMapping(value = {"sigin/search_all.html"}, method = RequestMethod.GET)
     public ModelAndView searchAllPage(ModelAndView modelAndView, HttpServletRequest request) {
         int teacherId = (Integer) request.getSession().getAttribute("teacherId");
-        List<Course> courseList = courseService.getCourseList(teacherId);
-        List<Student> studentList = studentSerivce.listStudents();
+        List<Course> courseList = courseService.getCourseListByTeacherId(teacherId).getData();
+        List<Student> studentList = studentSerivce.listStudents().getData();
         modelAndView.addObject("courseList", courseList);
         modelAndView.addObject("studengList", studentList);
         return modelAndView;
     }
 
-    @RequestMapping("sigin/searchby_week.html")
-    public ModelAndView searchByWeek(ModelAndView modelAndView, HttpServletRequest request) {
-        int courseId = Integer.parseInt(request.getParameter("courseId"));
-        int week = Integer.parseInt(request.getParameter("week"));
-        List<Statistic> statisticList = statisticService.getSiginList(courseId, week);
+    @RequestMapping(value = {"sigin/searchby_week.html"}, method = RequestMethod.GET)
+    public ModelAndView searchByWeek(@RequestParam("courseId") int courseId,
+                                     @RequestParam("week") int week,
+                                     ModelAndView modelAndView) {
+        List<Statistic> statisticList = statisticService.getSiginList(courseId, week).getData();
         List<Student> students = studentSerivce.listSiginedStudent(statisticList);
         String courseName = courseService.getCourseById(courseId).getCourseName();
         modelAndView.addObject("studentList", students);
@@ -456,11 +281,11 @@ public class TeacherController {
         return modelAndView;
     }
 
-    @RequestMapping("sigin/searchby_stuId.html")
-    public ModelAndView searchByStuId(ModelAndView modelAndView, HttpServletRequest request) {
-        String stuId = request.getParameter("stuId");
+    @RequestMapping(value = {"sigin/searchby_stuId.html"}, method = RequestMethod.GET)
+    public ModelAndView searchByStuId(@RequestParam("stuId") String stuId,
+                                      ModelAndView modelAndView, HttpServletRequest request) {
         int teacherId = (Integer) request.getSession().getAttribute("teacherId");
-        List<Course> courseList = courseService.getCourseList(teacherId);
+        List<Course> courseList = courseService.getCourseListByTeacherId(teacherId).getData();
 
         List<Statistic> statisticList = statisticService.getSiginListByStuId(stuId);
         modelAndView.addObject("statisticList", statisticList);
@@ -468,9 +293,9 @@ public class TeacherController {
         return modelAndView;
     }
 
-    @RequestMapping("sigin/searchby_course.html")
-    public ModelAndView searchByCourse(ModelAndView modelAndView, HttpServletRequest request) {
-        int courseId = Integer.parseInt(request.getParameter("courseId"));
+    @RequestMapping(value = {"sigin/searchby_course.html"}, method = RequestMethod.GET)
+    public ModelAndView searchByCourse(@RequestParam("courseId") int courseId,
+                                       ModelAndView modelAndView) {
         String courseName = courseService.getCourseById(courseId).getCourseName();
         Map<String, List<Integer>> studentMap = statisticService.getSiginListByCourse(courseId);
         modelAndView.addObject("statisticMap", studentMap);
@@ -478,302 +303,116 @@ public class TeacherController {
         return modelAndView;
     }
 
-    @RequestMapping("sigin/photo_sigin.html")
-    public ModelAndView showPhotoSiginView(ModelAndView modelAndView, HttpServletRequest request) {
+    @RequestMapping(value = {"sigin/photo_sigin.html"}, method = RequestMethod.GET)
+    public ModelAndView showPhotoSiginView(ModelAndView modelAndView) {
         return modelAndView;
     }
 
-    @RequestMapping("sigin/upload_photo.html")
-    public
+    @RequestMapping(value = {"sigin/upload_photo.html"}, method = RequestMethod.POST)
     @ResponseBody
-    String uploadPhoto(ModelAndView modelAndView, HttpServletRequest request) {
-        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
-                request.getSession().getServletContext());
-        JsonData jsonData = new JsonData();
-        String fileName = new String();
-        int courseId = -1;
-        int week = -1;
-        try {
-            if (request.getSession().getAttribute("courseId") != null) {
-                courseId = (Integer) request.getSession().getAttribute("courseId");
-                week = (Integer) request.getSession().getAttribute("week");
-            } else {
-                jsonData.setStatus(-2);
-                jsonData.setMessage(new String(java.net.URLEncoder.encode("请先设置课程", "UTF-8")));
-                return JSONObject.fromObject(jsonData).toString();
-            }
-            // 先判断request中是否包涵multipart类型的数据，
-            if (multipartResolver.isMultipart(request)) {
-                // 再将request中的数据转化成multipart类型的数据
-                MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-                Iterator<String> iter = multiRequest.getFileNames();
-                while (iter.hasNext()) {
-                    MultipartFile file = multiRequest.getFile(iter.next());
-                    if (file != null) {
-                        Date date = new Date();
-                        int r = (int) (Math.random() * 1000);
-                        String originalName = file.getOriginalFilename();
-                        String suffix = originalName.substring(originalName.lastIndexOf(".")); //文件后缀名
-                        fileName = date.getTime() + "_" + r + suffix;
-                        String path = Constant.IMAGE_PATH + Constant.TEACHER_IMAGE_PATH + fileName;
-                        //判断图片文件夹和压缩图片的文件夹是否存在，不存在则创建
-                        File isImageExists = new File(Constant.IMAGE_PATH + Constant.TEACHER_IMAGE_PATH);
-                        if (!isImageExists.isDirectory()) {
-                            isImageExists.mkdirs();
-                        }
-                        File isCompressExists = new File(Constant.COMPRESS_IMAGE_PATH + Constant.TEACHER_IMAGE_PATH);
-                        if (!isCompressExists.exists()) {
-                            isCompressExists.mkdirs();
-                        }
-                        File localFile = new File(path);
-
-                        // 写文件到本地
-                        file.transferTo(localFile);
-
-                        Map<String, Double> siginResult = FaceUtil.recognition(fileName, Constant.TEACHER_IMAGE_PATH);
-                        if (siginResult != null) {
-                            statisticService.photoSigin(courseId, week, siginResult);
-                        }
-                        fileName = file.getOriginalFilename();
-
-                    }
-                }
-            }
-
-            jsonData.setStatus(1);
-            jsonData.setMessage(new String(java.net.URLEncoder.encode(fileName + "上传成功", "UTF-8")));
-            return JSONObject.fromObject(jsonData).toString();
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-            return null;
-        } catch (IllegalStateException e2) {
-            logger.error(e2.getMessage());
-            return null;
-        }
-
+    public String uploadPhoto(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+        int courseId = (Integer) request.getSession().getAttribute("courseId");
+        int week = (Integer) request.getSession().getAttribute("week");
+        Result<String> result = statisticService.photoSigin(courseId, week, file);
+        return JSON.toJSONString(result);
     }
 
 
-    @RequestMapping("course/courseList.html")
+    @RequestMapping(value = {"course/courseList.html"}, method = RequestMethod.GET)
     public ModelAndView listAllCourse(ModelAndView modelAndView, HttpServletRequest request) {
         int teacherId = (Integer) request.getSession().getAttribute("teacherId");
-        List<Course> courseList = courseService.getCourseList(teacherId);
+        List<Course> courseList = courseService.getCourseListByTeacherId(teacherId).getData();
         modelAndView.addObject("couorseList", courseList);
         return modelAndView;
     }
 
-    @RequestMapping("course/deleteCourseById.html") // 删除一门课程
-    public
+    @RequestMapping(value = {"course/deleteCourseById.html"}, method = RequestMethod.POST) // 删除一门课程
     @ResponseBody
-    String deleteCourseById(ModelAndView modelAndView, HttpServletRequest request) {
-        int courseId = Integer.parseInt(request.getParameter("courseId"));
+    public String deleteCourseById(@RequestParam("courseId") int courseId,
+                                   HttpServletRequest request) {
         int teacherId = (Integer) request.getSession().getAttribute("teacherId");
-        int result = courseService.deleteCourseById(courseId, teacherId);
-
-        try {
-            JsonData jsonData = new JsonData();
-            jsonData.setStatus(result);
-            String message = null;
-            if (result == 1)
-                message = new String(java.net.URLEncoder.encode("删除成功", "UTF-8"));
-            else
-                message = new String(java.net.URLEncoder.encode("删除失败", "UTF-8"));
-            jsonData.setMessage(message);
-            return JSONObject.fromObject(jsonData).toString();
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
-            return null;
-        }
-
+        Result<Void> result = courseService.deleteCourseById(courseId, teacherId);
+        return JSON.toJSONString(result);
     }
 
-    @RequestMapping("course/add_course.html")
-    public ModelAndView addCoursePage(ModelAndView modelAndView, HttpServletRequest request) {
+    @RequestMapping(value = {"course/add_course.html"}, method = RequestMethod.GET)
+    public ModelAndView addCoursePage(ModelAndView modelAndView) {
         return modelAndView;
     }
 
-    @RequestMapping("course/add_course_save.html")
-    public
+    @RequestMapping(value = {"course/add_course.html"}, method = RequestMethod.POST)
     @ResponseBody
-    String addCourseSave(HttpServletRequest request,
-                         @RequestParam("courseName") String courseName,
-                         @RequestParam("beginTime") String beginTime,
-                         @RequestParam("endTime") String endTime,
-                         @RequestParam("dayInWeek") int dayInWeek,
-                         @RequestParam("file") MultipartFile file) {
-        beginTime += ":00";
-        endTime += ":00";
-        String name = file.getOriginalFilename();
+    public String addCourseSave(@RequestParam("courseName")String courseName,
+                                @RequestParam("beginTime")String beginTime,
+                                @RequestParam("endTime")String endTime,
+                                @RequestParam("dayInWeek")int dayInWeek,
+                                @RequestParam("file") MultipartFile file,
+                                HttpServletRequest request) {
+        Result<Void> result = new Result<Void>();
         List<String> stuIdList = null;
-        JsonData jsonData = new JsonData();
-        //从文件中读取学号
-        if (file != null && file.getOriginalFilename().endsWith(".csv")) {
-            try {
-                stuIdList = readFromCSV(file);
-            } catch (IOException e) {
-                logger.error(e.getMessage());
-                jsonData.setStatus(0);
-                try {
-                    jsonData.setMessage(new String(java.net.URLEncoder.encode("添加失败", "UTF-8")));
-                } catch (UnsupportedEncodingException e1) {
-                    logger.error(e1.getMessage());
-                }
-                return JSONObject.fromObject(jsonData).toString();
-            }
-        } else if (file != null && file.getOriginalFilename().endsWith(".xlsx")) {
-            try {
-                stuIdList = readFromExcel(file);
-            } catch (IOException e) {
-                logger.error(e.getMessage());
-                jsonData.setStatus(0);
-                try {
-                    jsonData.setMessage(new String(java.net.URLEncoder.encode("添加失败", "UTF-8")));
-                } catch (UnsupportedEncodingException e1) {
-                    logger.error(e1.getMessage());
-                }
-                return JSONObject.fromObject(jsonData).toString();
-            } catch (InvalidFormatException e) {
-                logger.error(e.getMessage());
-                jsonData.setStatus(0);
-                try {
-                    jsonData.setMessage(new String(java.net.URLEncoder.encode("添加失败", "UTF-8")));
-                } catch (UnsupportedEncodingException e1) {
-                    logger.error(e1.getMessage());
-                }
-                return JSONObject.fromObject(jsonData).toString();
-            }
-        } else {
-            jsonData.setStatus(0);
-            try {
-                jsonData.setMessage(new String(java.net.URLEncoder.encode("不支持的文件格式", "UTF-8")));
-            } catch (UnsupportedEncodingException e) {
-                logger.error(e.getMessage());
-            }
-            return JSONObject.fromObject(jsonData).toString();
-        }
-
-        int teacherId = (Integer) request.getSession().getAttribute("teacherId");
-
         try {
-            int result = courseService.addCourse(courseName, beginTime, endTime, dayInWeek, teacherId, stuIdList);
-            jsonData.setStatus(result);
-            String message = "";
-            if (result == 1)
-                message = new String(java.net.URLEncoder.encode("添加成功", "UTF-8"));
-            else
-                message = new String(java.net.URLEncoder.encode("添加失败", "UTF-8"));
-            jsonData.setMessage(message);
-
-            return JSONObject.fromObject(jsonData).toString();
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
-            return null;
-        } catch (ParseException e1) {
-            logger.error(e1.getMessage());
-            return null;
+            //从文件中读取学号
+            if (file != null && file.getOriginalFilename().endsWith(".csv")) {
+                stuIdList = readFromCSV(file);
+            } else if (file != null && file.getOriginalFilename().endsWith(".xlsx")) {
+                stuIdList = readFromExcel(file);
+            } else {
+                return JSON.toJSONString(result.status(Result.Status.ERROR));
+            }
+        } catch (Exception e) {
+            logger.error("read stuId from file error!", e);
+            return JSON.toJSONString(result.status(Result.Status.ERROR));
         }
+
+        Course course = new Course();
+        course.setCourseName(courseName);
+        course.setBeginTime(DateUtil.parse(beginTime));
+        course.setEndTime(DateUtil.parse(endTime));
+        course.setDayInWeek(dayInWeek);
+        int teacherId = (Integer) request.getSession().getAttribute("teacherId");
+        course.setTeacherId(teacherId);
+        result = courseService.addCourse(course, stuIdList);
+        return JSON.toJSONString(result);
+
     }
 
     @RequestMapping(value = "course/getstudentbycourseid.html", method = RequestMethod.POST)
     @ResponseBody
     public String getStudentByCourseId(@RequestParam("courseId") int courseId) {
-        List<String> studentList = courseService.getStudentByCourseId(courseId);
-        JsonData jsonData = new JsonData();
-        jsonData.setStatus(1);
-        jsonData.setData(studentList);
-        return JSONObject.fromObject(jsonData).toString();
+        Result<List<String>> result = courseService.getStudentByCourseId(courseId);
+        return JSON.toJSONString(result);
     }
 
 
     @RequestMapping(value = "course/deletecoursestudent.html", method = RequestMethod.POST)
     @ResponseBody
     public String deleteCourseStudent(@RequestParam("stuId") String stuId, @RequestParam("courseId") int courseId) {
-        int result = courseService.deleteCourseStudent(stuId, courseId);
-        JsonData jsonData = new JsonData();
-        String msg = null;
-        try {
-            if (result == 1) {
-                jsonData.setStatus(1);
-                msg = new String(java.net.URLEncoder.encode("删除成功", "UTF-8"));
-            } else {
-                jsonData.setStatus(0);
-
-                msg = new String(java.net.URLEncoder.encode("删除失败", "UTF-8"));
-
-            }
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
-        }
-        jsonData.setMessage(msg);
-        return JSONObject.fromObject(jsonData).toString();
+        Result<Void> result = courseService.deleteCourseStudent(stuId, courseId);
+        return JSON.toJSONString(result);
     }
 
     @RequestMapping(value = "course/addstudenttocourse.html", method = RequestMethod.POST)
     @ResponseBody
-    public String addStudentToCourse(HttpServletRequest request,
-                                     @RequestParam("file") MultipartFile file,
+    public String addStudentToCourse(@RequestParam("file") MultipartFile file,
                                      @RequestParam("courseId") int courseId) {
+        Result<Void> result = new Result<Void>();
         List<String> stuIdList = null;
-        JsonData jsonData = new JsonData();
-        /* 从文件中读取学号 */
-        if (file != null && file.getOriginalFilename().endsWith(".csv")) {
-            try {
-                stuIdList = readFromCSV(file);
-            } catch (IOException e) {
-                logger.error(e.getMessage());
-                jsonData.setStatus(0);
-                try {
-                    jsonData.setMessage(new String(java.net.URLEncoder.encode("添加失败", "UTF-8")));
-                } catch (UnsupportedEncodingException e1) {
-                    logger.error(e1.getMessage());
-                }
-                return JSONObject.fromObject(jsonData).toString();
-            }
-        } else if (file != null && file.getOriginalFilename().endsWith(".xlsx")) {
-            try {
-                stuIdList = readFromExcel(file);
-            } catch (IOException e) {
-                logger.error(e.getMessage());
-                jsonData.setStatus(0);
-                try {
-                    jsonData.setMessage(new String(java.net.URLEncoder.encode("添加失败", "UTF-8")));
-                } catch (UnsupportedEncodingException e1) {
-                    logger.error(e1.getMessage());
-                }
-                return JSONObject.fromObject(jsonData).toString();
-            } catch (InvalidFormatException e) {
-                logger.error(e.getMessage());
-                jsonData.setStatus(0);
-                try {
-                    jsonData.setMessage(new String(java.net.URLEncoder.encode("添加失败", "UTF-8")));
-                } catch (UnsupportedEncodingException e1) {
-                    logger.error(e1.getMessage());
-                }
-                return JSONObject.fromObject(jsonData).toString();
-            }
-        } else {
-            jsonData.setStatus(0);
-            try {
-                jsonData.setMessage(new String(java.net.URLEncoder.encode("不支持的文件格式", "UTF-8")));
-            } catch (UnsupportedEncodingException e) {
-                logger.error(e.getMessage());
-            }
-            return JSONObject.fromObject(jsonData).toString();
-        }
-        int result = courseService.addStudentToCourse(stuIdList, courseId);
         try {
-            if (result > 0) {
-                jsonData.setStatus(1);
-                jsonData.setMessage(new String(java.net.URLEncoder.encode("导入成功", "UTF-8")));
-
+             /* 从文件中读取学号 */
+            if (file != null && file.getOriginalFilename().endsWith(".csv")) {
+                stuIdList = readFromCSV(file);
+            } else if (file != null && file.getOriginalFilename().endsWith(".xlsx")) {
+                stuIdList = readFromExcel(file);
             } else {
-                jsonData.setStatus(0);
-                jsonData.setMessage(new String(java.net.URLEncoder.encode("导入失败", "UTF-8")));
+                return JSON.toJSONString(result.status(Result.Status.ERROR));
             }
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
         }
-        return JSONObject.fromObject(jsonData).toString();
+        catch (Exception e) {
+            logger.error("read stuId from file error!", e);
+        }
+
+        result = courseService.addStudentToCourse(stuIdList, courseId);
+        return JSON.toJSONString(result);
     }
 
     private List<String> readFromCSV(MultipartFile file) throws IOException {

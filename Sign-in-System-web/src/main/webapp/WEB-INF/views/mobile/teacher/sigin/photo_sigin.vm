@@ -12,49 +12,77 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/mobile/mobile.css"/>
 </head>
 <body>
-	<a href="#cd-nav" class="cd-nav-trigger">
+<a href="#cd-nav" class="cd-nav-trigger">
     <span></span>
-  </a>
-  <!-- .cd-nav-trigger -->
-  <main>
+</a>
+<!-- .cd-nav-trigger -->
+<main>
     <section class="cd-section index cd-selected">
-		<div class="cd-content">
-			<div class="photo_form">
-				<span class="btn btn-primary fileinput-button" onclick="clearBar()">
+        <div class="cd-content">
+            <form method="POST" enctype="multipart/form-data">
+                 <span class="btn btn-primary fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>
                     <span>选择图片...</span>
-                    <!-- The file input field used as target for the file upload widget -->
-                    <input id="fileupload" type="file" name="files[]" multiple>
+                     <!-- The file input field used as target for the file upload widget -->
+                    <input id="file" type="file" name="file" onchange="showFileName(this)">
+
                 </span>
-                <br>
-                <br>
-                <!-- The global progress bar -->
-                <div id="progress" class="progress">
-                    <div class="progress-bar progress-bar-success"></div>
-                </div>
-                <!-- The container for the uploaded files -->
-                <div id="files" class="files"></div>
-                <br>
-            </div>	
-		</div>
-	</section>
-  </main>
-  <nav class="cd-nav-container" id="cd-nav">
+                <label id="filename"></label>
+            </form>
+            <br>
+            <button id="button" class="btn btn-info">upload</button>
+            <br>
+            <br>
+            <!-- The global progress bar -->
+            <!-- The container for the uploaded files -->
+            <div id="files" class="files"></div>
+        </div>
+    </section>
+</main>
+<nav class="cd-nav-container" id="cd-nav">
     #parse("teacher/backbar.vm")
-  </nav>
-   <div class="cd-overlay">
-   </div>
+</nav>
+<div class="cd-overlay">
+</div>
 </body>
 <script src="/resources/js/mobile/student/home/jquery-2.1.1.js"></script>
 <script src="/resources/js/mobile/student/home/main.js"></script>
 <script src="/resources/js/mobile/student/home/index.js"></script>
 <script src="/resources/js/mobile/student/home/modernizr.js"></script>
-<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-<script src="/resources/js/jquery.ui.widget.js"></script>
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="/resources/js/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="/resources/js/jquery.fileupload.js"></script>
-<script src="/resources/js/bootstrap.min.js"></script>
-<script src="/resources/js/fileupload.js"></script>
+<script>
+    function showFileName(e) {
+        var path = $(e).val();
+        var name = path.substring(path.lastIndexOf('\\') + 1);
+        $("#filename").text(name);
+    }
+</script>
+<script>
+    $("#button").click(function () {
+        var formData = new FormData();
+        formData.append("file", $("#file")[0].files[0]);
+        var url = "upload_photo.html";
+        jQuery.ajax({
+            url: url,
+            type: "post",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                data = eval("(" + data + ")");
+                var status = data.status;
+                var fileName = data.data;
+                if (status == 200) {
+                    $("#files").after(fileName + "上传成功<br>");
+                }
+                else {
+                    $("#files").after(fileName + "上传失败<br>");
+                }
+            },
+            error: function (data) {
+                alert("error");
+            }
+        });
+    });
+
+</script>
 </html>

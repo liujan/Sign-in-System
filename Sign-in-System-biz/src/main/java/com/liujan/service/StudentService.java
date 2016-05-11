@@ -1,18 +1,20 @@
 package com.liujan.service;
 
+import com.liujan.domain.Result;
 import com.liujan.entity.Statistic;
 import com.liujan.entity.Student;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface StudentService {
-	public int SiginIn(String stuId, String name, String pwd, String macAddress, int courseId, int week);
-	public int Register(String stuId, String name, String macAddr, String pwd, String email);
-	public int login(String stuId, String pwd);
+	public Result<Void> siginIn(String stuId, String pwd, HttpServletRequest request);
+	public Result<Void> register(Student student, HttpServletRequest request);
+	public Result<Void> login(String stuId, String pwd);
 	public Student getStudentById(String stuId);
-	public List<Student> listStudents();
+	public Result<List<Student>> listStudents();
 	public List<Student> listSiginedStudent(List<Statistic> statisticList);
-	public int changePhone(String stuId);
-	public int updateInfo(String stuId, String name, String email, String userPwd);
-	public boolean deleteStudentById(String stuId);
+	public Result<Void> changePhone(String stuId);
+	public Result<Void> updateInfo(Student student);
+	public Result<Void> deleteStudentById(String stuId);
 }

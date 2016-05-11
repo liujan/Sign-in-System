@@ -70,9 +70,11 @@
             showAllError: true,
             ajaxPost: true,
             callback: function (data) {
-                var msg = decodeURI(data.message);
                 var status = data.status;
-                alert(msg);
+                if (200 == status)
+                        alert("设置成功");
+                else
+                        alert("设置失败");
             }
         });
     });

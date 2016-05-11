@@ -12,7 +12,7 @@
     <script type="text/javascript" src="/resources/js/bootstrap-dropdown.js"></script>
     <script type="text/javascript" src="/resources/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="/resources/js/demo1.js"></script>
-
+    <script type="text/javascript" src="/resources/js/jquery-dateFormat.min.js"></script>
 </head>
 <body>
     #parse("teacher/toolbar.vm")
@@ -29,7 +29,6 @@
         <thead>
         <tr>
             <th>学号</th>
-            <th>姓名</th>
             <th>签到时间</th>
             <th>可信度</th>
         </tr>
@@ -38,8 +37,7 @@
             #foreach($statistic in $statisticList)
             <tr>
                 <td>$statistic.stuId</td>
-                <td>$statistic.stuName</td>
-                <td>$date.format("yyyy-MM-dd HH:mm:ss", $statistic.siginTime)</td>
+                <td>$statistic.siginTime</td>
                 <td>$statistic.confidence</td>
             </tr>
             #end
@@ -64,22 +62,19 @@
                 var json = eval('(' + data + ')');
                 data = json.data;
                 var status = json.status;
-                if (status != 1) {
-                    var msg = decodeURI(json.message);
-                    alert(msg);
+                if (status != 200) {
+                    alert(json.msg);
                 }
                 $("#statisticBody").empty();
                 for (var i in data) {
                     var tr = $("<tr></tr>");
                     tr.attr("id", data[i]);
                     var stuId = data[i].stuId;
-                    var stuIdTd = $("<td></td>").text(stuId.split("_")[0]);
-                    var nameTd = $("<td></td>").text(decodeURI(data[i].stuName));
-                    var siginTimeTd = $("<td></td>").text(stuId.split("_")[1]);
+                    var siginTime = data[i].siginTime;
+                    var stuIdTd = $("<td></td>").text(stuId);
+                    var siginTimeTd = $("<td></td>").text(siginTime);
                     var confidenceTd = $("<td></td>").text(data[i].confidence);
-
                     tr.append(stuIdTd);
-                    tr.append(nameTd);
                     tr.append(siginTimeTd);
                     tr.append(confidenceTd);
                     $("#statisticBody").append(tr);
