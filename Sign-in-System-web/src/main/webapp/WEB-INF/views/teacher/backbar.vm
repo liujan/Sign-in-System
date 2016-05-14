@@ -6,39 +6,39 @@
 </head>
 <body>
 <header>
-    <a href="/teacher/home.html" class="home"><h2>首页</h2></a>
+    <a href="/teacher/home" class="home"><h2>首页</h2></a>
 </header>
 <ul id="accordion" class="accordion">
     <li>
         <div class="link"><i class="fa fa-code"></i>学生<i class="fa fa-chevron-down"></i></div>
         <ul class="submenu">
-            <li><a href="/teacher/student/student_list.html">学生列表</a></li>
-            <li><a href="/teacher/student/change_phone_page.html">更换号码</a></li>
+            <li><a href="/teacher/student/list">学生列表</a></li>
+            <li><a href="/teacher/student/phone/update">更换号码</a></li>
         </ul>
     </li>
     <li>
         <div class="link"><i class="fa fa-mobile"></i>签到<i class="fa fa-chevron-down"></i></div>
         <ul class="submenu">
-            <li><a href="/teacher/sigin/photo_sigin.html">拍照签到</a></li>
-            <li><a href="/teacher/sigin/sigined_list.html">本周已签</a></li>
-            <li><a href="/teacher/sigin/search_all.html">签到查询</a></li>
+            <li><a href="/teacher/sigin/photo">拍照签到</a></li>
+            <li><a href="/teacher/sigin/list">本周已签</a></li>
+            <li><a href="/teacher/sigin/search">签到查询</a></li>
         </ul>
     </li>
     <li>
         <div class="link"><i class="fa fa-mobile"></i>课程<i class="fa fa-chevron-down"></i></div>
         <ul class="submenu">
-            <li><a href="/teacher/course/courseList.html">课程管理</a></li>
+            <li><a href="/teacher/course/list">课程管理</a></li>
         </ul>
     </li>
     <li>
         <div class="link"><i class="fa fa-mobile"></i>账户<i class="fa fa-chevron-down"></i></div>
         <ul class="submenu">
-            <li><a href="/teacher/info/my_info.html">个人信息</a></li>
+            <li><a href="/teacher/info/info">个人信息</a></li>
         </ul>
     </li>
 </ul>
 <header>
-    <a class="logout" href="/teacher/logout.html">
+    <a class="logout" href="/teacher/logout">
         <h3>注销<h3>
     </a>
 </header>

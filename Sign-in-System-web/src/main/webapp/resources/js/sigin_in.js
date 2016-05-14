@@ -11,7 +11,7 @@ $(function(){
 			alert(msg);
 			
 			if (status == 200)
-				window.location.href="success.html";
+				window.location.href="success";
 		}
 	});
 	

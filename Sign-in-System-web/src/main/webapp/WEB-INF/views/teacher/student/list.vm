@@ -85,7 +85,7 @@
         var subject = $("#subject").val();
         var content = $("#message-text").val();
         jQuery.ajax({
-            url: "sendmail.html",
+            url: "mail/send",
             type: "post",
             data: "receiver=" + receiver + "&subject=" + subject + "&content=" + content,
             success: function (data) {
@@ -121,9 +121,8 @@
     function deleteStudentById(stuId) {
         if (confirm('确定要删除该学生吗？')) {
             jQuery.ajax({
-                url: "deleteStudentById.html",
-                type: "post",
-                data: "stuId=" + stuId,
+                url: "delete/"+stuId,
+                type: "delete",
                 success: function (data) {
                     var json = eval("(" + data + ")");
                     var msg = decodeURI(json.msg);

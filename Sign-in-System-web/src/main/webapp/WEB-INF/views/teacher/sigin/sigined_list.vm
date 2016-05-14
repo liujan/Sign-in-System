@@ -55,7 +55,7 @@
         var courseId = $(e).val();
         var week = ${week};
         jQuery.ajax({
-            url: "getStatisicByCourse.html",
+            url: "course/list",
             type: "post",
             data: "courseId=" + courseId + "&week=" + week,
             success: function (data) {

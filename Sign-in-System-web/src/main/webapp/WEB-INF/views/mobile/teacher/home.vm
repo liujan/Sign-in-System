@@ -17,7 +17,7 @@
 <main>
     <section class="cd-section index cd-selected">
         <div class="cd-content">
-            <form action="set_course.html" method="get" id="info" class="form-horizontal" role="form">
+            <form action="course/set" method="post" id="info" class="form-horizontal" role="form">
                 <div class="form-group">
                     <label class="col-sm-2 control-label"><span class="need">*</span>当前课程：</label>
                     <div class="col-sm-3">

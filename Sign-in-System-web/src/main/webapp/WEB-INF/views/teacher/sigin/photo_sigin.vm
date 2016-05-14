@@ -46,7 +46,7 @@
     $("#button").click(function () {
         var formData = new FormData();
         formData.append("file", $("#file")[0].files[0]);
-        var url = "upload_photo.html";
+        var url = "photo";
         jQuery.ajax({
             url: url,
             type: "post",

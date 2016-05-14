@@ -22,7 +22,7 @@
         function deleteCourse(courseId) {
             if (confirm('确定要删除此课程吗？')) {
                 jQuery.ajax({
-                    url: "deleteCourseById.html",
+                    url: "delete",
                     type: "post",
                     data: "courseId=" + courseId,
                     success: function (data) {
@@ -162,9 +162,9 @@
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this)
         jQuery.ajax({
-            url: "getstudentbycourseid.html",
+            url: "student",
             data: "courseId=" + courseId,
-            type: "post",
+            type: "get",
             success: function (data) {
                 var json = eval("(" + data + ")");
                 var data = json.data;
@@ -204,7 +204,7 @@
     function deleteCourseStudent(stuId, courseId) {
         if (confirm("确定要删除吗?")) {
             jQuery.ajax({
-                url: "deletecoursestudent.html",
+                url: "student/delete",
                 data: "stuId=" + stuId + "&courseId=" + courseId,
                 type: "post",
                 success: function (data) {
@@ -237,7 +237,7 @@
         formData.append("file", $("#file")[0].files[0]);
         formData.append("courseId", courseId);
         jQuery.ajax({
-            url:"addstudenttocourse.html",
+            url:"student/add",
             type:"post",
             data:formData,
             processData: false,

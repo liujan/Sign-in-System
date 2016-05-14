@@ -14,7 +14,7 @@
     <div class="lg-title">
     	<h1>学生签到系统</h1>
     </div>
-        <form action="siginin.html" id="lg-form" name="lg-form" method="post">
+        <form action="siginin" id="lg-form" name="lg-form" method="post">
             <div>
                 <label for="stuId">学号:</label>
                 <input type="text" name="stuId" id="stuId" placeholder="学号"/>
@@ -28,8 +28,8 @@
             </div>
         </form>
 
-	<a href="login.html">登陆 </a>
-	<a href="register.html">注册 </a>
+	<a href="login">登陆 </a>
+	<a href="register">注册 </a>
     </div>
 </body>
 <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
@@ -40,7 +40,7 @@
         var stuId = $("#stuId").val();
         var pwd = $("#pwd").val();
         jQuery.ajax({
-            url: "siginin.html",
+            url: "siginin",
             type: "post",
             data: "stuId=" + stuId + "&pwd=" + pwd,
             success: function (data) {

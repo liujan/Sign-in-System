@@ -17,7 +17,7 @@
 <main>
     <section class="cd-section index cd-selected">
         <div class="cd-content">
-            <form action="search.html" method="get" id="info" class="form-horizontal" role="form">
+            <form action="search" method="get" id="info" class="form-horizontal" role="form">
                 <div class="form-group">
                     <label class="col-sm-2 control-label"><span class="need">*</span>教师：</label>
                     <div class="col-sm-3">
@@ -74,7 +74,7 @@
 <script type="text/javascript">
     function change(teacherId) {
         jQuery.ajax({
-            url: "change_course.html",
+            url: "course/change",
             type: "post",
             data: "teacherId=" + teacherId,
             success: function (data) {

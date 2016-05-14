@@ -9,7 +9,7 @@ $(function(){
 			var status = data.status;
 			if (status == 200) {
 				alert("修改成功");
-				window.location.href="my_info.html";
+				window.location.href="info";
 			}
 			else
 				alert("修改失败");

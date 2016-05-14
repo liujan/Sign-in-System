@@ -25,7 +25,7 @@
         #foreach($photo in $photoList)
             <div class="cell">
                 <a href="#">
-                    <img src="getPhoto.html?path=${photo}" name="${photo}" alt="${photo}"/>
+                    <img src="photo?path=${photo}" name="${photo}" alt="${photo}"/>
                 </a>
                 <p class="del-photo">
                     <input type="checkbox" name="select_item" data-sel="${photo}">
@@ -42,7 +42,7 @@
 
         if (confirm("确定删除该照片？")) {
             jQuery.ajax({
-                url: "deletePhotoByName.html",
+                url: "delete",
                 type: "post",
                 data: "photo=" + photo,
                 success: function (data) {
@@ -93,7 +93,7 @@
                 return;
             }
             jQuery.ajax({
-                url: "deleteMultiPhoto.html",
+                url: "multidelete",
                 type: "post",
                 data: "photo=" + data,
                 success: function (data) {

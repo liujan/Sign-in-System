@@ -15,7 +15,7 @@
 <body>
     #parse("teacher/toolbar.vm")
 <div class="add1">
-    <form class="form-horizontal" method="post" id="teacher_info" action="update_info.html">
+    <form class="form-horizontal" method="post" id="teacher_info" action="update">
         <div class="form-group">
 
             <label for="userName" class="col-sm-2 control-label"> <span class="need">*</span>用户名：</label>
@@ -57,7 +57,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-info">确定</button>
-                <a href="my_info.html"
+                <a href="info"
                 <button class="btn btn-default">返回</button>
                 </a>
             </div>

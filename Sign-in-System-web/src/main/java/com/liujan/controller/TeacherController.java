@@ -18,10 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -49,25 +46,25 @@ public class TeacherController {
     @Autowired
     private MailSender mailSender;
 
-    @RequestMapping(value = {"home.html"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"home"}, method = RequestMethod.GET)
     public ModelAndView home(ModelAndView modelAndView, HttpServletRequest request) {
         Integer teacherId = (Integer) request.getSession().getAttribute("teacherId");
         if (teacherId != null) {
             Result<List<Course>> result = courseService.getCourseListByTeacherId(teacherId);
             modelAndView.addObject("courseList", result.getData());
         } else {
-            modelAndView.setViewName("redirect:/teacher/login.html");
+            modelAndView.setViewName("redirect:/teacher/login");
         }
         return modelAndView;
     }
 
-    @RequestMapping(value = {"index.html"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"index"}, method = RequestMethod.GET)
     public ModelAndView index(ModelAndView modelAndView, HttpServletRequest request) {
-        modelAndView.setViewName("redirect:/teacher/login.html");
+        modelAndView.setViewName("redirect:/teacher/login");
         return modelAndView;
     }
 
-    @RequestMapping(value = {"set_course.html"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"course/set"}, method = RequestMethod.POST)
     @ResponseBody
     public String setCourse(@RequestParam("courseId") int courseId,
                             @RequestParam("week") int week,
@@ -79,12 +76,12 @@ public class TeacherController {
         return JSON.toJSONString(result);
     }
 
-    @RequestMapping(value = {"login.html"}, method = RequestMethod.GET) // 显示登陆界面
+    @RequestMapping(value = {"login"}, method = RequestMethod.GET) // 显示登陆界面
     public ModelAndView showLoginPage(ModelAndView modelAndView) {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"login.html"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"login"}, method = RequestMethod.POST)
     @ResponseBody
     public String login(@RequestParam("name") String name,
                         @RequestParam("pwd") String pwd, HttpServletRequest request) {
@@ -96,53 +93,55 @@ public class TeacherController {
         return JSON.toJSONString(result);
     }
 
-    @RequestMapping(value = {"logout.html"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"logout"}, method = RequestMethod.GET)
     public ModelAndView logout(ModelAndView modelAndView, HttpServletRequest request) {
+        modelAndView.setViewName("teacher/logout");
         request.getSession().removeAttribute("userName");
         request.getSession().removeAttribute("teacherId");
-        modelAndView.setViewName("redirect:/teacher/login.html");
+        modelAndView.setViewName("redirect:/teacher/login");
         return modelAndView;
     }
 
-    @RequestMapping(value = {"register.html"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"register"}, method = RequestMethod.GET)
     public ModelAndView register(ModelAndView modelAndView) {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"regisger_save.html"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"register"}, method = RequestMethod.POST)
     @ResponseBody
     public String registerSave(Teacher teacher, HttpServletRequest request) {
         Result<Void> result = teacherService.register(teacher);
         return JSON.toJSONString(result);
     }
 
-    @RequestMapping(value = {"student/student_list.html"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"student/list"}, method = RequestMethod.GET)
     public ModelAndView listStudent(ModelAndView modelAndView) {
         Result<List<Student>> result = studentSerivce.listStudents();
         modelAndView.addObject("studentList", result.getData());
         return modelAndView;
     }
 
-    @RequestMapping(value = {"student/deleteStudentById.html"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"student/delete/{stuId}"}, method = RequestMethod.DELETE)
     @ResponseBody
-    public String deleteStudentById(@RequestParam("stuId") String stuId) {
+    public String deleteStudentById(@PathVariable("stuId") String stuId) {
         Result<Void> result = studentSerivce.deleteStudentById(stuId);
         return JSON.toJSONString(result);
     }
 
-    @RequestMapping(value = {"student/change_phone_page.html"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"student/phone/update"}, method = RequestMethod.GET)
     public ModelAndView changePhonePage(ModelAndView modelAndView) {
+        modelAndView.setViewName("teacher/student/change_phone_page");
         return modelAndView;
     }
 
-    @RequestMapping(value = {"student/change_phone.html"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"student/phone/update"}, method = RequestMethod.POST)
     @ResponseBody
     public String changePhone(@RequestParam("stuId") String stuId) {
         Result<Void> result = studentSerivce.changePhone(stuId);
         return JSON.toJSONString(result);
     }
 
-    @RequestMapping(value = {"student/sendmail.html"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"student/mail/send"}, method = RequestMethod.POST)
     @ResponseBody
     public String sendMail(@RequestParam("receiver") String receiver,
                            @RequestParam("subject") String subject,
@@ -155,23 +154,25 @@ public class TeacherController {
             return JSON.toJSONString(result.status(Result.Status.ERROR));
     }
 
-    @RequestMapping(value = {"info/my_info.html"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"info/info"}, method = RequestMethod.GET)
     public ModelAndView showMyInfo(ModelAndView modelAndView, HttpServletRequest request) {
+        modelAndView.setViewName("teacher/info/my_info");
         int teacherId = (Integer) request.getSession().getAttribute("teacherId");
         Result<Teacher> result = teacherService.getMyInfo(teacherId);
         modelAndView.addObject("teacher", result.getData());
         return modelAndView;
     }
 
-    @RequestMapping(value = {"info/update_info.html"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"info/update"}, method = RequestMethod.GET)
     public ModelAndView updateInfoPage(ModelAndView modelAndView, HttpServletRequest request) {
+        modelAndView.setViewName("teacher/info/update_info");
         int teacherId = (Integer) request.getSession().getAttribute("teacherId");
         Result<Teacher> result = teacherService.getMyInfo(teacherId);
         modelAndView.addObject("teacher", result.getData());
         return modelAndView;
     }
 
-    @RequestMapping(value = {"info/update_info.html"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"info/update"}, method = RequestMethod.POST)
     @ResponseBody
     public String updateSave(Teacher teacher, HttpServletRequest request) {
         int teacherId = (Integer) request.getSession().getAttribute("teacherId");
@@ -180,8 +181,9 @@ public class TeacherController {
         return JSON.toJSONString(result);
     }
 
-    @RequestMapping(value = {"sigin/sigined_list.html"}, method = RequestMethod.GET) // 列出本周已签到的学生
+    @RequestMapping(value = {"sigin/list"}, method = RequestMethod.GET) // 列出本周已签到的学生
     public ModelAndView siginedList(ModelAndView modelAndView, HttpServletRequest request) {
+        modelAndView.setViewName("teacher/sigin/sigined_list");
         if (request.getSession().getAttribute("teacherId") == null
             || request.getSession().getAttribute("week") == null) {
             modelAndView.addObject("weekSet", -2);
@@ -213,7 +215,7 @@ public class TeacherController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "sigin/getStatisicByCourse.html", method = RequestMethod.POST)
+    @RequestMapping(value = "sigin/course/list", method = RequestMethod.POST)
     @ResponseBody
     public String getStatisicByCourse(@RequestParam("courseId") int courseId,
                                       @RequestParam("week") int week) {
@@ -221,8 +223,9 @@ public class TeacherController {
         return JSON.toJSONString(result);
     }
 
-    @RequestMapping(value = "sigin/unsigin_list.html", method = RequestMethod.GET)
+    @RequestMapping(value = "unsigin/list", method = RequestMethod.GET)
     public ModelAndView unSiginList(HttpServletRequest request, ModelAndView modelAndView) {
+        modelAndView.setViewName("teacher/sigin/unsigin_list");
         int teacherId = (Integer) request.getSession().getAttribute("teacherId");
         if (request.getSession().getAttribute("week") == null) {
             modelAndView.addObject("weekSet", -2);
@@ -248,7 +251,7 @@ public class TeacherController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "sigin/getUnSiginStatisicByCourse.html", method = RequestMethod.POST)
+    @RequestMapping(value = "unsigin/course/list", method = RequestMethod.POST)
     @ResponseBody
     public String getUnSiginStatisicByCourse(HttpServletRequest request,
                                              @RequestParam("courseId") int courseId,
@@ -257,8 +260,9 @@ public class TeacherController {
         return JSON.toJSONString(result);
     }
 
-    @RequestMapping(value = {"sigin/search_all.html"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"sigin/search"}, method = RequestMethod.GET)
     public ModelAndView searchAllPage(ModelAndView modelAndView, HttpServletRequest request) {
+        modelAndView.setViewName("teacher/sigin/search_all");
         int teacherId = (Integer) request.getSession().getAttribute("teacherId");
         List<Course> courseList = courseService.getCourseListByTeacherId(teacherId).getData();
         List<Student> studentList = studentSerivce.listStudents().getData();
@@ -267,10 +271,11 @@ public class TeacherController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"sigin/searchby_week.html"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"sigin/search/week"}, method = RequestMethod.GET)
     public ModelAndView searchByWeek(@RequestParam("courseId") int courseId,
                                      @RequestParam("week") int week,
                                      ModelAndView modelAndView) {
+        modelAndView.setViewName("teacher/sigin/searchby_week");
         List<Statistic> statisticList = statisticService.getSiginList(courseId, week).getData();
         List<Student> students = studentSerivce.listSiginedStudent(statisticList);
         String courseName = courseService.getCourseById(courseId).getCourseName();
@@ -281,9 +286,10 @@ public class TeacherController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"sigin/searchby_stuId.html"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"sigin/search/student"}, method = RequestMethod.GET)
     public ModelAndView searchByStuId(@RequestParam("stuId") String stuId,
                                       ModelAndView modelAndView, HttpServletRequest request) {
+        modelAndView.setViewName("teacher/sigin/searchby_stuId");
         int teacherId = (Integer) request.getSession().getAttribute("teacherId");
         List<Course> courseList = courseService.getCourseListByTeacherId(teacherId).getData();
 
@@ -293,9 +299,10 @@ public class TeacherController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"sigin/searchby_course.html"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"sigin/search/course"}, method = RequestMethod.GET)
     public ModelAndView searchByCourse(@RequestParam("courseId") int courseId,
                                        ModelAndView modelAndView) {
+        modelAndView.setViewName("teacher/sigin/searchby_course");
         String courseName = courseService.getCourseById(courseId).getCourseName();
         Map<String, List<Integer>> studentMap = statisticService.getSiginListByCourse(courseId);
         modelAndView.addObject("statisticMap", studentMap);
@@ -303,12 +310,13 @@ public class TeacherController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"sigin/photo_sigin.html"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"sigin/photo"}, method = RequestMethod.GET)
     public ModelAndView showPhotoSiginView(ModelAndView modelAndView) {
+        modelAndView.setViewName("teacher/sigin/photo_sigin");
         return modelAndView;
     }
 
-    @RequestMapping(value = {"sigin/upload_photo.html"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"sigin/photo"}, method = RequestMethod.POST)
     @ResponseBody
     public String uploadPhoto(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
         int courseId = (Integer) request.getSession().getAttribute("courseId");
@@ -318,15 +326,16 @@ public class TeacherController {
     }
 
 
-    @RequestMapping(value = {"course/courseList.html"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"course/list"}, method = RequestMethod.GET)
     public ModelAndView listAllCourse(ModelAndView modelAndView, HttpServletRequest request) {
+        modelAndView.setViewName("teacher/course/courseList");
         int teacherId = (Integer) request.getSession().getAttribute("teacherId");
         List<Course> courseList = courseService.getCourseListByTeacherId(teacherId).getData();
         modelAndView.addObject("couorseList", courseList);
         return modelAndView;
     }
 
-    @RequestMapping(value = {"course/deleteCourseById.html"}, method = RequestMethod.POST) // 删除一门课程
+    @RequestMapping(value = {"course/delete"}, method = RequestMethod.POST) // 删除一门课程
     @ResponseBody
     public String deleteCourseById(@RequestParam("courseId") int courseId,
                                    HttpServletRequest request) {
@@ -335,12 +344,13 @@ public class TeacherController {
         return JSON.toJSONString(result);
     }
 
-    @RequestMapping(value = {"course/add_course.html"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"course/add"}, method = RequestMethod.GET)
     public ModelAndView addCoursePage(ModelAndView modelAndView) {
+        modelAndView.setViewName("teacher/course/add_course");
         return modelAndView;
     }
 
-    @RequestMapping(value = {"course/add_course.html"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"course/add"}, method = RequestMethod.POST)
     @ResponseBody
     public String addCourseSave(@RequestParam("courseName")String courseName,
                                 @RequestParam("beginTime")String beginTime,
@@ -376,7 +386,7 @@ public class TeacherController {
 
     }
 
-    @RequestMapping(value = "course/getstudentbycourseid.html", method = RequestMethod.POST)
+    @RequestMapping(value = "course/student", method = RequestMethod.GET)
     @ResponseBody
     public String getStudentByCourseId(@RequestParam("courseId") int courseId) {
         Result<List<String>> result = courseService.getStudentByCourseId(courseId);
@@ -384,14 +394,14 @@ public class TeacherController {
     }
 
 
-    @RequestMapping(value = "course/deletecoursestudent.html", method = RequestMethod.POST)
+    @RequestMapping(value = "course/student/delete", method = RequestMethod.POST)
     @ResponseBody
     public String deleteCourseStudent(@RequestParam("stuId") String stuId, @RequestParam("courseId") int courseId) {
         Result<Void> result = courseService.deleteCourseStudent(stuId, courseId);
         return JSON.toJSONString(result);
     }
 
-    @RequestMapping(value = "course/addstudenttocourse.html", method = RequestMethod.POST)
+    @RequestMapping(value = "course/student/add", method = RequestMethod.POST)
     @ResponseBody
     public String addStudentToCourse(@RequestParam("file") MultipartFile file,
                                      @RequestParam("courseId") int courseId) {

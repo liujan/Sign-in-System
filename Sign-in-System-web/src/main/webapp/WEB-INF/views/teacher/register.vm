@@ -14,7 +14,7 @@
 <body>
 <div class="container">
     <div class="add">
-        <form action="regisger_save.html" method="post" class="form-horizontal" id="lg-form" role="form">
+        <form action="regisger" method="post" class="form-horizontal" id="lg-form" role="form">
             <div class="form-group">
                 <label for="name" class="col-sm-3 control-label"><span class="need">*</span>用户名:</label>
                 <div class="col-sm-3">
@@ -73,7 +73,7 @@
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-10">
                     <button type="submit" class="btn btn-info">提交</button>
-                    <a href="login.html"
+                    <a href="login"
                     <button class="btn btn-default">返回</button>
                     </a>
                 </div>

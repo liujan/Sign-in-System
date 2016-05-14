@@ -14,7 +14,7 @@
 <body>
     #parse("teacher/toolbar.vm")
 <div class="add1">
-    <form action="change_phone.html" method="get" id="student" class="form-horizontal" role="form">
+    <form action="/teacher/student/phone/update" method="post" id="student" class="form-horizontal" role="form">
         <div class="form-group">
             <label for="stuId" class="col-sm-2 control-label"><span class="need">*</span>学号：</label>
             <div class="col-sm-3">

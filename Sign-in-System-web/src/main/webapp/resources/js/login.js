@@ -9,7 +9,7 @@ $(function(){
 			var status = data.status;
 
 			if (status != -1)
-				window.location.href="home.html";
+				window.location.href="home";
 			else{
 				var msg = decodeURI(data.message);
 				alert(msg);

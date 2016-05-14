@@ -14,7 +14,7 @@
 <body>
 <div class="container">
     <div class="add">
-        <form action="register.html" method="post" class="form-horizontal" id="lg-form" role="form">
+        <form action="register" method="post" class="form-horizontal" id="lg-form" role="form">
 
             <div class="form-group">
                 <label for="stuId" class="col-sm-3 control-label"><span class="need">*</span>学号:</label>
@@ -74,7 +74,7 @@
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-10">
                     <button type="submit" class="btn btn-info">提交</button>
-                    <a href="index.html"
+                    <a href="index"
                     <button class="btn btn-default">返回</button>
                     </a>
                 </div>

@@ -21,7 +21,7 @@
 <main>
     <section class="cd-section index cd-selected">
         <div class="cd-content">
-            <form class="form-horizontal" method="post" id="student_info" action="update_info.html">
+            <form class="form-horizontal" method="post" id="student_info" action="update">
                 <div class="form-group">
 
                     <label for="stuId" class="col-sm-2 control-label"> <span class="need">*</span>学号：</label>
@@ -51,7 +51,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-info submit">确定</button>
-                        <a href="my_info.html"
+                        <a href="info"
                         <button class="btn btn-default back">返回</button>
                         </a>
                     </div>

@@ -10,7 +10,7 @@ $(function(){
 			var status = data.status;
 			alert(msg);
 			if (status == 200) {
-				window.location.href="my_info.html";
+				window.location.href="info";
 			}
 		}
 	});

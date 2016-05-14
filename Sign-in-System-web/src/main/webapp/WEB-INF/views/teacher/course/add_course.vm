@@ -108,7 +108,7 @@
         formData.append("dayInWeek", $("#dayInWeek").val());
         formData.append("file", $("#file")[0].files[0]);
 
-        var url = "add_course.html";
+        var url = "add";
         jQuery.ajax({
             url: url,
             type: "post",

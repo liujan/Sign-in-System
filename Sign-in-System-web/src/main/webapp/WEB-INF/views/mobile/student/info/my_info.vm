@@ -49,7 +49,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10 btn-center">
-                        <a href="update_info.html"> <input type="button" class="btn btn-info modify" value="修改"> </a>
+                        <a href="update"> <input type="button" class="btn btn-info modify" value="修改"> </a>
                     </div>
                 </div>
             </div>

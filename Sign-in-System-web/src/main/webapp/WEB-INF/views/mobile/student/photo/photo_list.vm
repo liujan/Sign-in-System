@@ -22,7 +22,7 @@
                     <div>没有照片</div>
                 #end
                 #foreach($photo in $photoList)
-                    <div class="cell"><a href="#"><img src="getPhoto.html?path=${photo}" name="${photo}"
+                    <div class="cell"><a href="#"><img src="photo?path=${photo}" name="${photo}"
                                                        alt="${photo}"/></a>
                         <p><a class="btn btn-primary btn-sm photodel" name="${photo}" role="button"
                               onclick="deletePhotoByName(this)">删除</a></p></div>
@@ -43,7 +43,7 @@
 
         if (confirm("确定删除该照片？")) {
             jQuery.ajax({
-                url: "deletePhotoByName.html",
+                url: "delete",
                 type: "post",
                 data: "photo=" + photo,
                 success: function (data) {

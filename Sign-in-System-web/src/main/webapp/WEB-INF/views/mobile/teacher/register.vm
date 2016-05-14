@@ -16,7 +16,7 @@
 	    <div class="lg-title">
 	    	<h1>学生签到系统</h1>
 	    </div>
-        <form action="login_verify.html" id="lg-form" name="lg-form" method="post">
+        <form action="register" id="lg-form" name="lg-form" method="post">
             <div>
                 <label for="name">用户名:</label>
                 <input type="text"  name="name" id="name" placeholder="请输入用户名">
@@ -41,7 +41,7 @@
                <button type="submit" >提交</button>
             </div>
         </form>
-		<a href="index.html" class="back">返回 </a>
+		<a href="login" class="back">返回 </a>
     </div>
 </body>
 </body>

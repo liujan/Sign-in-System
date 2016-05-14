@@ -50,7 +50,7 @@
             #end
         </tbody>
     </table>
-    <a href="search_all.html"
+    <a href="../search"
     <button class="btn btn-default">返回</button>
     </a>
     <a>

@@ -18,7 +18,7 @@
     <div class="lg-title">
     	<h1>学生签到系统</h1>
     </div>
-        <form action="login.html" id="lg-form" name="lg-form" method="post">
+        <form action="login" id="lg-form" name="lg-form" method="post">
             <div>
                 <label for="stuId">学号:</label>
                 <input type="text" name="stuId" id="stuId" placeholder="学号"/>
@@ -32,8 +32,8 @@
 				
             </div>
         </form>
-		<a href="index.html">签到 </a>
-		<a href="register.html">注册 </a>
+		<a href="index">签到 </a>
+		<a href="register">注册 </a>
     </div>
 </body>
 </html>

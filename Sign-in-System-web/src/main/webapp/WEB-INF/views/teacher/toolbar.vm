@@ -8,20 +8,20 @@
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/teacher/home.html">中山大学上课签到系统</a>
+            <a class="navbar-brand" href="/teacher/home">中山大学上课签到系统</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left">
                 <li>
-                    <a href="/teacher/home.html"><i ></i> 首页</a>
+                    <a href="/teacher/home"><i ></i> 首页</a>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i ></i>
                         学生管理<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/teacher/student/student_list.html"><i
+                        <li><a href="/teacher/student/list"><i
                                 ></i> 学生列表</a></li>
-                        <li><a href="/teacher/student/change_phone_page.html"><i
+                        <li><a href="/teacher/student/phone/update"><i
                                 ></i> 更换号码</a></li>
                     </ul>
                 </li>
@@ -29,13 +29,13 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i ></i>
                         签到管理<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/teacher/sigin/photo_sigin.html"><i
+                        <li><a href="/teacher/sigin/photo"><i
                                 ></i> 拍照签到</a></li>
-                        <li><a href="/teacher/sigin/sigined_list.html"><i
+                        <li><a href="/teacher/sigin/list"><i
                                ></i> 本周已签</a></li>
-                        <li><a href="/teacher/sigin/unsigin_list.html"><i
+                        <li><a href="/teacher/unsigin/list"><i
                         ></i> 本周未签</a></li>
-                        <li><a href="/teacher/sigin/search_all.html"><i
+                        <li><a href="/teacher/sigin/search"><i
                                 ></i> 签到查询</a></li>
                     </ul>
                 </li>
@@ -43,9 +43,9 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i ></i>
                         课程管理<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/teacher/course/courseList.html"><i
+                        <li><a href="/teacher/course/list"><i
                                ></i> 已有课程</a></li>
-                        <li><a href="/teacher/course/add_course.html"><i
+                        <li><a href="/teacher/course/add"><i
                                ></i> 添加课程</a></li>
                     </ul>
                 </li>
@@ -56,12 +56,12 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i
                             ></i> $!{userName} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/teacher/info/my_info.html"><i ></i>
+                        <li><a href="/teacher/info/info"><i ></i>
                             账户管理</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a class="logout" href="/teacher/logout.html"><i ></i>
+                    <a class="logout" href="/teacher/logout"><i></i>
                         注销</a>
                 </li>
             </ul>
