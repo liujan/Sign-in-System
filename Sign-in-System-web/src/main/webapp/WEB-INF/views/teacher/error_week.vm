@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>中山大学学生签到系统</title>
+</head>
+<body>
+
+</body>
+<script>
+    alert("未设置当前周");
+    window.location.href="/teacher/home";
+</script>
+</html>

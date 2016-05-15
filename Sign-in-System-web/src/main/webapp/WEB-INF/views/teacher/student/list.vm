@@ -38,7 +38,7 @@
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                             data-whatever="${student.email}">发送邮件
                     </button>
-                    <a class="btn btn-warning btn-sm" role="button"
+                    <a class="btn btn-danger btn-sm" role="button"
                        onclick="deleteStudentById(${student.stuId})">删除该学生</a>
                 </td>
             </tr>

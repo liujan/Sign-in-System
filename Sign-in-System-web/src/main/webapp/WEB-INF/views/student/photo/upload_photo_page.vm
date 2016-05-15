@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/resources/css/validform_style.css"/>
     <link rel="stylesheet" type="text/css" href="/resources/css/jquery.fileupload.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/upload_photo.css">
 
     <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
     <script type="text/javascript" src="/resources/js/bootstrap-dropdown.js"></script>
@@ -16,7 +17,8 @@
 <body>
     #parse("student/toolbar.vm")
 <div class="container">
-    <form method="POST" enctype="multipart/form-data">
+    <div class="photo_box">
+        <form method="POST" enctype="multipart/form-data">
          <span class="btn btn-primary fileinput-button">
             <i class="glyphicon glyphicon-plus"></i>
             <span>选择图片...</span>
@@ -24,15 +26,17 @@
             <input id="file" type="file" name="file" onchange="showFileName(this)">
 
         </span>
-        <label id="filename"></label>
-    </form>
-    <br>
-    <button id="button" class="btn btn-info">upload</button>
-    <br>
-    <br>
-    <!-- The global progress bar -->
-    <!-- The container for the uploaded files -->
-    <div id="files" class="files"></div>
+            <label id="filename"></label>
+        </form>
+        <br>
+        <button id="button" class="btn btn-info">upload</button>
+        <br>
+        <br>
+        <!-- The global progress bar -->
+        <!-- The container for the uploaded files -->
+        <div id="files" class="files"></div>
+    </div>
+
 </div>
 </body>
 <script>

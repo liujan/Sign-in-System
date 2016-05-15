@@ -29,12 +29,14 @@
                         var json = eval("(" + data + ")");
                         var msg = decodeURI(json.msg);
                         var status = json.status;
-                        alert(msg);
+
                         if (status == 200) {
                             var tb = document.getElementById("course");
                             var tr = document.getElementById(courseId);
                             tb.deleteRow(tr.rowIndex);
                         }
+                        else
+                            alert(msg);
                     },
                     error: function () {
                         alert("error");
@@ -73,14 +75,14 @@
                 <td>星期 ${course.dayInWeek}</td>
                 <td>
                     <div>
-                        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#studentmodal"
+                        <button class="btn btn-info btn-lg" data-toggle="modal" data-target="#studentmodal"
                                 data-whatever="${course.courseId}">查看学生
                         </button>
-                        <a class="btn btn-danger btn-sm" role="button"
-                           onclick="deleteCourse(${course.courseId})">删除该课程</a>
                         <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addstudent"
                                 data-whatever="${course.courseId}">导入学生
                         </button>
+                        <a class="btn btn-danger btn-sm" role="button"
+                           onclick="deleteCourse(${course.courseId})">删除该课程</a>
                     </div>
 
                 </td>

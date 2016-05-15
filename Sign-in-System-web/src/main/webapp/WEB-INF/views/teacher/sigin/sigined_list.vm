@@ -46,7 +46,6 @@
     <div style="text-align:center;">
         共签到了 <span style="font-weight:bold;" id="num_sigin">$!{statisticList.size()}</span> 人
     </div>
-    <div class="hide" id="weekSet">$weekSet</div>
     <div class="hide" id="importStudent">${importStudent}</div>
 </div>
 </body>
@@ -89,10 +88,6 @@
 </script>
 <script>
     jQuery(function () {
-        var weekSet = $("#weekSet").text();
-        if (weekSet == -2) {
-            alert("未设置当前周");
-        }
         var importStudent = $("#importStudent").text();
         if (importStudent == -2) {
             alert("该课程未导入学生");

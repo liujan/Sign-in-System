@@ -9,7 +9,7 @@
     </appender>
     <!--输出到文件,每日一个文件,保存30天-->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.loggingRoot}//log.log</file>
+        <file>/Users/liujan/logs//log.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>datacenter_%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
@@ -20,7 +20,7 @@
         </encoder>
     </appender>
 
-    <root level="${log.level}">
+    <root level="info">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </root>
