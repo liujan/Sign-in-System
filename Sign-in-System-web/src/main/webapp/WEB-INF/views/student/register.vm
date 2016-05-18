@@ -52,7 +52,7 @@
             <div class="form-group">
                 <label for="pwd" class="col-sm-3 control-label"><span class="need">*</span>密码:</label>
                 <div class="col-sm-3">
-                    <input type="password" class="form-control" name="pwd" id="pwd"
+                    <input type="password" class="form-control" name="userPwd" id="userPwd"
                            placeholder="请输入密码">
                 </div>
                 <div>

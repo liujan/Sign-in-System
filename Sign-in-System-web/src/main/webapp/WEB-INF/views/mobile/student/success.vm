@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="/resources/css/success.css">
 </head>
 <body>
-<p>${stuId}@$!{studentName} 签到成功  ${currentTime} </p>
+<p>${stuId} 签到成功 </p>
+<p>${currentTime}</p>
 <p>${courseName}</p>
 <a href="login.html">查看本学期签到情况</a>
 </body>

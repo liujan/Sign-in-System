@@ -13,6 +13,12 @@
     <div class="lg-container">
     <div class="lg-title">
     	<h1>学生签到系统</h1>
+        <h3>
+            <p>
+                <span>第${week}周</span>
+                <span>${courseName}</span>
+            </p>
+        </h3>
     </div>
         <form action="siginin" id="lg-form" name="lg-form" method="post">
             <div>

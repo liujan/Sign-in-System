@@ -51,6 +51,10 @@ public class StudentController {
 
     @RequestMapping(value = {"index", "signin"}, method = RequestMethod.GET)//签到页面
     public ModelAndView index(ModelAndView modelAndView) {
+        int week = infoService.getWeek();
+        String courseName = infoService.getCourseName();
+        modelAndView.addObject("week", week);
+        modelAndView.addObject("courseName", courseName);
         modelAndView.setViewName("/student/index");
         return modelAndView;
     }
@@ -76,7 +80,6 @@ public class StudentController {
     @RequestMapping(value = {"logout"}, method = RequestMethod.GET)
     public ModelAndView logout(ModelAndView modelAndView, HttpServletRequest request) {
         request.getSession().removeAttribute("stuId");
-        request.getSession().removeAttribute("name");
         modelAndView.setViewName("redirect:/student/login");
         return modelAndView;
     }
@@ -106,21 +109,18 @@ public class StudentController {
 
     @RequestMapping("success")
     public ModelAndView SiginInSuccess(ModelAndView modelAndView, HttpServletRequest request) {
-        String stuName = (String) request.getSession().getAttribute("name");
         try {
-            stuName = new String(java.net.URLDecoder.decode(stuName, "UTF-8"));
             String stuId = (String) request.getSession().getAttribute("stuId");
             int courseId = (Integer) request.getSession().getAttribute("courseId");
             String courseName = courseService.getCourseById(courseId).getCourseName();
             String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:EEEE").format(new Date());
 
-            modelAndView.addObject("studentName", stuName);
             modelAndView.addObject("stuId", stuId);
             modelAndView.addObject("courseName", courseName);
             modelAndView.addObject("currentTime", currentTime);
 
             return modelAndView;
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             logger.error(e.getMessage());
             return null;
         }

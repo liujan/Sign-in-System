@@ -17,6 +17,7 @@ public class Result<T> implements Serializable {
         DEVICE_ERROR(-3, "please use your phone to sign in!"),
         EMAIL_ERROR(-4, "this email has been used!"),
         STUDENT_ERROR(-5, "this is no student!"),
+        ID_ERROR(-6, "stuId already existed!"),
         ERROR(404, "error");
         private int status;
         private String msg;

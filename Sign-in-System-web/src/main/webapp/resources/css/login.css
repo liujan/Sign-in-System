@@ -38,6 +38,9 @@ body{
 	font-family: 'YouYuan';
 }
 
+.lg-container h3 {
+	text-align: center;
+}
 #lg-form > div {
 	margin:10px 5px;
 	padding:5px 0;
@@ -85,5 +88,4 @@ body{
 }
 #lg-form button:hover{
 	background:#f4f4f4;
-}
 }

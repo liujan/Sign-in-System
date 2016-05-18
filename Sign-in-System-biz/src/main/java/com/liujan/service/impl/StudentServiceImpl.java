@@ -71,6 +71,8 @@ public class StudentServiceImpl implements StudentService {
                 statisexample.or().andCourseIdEqualTo(courseId).andStuIdEqualTo(stuId).andWeekEqualTo(week);
                 List<Statistic> statisticsList = statisticMapper.selectByExample(statisexample);
                 if (!statisticsList.isEmpty()) {
+                    request.getSession().setAttribute("stuId", stuId);
+                    request.getSession().setAttribute("courseId", courseId);
                     return result.status(Result.Status.SUCCESS); //已签到
                 }
 
@@ -86,8 +88,11 @@ public class StudentServiceImpl implements StudentService {
                 statistic.setWeek(week);
                 statistic.setConfidence(1.0);
                 int count = statisticMapper.insertSelective(statistic);
-                if (count > 0)
+                if (count > 0) {
+                    request.getSession().setAttribute("stuId", stuId);
+                    request.getSession().setAttribute("courseId", courseId);
                     return result.status(Result.Status.SUCCESS);
+                }
                 else
                     return result.status(Result.Status.ERROR);
             }
@@ -110,7 +115,7 @@ public class StudentServiceImpl implements StudentService {
             String stuId = student.getStuId();
             Student record = studentMapper.selectByPrimaryKey(stuId);
             if (record != null) {
-                return result.status(Result.Status.ERROR); //该用户已被注册
+                return result.status(Result.Status.ID_ERROR); //该用户已被注册
             } else {
                 String macAddr = NetUtil.getMacAddress(request.getRemoteAddr());
                 student.setMacAddress(macAddr);

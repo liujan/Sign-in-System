@@ -32,7 +32,7 @@
         </div>
         <div>
             <label for="pwd">密码:</label>
-            <input type="password" name="pwd" id="pwd" placeholder="请输入密码">
+            <input type="password" name="userPwd" id="userPwd" placeholder="请输入密码">
         </div>
         <div>
             <label for="pwd">确认密码:</label>

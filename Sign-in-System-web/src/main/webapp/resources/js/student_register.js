@@ -6,10 +6,10 @@ $(function(){
 		showAllError:true,
 		ajaxPost:true,
 		callback:function(data) {
-			var msg = decodeURI(data.message);
+			var msg = data.msg;
 			var status = data.status;
 			alert(msg);
-			if (status == 1)
+			if (status == 200)
 				window.location.href="index.html";
 			else{
 				document.getElementById("pwd").value = "";
@@ -36,14 +36,14 @@ $(function(){
 		nullmsg:"此邮箱将接收来自老师的邮件"
 	},
 	{
-		ele:"#pwd",
+		ele:"#userPwd",
 		datatype:"s4-16",
 		errormsg:"密码长度为4到16位",
 		nullmsg:"密码不能为空"
 	},
 	{
 		ele:"#repw",
-		recheck:"pwd",
+		recheck:"userPwd",
 		datatype:"*",
 		nullmsg:"请再输入一次密码！",
 		errormsg:"两次密码不一致"

@@ -4,6 +4,7 @@ package com.liujan.service.impl;
 import com.liujan.domain.Result;
 import com.liujan.entity.Info;
 import com.liujan.entity.InfoExample;
+import com.liujan.mapper.CourseMapper;
 import com.liujan.mapper.InfoMapper;
 import com.liujan.service.InfoService;
 import org.slf4j.Logger;
@@ -20,6 +21,8 @@ public class InfoServiceImpl implements InfoService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private InfoMapper infoMapper;
+	@Autowired
+	private CourseMapper courseMapper;
 	
 	@Override
 	public int getCourseId() {
@@ -62,7 +65,21 @@ public class InfoServiceImpl implements InfoService {
 		
 	}
 
-	@Override
+    @Override
+    public String getCourseName() {
+        try {
+            int courseId = this.getCourseId();
+            String courseName = courseMapper.selectByPrimaryKey(courseId).getCourseName();
+            return  courseName;
+        }
+        catch (Exception e) {
+            logger.error("info get courseName error", e);
+            return "";
+        }
+
+    }
+
+    @Override
 	public Result<Void> setCourseId(int courseId, int week, int teacherId) {
 		Result<Void> result = new Result<Void>();
 		try {
