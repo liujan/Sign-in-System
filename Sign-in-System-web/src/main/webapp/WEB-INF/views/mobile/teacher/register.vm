@@ -19,11 +19,11 @@
         <form action="register" id="lg-form" name="lg-form" method="post">
             <div>
                 <label for="name">用户名:</label>
-                <input type="text"  name="name" id="name" placeholder="请输入用户名">
+                <input type="text"  name="userName" id="userName" placeholder="请输入用户名">
             </div>
 			<div>
                 <label for="teacher_name">姓名:</label>
-                <input type="text"  name="teacher_name" id="teacher_name" placeholder="请输入姓名">
+                <input type="text"  name="teacherName" id="teacherName" placeholder="请输入姓名">
             </div>
 			 <div>
                 <label for="email">邮箱:</label>
@@ -31,7 +31,7 @@
             </div>
 			 <div>
                 <label for="pwd">密码:</label>
-                <input type="password" name="pwd" id="pwd" placeholder="请输入密码">
+                <input type="password" name="userPwd" id="userPwd" placeholder="请输入密码">
             </div>
 			<div>
                 <label for="pwd">确认密码:</label>

@@ -6,14 +6,14 @@ $(function(){
 		showAllError:true,
 		ajaxPost:true,
 		callback:function(data) {
-			var msg = decodeURI(data.message);
+			var msg = data.msg;
 			var status = data.status;
 			alert(msg);
-			if (status == 1) {
-				window.location.href="login.html";
+			if (status == 200) {
+				window.location.href="login";
 			}
 			else{
-				document.getElementById("pwd").value = "";
+				document.getElementById("userPwd").value = "";
 				document.getElementById("repw").value = "";
 			}
 		}
@@ -21,13 +21,13 @@ $(function(){
 	
 	info.addRule([
 	{
-		ele:"#name",
+		ele:"#userName",
 		datatype:"s4-16",
 		errormsg:"用户名长度为4到16为字符",
 		nullmsg:"用户名不能为空"
 	},
 	{
-		ele:"#teacher_name",
+		ele:"#teacherName",
 		datatype:"*",
 		nullmsg:"姓名不能为空"
 	},
@@ -37,14 +37,14 @@ $(function(){
 		nullmsg:"邮箱不能为空"
 	},
 	{
-		ele:"#pwd",
+		ele:"#userPwd",
 		datatype:"s4-16",
 		errormsg:"密码长度为4到16位",
 		nullmsg:"密码不能为空"
 	},
 	{
 		ele:"#repw",
-		recheck:"pwd",
+		recheck:"userPwd",
 		datatype:"*",
 		nullmsg:"请再输入一次密码！",
 		errormsg:"两次密码不一致"

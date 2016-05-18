@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/demo.css"/>
     <link ref="stylesheet" type="text/css" href="/resources/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
-    <link rel="stylesheet" type="text/css" href="../css/validform_style.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/validform_style.css"/>
     <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
     <script type="text/javascript" src="/resources/js/Validform_v5.3.2.js"></script>
     <script type="text/javascript" src="/resources/js/teacher_register.js"></script>
@@ -14,11 +14,11 @@
 <body>
 <div class="container">
     <div class="add">
-        <form action="regisger" method="post" class="form-horizontal" id="lg-form" role="form">
+        <form action="register" method="post" class="form-horizontal" id="lg-form" role="form">
             <div class="form-group">
                 <label for="name" class="col-sm-3 control-label"><span class="need">*</span>用户名:</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name="name" id="name"
+                    <input type="text" class="form-control" name="userName" id="userName"
                            placeholder="请输入用户名">
                 </div>
                 <div>
@@ -29,7 +29,7 @@
             <div class="form-group">
                 <label for="teacher_name" class="col-sm-3 control-label"><span class="need">*</span>姓名:</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name="teacher_name" id="teacher_name"
+                    <input type="text" class="form-control" name="teacherName" id="teacherName"
                            placeholder="请输入真实姓名">
                 </div>
                 <div>
@@ -51,7 +51,7 @@
             <div class="form-group">
                 <label for="pwd" class="col-sm-3 control-label"><span class="need">*</span>密码:</label>
                 <div class="col-sm-3">
-                    <input type="password" class="form-control" name="pwd" id="pwd"
+                    <input type="password" class="form-control" name="userPwd" id="userPwd"
                            placeholder="请输入密码">
                 </div>
                 <div>
