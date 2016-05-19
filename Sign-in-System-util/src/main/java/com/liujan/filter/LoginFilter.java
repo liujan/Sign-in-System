@@ -24,25 +24,23 @@ public class LoginFilter implements Filter{
          String requestURI = req.getRequestURI().substring(req.getRequestURI().lastIndexOf("/")+1, req.getRequestURI().length());
          
          //如果第一次请求不为登录页面,则进行检查用session内容,如果为登录页面就不去检查.  
-         if(!"login.html".equals(requestURI) && !"register.html".equals(requestURI)
-        		 && !"index.html".equals(requestURI)
-        		 && !"login_verify.html".equals(requestURI)
-        		 && !"register_save.html".equals(requestURI)
-        		 && !"siginin.html".equals(requestURI)
-        		 && !"success.html".equals(requestURI)) {  
+         if(!"login".equals(requestURI) && !"register".equals(requestURI)
+        		 && !"index".equals(requestURI)
+        		 && !"siginin".equals(requestURI)
+        		 && !"success".equals(requestURI)) {
              //取得session. 如果没有session则自动会创建一个, 我们用false表示没有取得到session则设置为session为空.  
              HttpSession session = req.getSession(false);  
              //如果session中没有任何东西. 
              
              if (url.matches(".*/teacher/.*")) {
             	 if(session == null ||session.getAttribute("teacherId")==null) {  
-                     res.sendRedirect(req.getContextPath() + "/teacher/login.html");  
+                     res.sendRedirect(req.getContextPath() + "/teacher/login");
                      return;  
                  }  
              }
              else if (url.matches(".*/student/.*")) {
             	 if(session == null ||session.getAttribute("stuId")==null) {  
-                     res.sendRedirect(req.getContextPath() + "/student/login.html");  
+                     res.sendRedirect(req.getContextPath() + "/student/login");
                      return;  
                  }  
              }

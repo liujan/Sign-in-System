@@ -1,8 +1,8 @@
 package com.liujan.constant;
 
 public class Constant {
-	public static final String COMPRESS_IMAGE_PATH = "/Users/liujan/Pictures/compress/";
-	public static final String IMAGE_PATH = "/Users/liujan/Pictures/origin/";
+	public static final String COMPRESS_IMAGE_PATH = "/root/liujan/SiginSystem/pictures/compress/";
+	public static final String IMAGE_PATH = "/root/liujan/SiginSystem/pictures/origin/";
 	public static final String TEACHER_IMAGE_PATH = "teacher/";
 	public static final String API_KEY = "5d08c70dd2787370f35f6c32ed5ae426";
 	public static final String API_SECRET = "EmQV-rSbT3TsvxFAHeGPCcZNaxDrWeqx";
