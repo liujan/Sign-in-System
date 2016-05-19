@@ -63,7 +63,7 @@
 <script src="/SignInSystem/resources/js/mobile/student/home/modernizr.js"></script>
 <script type="text/javascript" src="/SignInSystem/resources/js/Validform_v5.3.2.js"></script>
 <script type="text/javascript">
-    $(function () {
+    jQuery(function () {
         var info = $("#info").Validform({
             tiptype: 1,
             label: ".label",

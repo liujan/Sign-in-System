@@ -22,12 +22,14 @@ public class LoginFilter implements Filter{
          //如果没有登录.  
          String url = req.getRequestURI();
          String requestURI = req.getRequestURI().substring(req.getRequestURI().lastIndexOf("/")+1, req.getRequestURI().length());
-         
+
          //如果第一次请求不为登录页面,则进行检查用session内容,如果为登录页面就不去检查.  
          if(!"login".equals(requestURI) && !"register".equals(requestURI)
         		 && !"index".equals(requestURI)
         		 && !"siginin".equals(requestURI)
-        		 && !"success".equals(requestURI)) {
+        		 && !"success".equals(requestURI)
+                 && !url.contains(".css")
+                 && !url.contains(".js")) {
              //取得session. 如果没有session则自动会创建一个, 我们用false表示没有取得到session则设置为session为空.  
              HttpSession session = req.getSession(false);  
              //如果session中没有任何东西. 
