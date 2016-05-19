@@ -2,15 +2,15 @@
 <html>
 <head>
     <title>中山大学学生签到系统</title>
-    <link rel="stylesheet" href="/resources/css/mobile/student/home/style.css">
-    <link rel="stylesheet" href="/resources/css/mobile/student/home/style1.css">
-    <link rel="stylesheet" href="/resources/css/mobile/student/home/home.css">
-    <link rel="stylesheet" href="/resources/css/mobile/student/info/my_info.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/validform_style.css"/>
+    <link rel="stylesheet" href="/SignInSystem/resources/css/mobile/student/home/style.css">
+    <link rel="stylesheet" href="/SignInSystem/resources/css/mobile/student/home/style1.css">
+    <link rel="stylesheet" href="/SignInSystem/resources/css/mobile/student/home/home.css">
+    <link rel="stylesheet" href="/SignInSystem/resources/css/mobile/student/info/my_info.css">
+    <link rel="stylesheet" type="text/css" href="/SignInSystem/resources/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/SignInSystem/resources/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/SignInSystem/resources/css/validform_style.css"/>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/resources/css/mobile/mobile.css"/>
+    <link rel="stylesheet" type="text/css" href="/SignInSystem/resources/css/mobile/mobile.css"/>
 </head>
 <body>
 <a href="#cd-nav" class="cd-nav-trigger">
@@ -63,8 +63,8 @@
 <div class="cd-overlay">
 </div>
 </body>
-<script src="/resources/js/mobile/student/home/jquery-2.1.1.js"></script>
-<script src="/resources/js/mobile/student/home/main.js"></script>
-<script src="/resources/js/mobile/student/home/index.js"></script>
-<script src="/resources/js/mobile/student/home/modernizr.js"></script>
+<script src="/SignInSystem/resources/js/mobile/student/home/jquery-2.1.1.js"></script>
+<script src="/SignInSystem/resources/js/mobile/student/home/main.js"></script>
+<script src="/SignInSystem/resources/js/mobile/student/home/index.js"></script>
+<script src="/SignInSystem/resources/js/mobile/student/home/modernizr.js"></script>
 </html>

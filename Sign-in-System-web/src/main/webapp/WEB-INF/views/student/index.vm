@@ -3,10 +3,10 @@
 <head >
 	<title>学生签到系统</title>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="/resources/css/login.css"/>
-	<link rel="stylesheet" type="text/css" href="/resources/css/validform_style.css"/>
-	<link rel="stylesheet" type="text/css" href="/resources/css/demo.css"/>
-	<link ref="stylesheet" type="text/css" href="/resources/css/style.css" />
+	<link rel="stylesheet" type="text/css" href="/SignInSystem/resources/css/login.css"/>
+	<link rel="stylesheet" type="text/css" href="/SignInSystem/resources/css/validform_style.css"/>
+	<link rel="stylesheet" type="text/css" href="/SignInSystem/resources/css/demo.css"/>
+	<link ref="stylesheet" type="text/css" href="/SignInSystem/resources/css/style.css" />
 </head>
  <body>
     <div class="bg"></div>

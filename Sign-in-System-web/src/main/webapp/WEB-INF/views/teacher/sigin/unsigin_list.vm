@@ -3,15 +3,15 @@
 <head>
     <title>学生签到系统</title>
     <meta charset="UTF-8"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap2.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/DT_bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/SignInSystem/resources/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/SignInSystem/resources/css/bootstrap2.css"/>
+    <link rel="stylesheet" type="text/css" href="/SignInSystem/resources/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/SignInSystem/resources/css/DT_bootstrap.css">
 
-    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/resources/js/bootstrap-dropdown.js"></script>
-    <script type="text/javascript" src="/resources/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" src="/resources/js/demo1.js"></script>
+    <script type="text/javascript" src="/SignInSystem/resources/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/SignInSystem/resources/js/bootstrap-dropdown.js"></script>
+    <script type="text/javascript" src="/SignInSystem/resources/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="/SignInSystem/resources/js/demo1.js"></script>
 
 </head>
 <body>

@@ -3,21 +3,21 @@
 <head>
     <title>学生签到系统</title>
     <meta charset="UTF-8"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap2.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/DT_bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/jquery.fileupload.css">
+    <link rel="stylesheet" type="text/css" href="/SignInSystem/resources/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/SignInSystem/resources/css/bootstrap2.css"/>
+    <link rel="stylesheet" type="text/css" href="/SignInSystem/resources/css/DT_bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/SignInSystem/resources/css/jquery.fileupload.css">
 
-    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/resources/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/resources/js/bootstrap-dropdown.js"></script>
-    <script type="text/javascript" src="/resources/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" src="/resources/js/demo1.js"></script>
-    <script src="/resources/js/jquery.ui.widget.js"></script>
+    <script type="text/javascript" src="/SignInSystem/resources/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/SignInSystem/resources/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/SignInSystem/resources/js/bootstrap-dropdown.js"></script>
+    <script type="text/javascript" src="/SignInSystem/resources/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="/SignInSystem/resources/js/demo1.js"></script>
+    <script src="/SignInSystem/resources/js/jquery.ui.widget.js"></script>
     <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-    <script src="/resources/js/jquery.iframe-transport.js"></script>
+    <script src="/SignInSystem/resources/js/jquery.iframe-transport.js"></script>
     <!-- The basic File Upload plugin -->
-    <script src="/resources/js/jquery.fileupload.js"></script>
+    <script src="/SignInSystem/resources/js/jquery.fileupload.js"></script>
     <script type="text/javascript">
         function deleteCourse(courseId) {
             if (confirm('确定要删除此课程吗？')) {

@@ -3,14 +3,14 @@
 <head>
     <title>学生签到系统</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="/resources/css/mobile/login.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/validform_style.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/demo.css"/>
-    <link ref="stylesheet" type="text/css" href="/resources/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/SignInSystem/resources/css/mobile/login.css"/>
+    <link rel="stylesheet" type="text/css" href="/SignInSystem/resources/css/validform_style.css"/>
+    <link rel="stylesheet" type="text/css" href="/SignInSystem/resources/css/demo.css"/>
+    <link ref="stylesheet" type="text/css" href="/SignInSystem/resources/css/style.css"/>
 
-    <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/resources/js/Validform_v5.3.2.js"></script>
-    <script type="text/javascript" src="/resources/js/sigin_in.js"></script>
+    <script type="text/javascript" src="/SignInSystem/resources/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/SignInSystem/resources/js/Validform_v5.3.2.js"></script>
+    <script type="text/javascript" src="/SignInSystem/resources/js/sigin_in.js"></script>
 </head>
 <body>
 <div class="bg"></div>

@@ -9,9 +9,9 @@
     </appender>
     <!--输出到文件,每日一个文件,保存30天-->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/Users/liujan/logs//log.log</file>
+        <file>/root/liujan/SiginSystem/log/log.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>datacenter_%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>sigin-%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>

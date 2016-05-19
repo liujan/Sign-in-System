@@ -3,7 +3,7 @@
 <head>
     <title>学生签到系统</title>
     <meta charset="UTF-8"/>
-    <link rel="stylesheet" href="/resources/css/success.css">
+    <link rel="stylesheet" href="/SignInSystem/resources/css/success.css">
 </head>
 <body>
 <p>${stuId} 签到成功 </p>
