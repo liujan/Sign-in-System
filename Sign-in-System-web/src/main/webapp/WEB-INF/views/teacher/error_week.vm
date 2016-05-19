@@ -8,6 +8,6 @@
 </body>
 <script>
     alert("未设置当前周");
-    window.location.href="/teacher/home";
+    window.location.href="/SignInSystem/teacher/home";
 </script>
 </html>
